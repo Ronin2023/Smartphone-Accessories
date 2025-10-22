@@ -1,0 +1,123 @@
+# Robots.txt for TechCompare - Smartphone Accessories
+# Website: http://localhost:8080
+# Last Updated: September 29, 2025
+
+# Allow all search engines to crawl the site
+User-agent: *
+
+# Allow access to main content areas
+Allow: /
+Allow: /products.html
+Allow: /compare.html
+Allow: /about.html
+Allow: /contact.html
+Allow: /category/
+Allow: /brand/
+Allow: /product/
+Allow: /api/get_products.php
+Allow: /api/get_product.php
+Allow: /api/search_products.php
+Allow: /api/compare_products.php
+
+# Block access to sensitive areas
+Disallow: /admin/
+Disallow: /includes/
+Disallow: /database/
+Disallow: /vendor/
+Disallow: /uploads/temp/
+Disallow: /api/add_product.php
+Disallow: /api/delete_product.php
+Disallow: /api/update_product.php
+
+# Block access to configuration and backup files
+Disallow: *.sql
+Disallow: *.bak
+Disallow: *.log
+Disallow: *.ini
+Disallow: /config.php
+Disallow: /.env
+Disallow: /.git/
+Disallow: /.htaccess
+Disallow: /composer.json
+Disallow: /composer.lock
+
+# Allow CSS, JavaScript, and image files for proper rendering
+Allow: /css/
+Allow: /js/
+Allow: /assets/
+Allow: /uploads/products/
+Allow: /uploads/brands/
+
+# Block common attack vectors
+Disallow: /wp-admin/
+Disallow: /wp-content/
+Disallow: /wp-includes/
+Disallow: /cgi-bin/
+Disallow: /?s=
+Disallow: /*?*utm_*
+Disallow: /*?*session*
+Disallow: /*?*sid=*
+
+# Specific rules for major search engines
+
+# Google Bot - Allow everything except blocked areas
+User-agent: Googlebot
+Disallow: /admin/
+Disallow: /includes/
+Disallow: /database/
+Allow: /
+
+# Bing Bot
+User-agent: Bingbot
+Disallow: /admin/
+Disallow: /includes/
+Disallow: /database/
+Allow: /
+
+# Yandex Bot
+User-agent: YandexBot
+Disallow: /admin/
+Disallow: /includes/
+Disallow: /database/
+Allow: /
+
+# Facebook Crawler (for social media sharing)
+User-agent: facebookexternalhit
+Allow: /
+Allow: /products.html
+Allow: /product/
+Allow: /compare.html
+
+# Twitter Bot (for Twitter Cards)
+User-agent: Twitterbot
+Allow: /
+Allow: /products.html
+Allow: /product/
+Allow: /assets/images/
+
+# Block bad bots and scrapers
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+# Crawl delay for all bots (1 second to be respectful)
+Crawl-delay: 1
+
+# SITEMAP REFERENCE - Main sitemap location
+Sitemap: http://localhost:8080/sitemap.xml
+
+# Additional sitemaps (if you create specialized ones later)
+# Sitemap: http://localhost:8080/sitemap-products.xml
+# Sitemap: http://localhost:8080/sitemap-categories.xml
+# Sitemap: http://localhost:8080/sitemap-images.xml
+
+# Host directive (update when you move to production)
+Host: localhost:8080

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Contact API Database Error</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin: 20px 0;
+        }
+        .test-button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .test-button:hover { background: #0056b3; }
+        .error-button {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .error-button:hover { background: #c82333; }
+        .result {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            white-space: pre-wrap;
+            font-family: monospace;
+        }
+        .success { border-color: #28a745; background: #d4edda; }
+        .error { border-color: #dc3545; background: #f8d7da; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Contact API Database Error Test</h1>
+    
+    <div class="test-container">
+        <h3>Test Contact Form Submission with Database Errors</h3>
+        <p>This will test if the contact form API properly returns connection error flags when the database is unavailable.</p>
+        
+        <button class="test-button" onclick="testContactFormNormal()">Test Normal Submission</button>
+        <button class="error-button" onclick="testContactFormWithDbError()">Test with Simulated DB Error</button>
+        <button class="test-button" onclick="testDirect()">Test Direct API Call</button>
+        
+        <div id="testResults" class="result" style="display: none;"></div>
+    </div>
+
+    <div class="test-container">
+        <h3>Test Form</h3>
+        <form id="testForm">
+            <div style="margin: 10px 0;">
+                <label>Name: </label>
+                <input type="text" id="name" value="Test User" style="width: 200px; padding: 5px;">
+            </div>
+            <div style="margin: 10px 0;">
+                <label>Email: </label>
+                <input type="email" id="email" value="test@example.com" style="width: 200px; padding: 5px;">
+            </div>
+            <div style="margin: 10px 0;">
+                <label>Subject: </label>
+                <input type="text" id="subject" value="Test Submission" style="width: 200px; padding: 5px;">
+            </div>
+            <div style="margin: 10px 0;">
+                <label>Message: </label><br>
+                <textarea id="message" style="width: 300px; height: 80px; padding: 5px;">This is a test message to check database error handling.</textarea>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function showResult(message, isSuccess = true) {
+            const resultEl = document.getElementById('testResults');
+            resultEl.textContent = message;
+            resultEl.className = `result ${isSuccess ? 'success' : 'error'}`;
+            resultEl.style.display = 'block';
+        }
+
+        function getFormData() {
+            return new FormData(document.getElementById('testForm'));
+        }
+
+        async function testContactFormNormal() {
+            try {
+                showResult('Testing normal contact form submission...');
+                
+                const formData = new FormData();
+                formData.append('name', document.getElementById('name').value);
+                formData.append('email', document.getElementById('email').value);
+                formData.append('subject', document.getElementById('subject').value);
+                formData.append('message', document.getElementById('message').value);
+                formData.append('priority', 'medium');
+                
+                // Detect correct API path
+                const currentPath = window.location.pathname;
+                let apiPath = 'api/submit_contact.php';
+                if (currentPath.includes('/Smartphone-Accessories/')) {
+                    apiPath = '/Smartphone-Accessories/api/submit_contact.php';
+                } else {
+                    apiPath = '/api/submit_contact.php';
+                }
+                
+                const response = await fetch(apiPath, {
+                    method: 'POST',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    body: formData
+                });
+
+                const result = await response.json();
+                
+                showResult(`Normal submission test result:
+Status: ${response.status}
+Response: ${JSON.stringify(result, null, 2)}`, response.ok);
+                
+            } catch (error) {
+                showResult(`Error during normal test: ${error.message}`, false);
+            }
+        }
+
+        async function testContactFormWithDbError() {
+            try {
+                showResult('Testing contact form with potential database error...');
+                
+                // First, let's stop the server to simulate database unavailability
+                showResult('⚠️ To test database errors:\n1. Stop your database server (MySQL/MariaDB)\n2. Click this button again\n3. Check if you get connection_error: true in response\n\nTesting with current database state...');
+                
+                const formData = new FormData();
+                formData.append('name', 'DB Error Test User');
+                formData.append('email', 'dberror@test.com');
+                formData.append('subject', 'Database Error Test');
+                formData.append('message', 'Testing database connection error handling');
+                formData.append('priority', 'high');
+                
+                // Detect correct API path
+                const currentPath = window.location.pathname;
+                let apiPath = 'api/submit_contact.php';
+                if (currentPath.includes('/Smartphone-Accessories/')) {
+                    apiPath = '/Smartphone-Accessories/api/submit_contact.php';
+                } else {
+                    apiPath = '/api/submit_contact.php';
+                }
+                
+                const response = await fetch(apiPath, {
+                    method: 'POST',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    body: formData
+                });
+
+                const result = await response.json();
+                
+                let message = `Database error test result:
+Status: ${response.status}
+Response: ${JSON.stringify(result, null, 2)}
+
+`;
+                
+                if (result.connection_error) {
+                    message += '✅ SUCCESS: connection_error flag found! This should trigger the error page redirect.';
+                    
+                    // Test the redirect behavior
+                    console.log('Connection error detected, testing redirect...');
+                    
+                    // Store error info like the contact form would
+                    const errorInfo = {
+                        type: 'database',
+                        message: result.message || result.error || 'Database connection failed',
+                        timestamp: Date.now(),
+                        referring_page: window.location.href
+                    };
+                    
+                    sessionStorage.setItem('connectionErrorInfo', JSON.stringify(errorInfo));
+                    
+                    message += '\n\n🔄 Error info stored in sessionStorage. You can manually go to connection-error.php to test the error page.';
+                } else if (response.status === 503) {
+                    message += '✅ SUCCESS: HTTP 503 status detected! This should trigger the error page redirect.';
+                } else {
+                    message += '❌ No connection error detected. Database might be working normally.';
+                }
+                
+                showResult(message, result.connection_error || response.status === 503);
+                
+            } catch (error) {
+                let message = `Network error during database test: ${error.message}`;
+                
+                if (error.message.includes('fetch')) {
+                    message += '\n\n✅ This network error should trigger the connection error handler!';
+                }
+                
+                showResult(message, false);
+            }
+        }
+
+        async function testDirect() {
+            try {
+                showResult('Testing direct API access...');
+                
+                // Detect correct API path
+                const currentPath = window.location.pathname;
+                let apiPath = 'api/submit_contact.php';
+                if (currentPath.includes('/Smartphone-Accessories/')) {
+                    apiPath = '/Smartphone-Accessories/api/submit_contact.php';
+                } else {
+                    apiPath = '/api/submit_contact.php';
+                }
+                
+                const response = await fetch(apiPath, {
+                    method: 'GET'
+                });
+
+                if (response.headers.get('content-type')?.includes('text/html')) {
+                    showResult('✅ Direct access returns HTML page (correct behavior)', true);
+                } else {
+                    const result = await response.text();
+                    showResult(`Direct access result:\nStatus: ${response.status}\nContent-Type: ${response.headers.get('content-type')}\nResponse: ${result}`, false);
+                }
+                
+            } catch (error) {
+                showResult(`Error during direct test: ${error.message}`, false);
+            }
+        }
+
+        // Add some helper info
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🧪 Contact API Test Page Loaded');
+            console.log('Current URL:', window.location.href);
+            console.log('Available tests:');
+            console.log('1. Normal submission - tests regular form submission');
+            console.log('2. DB Error simulation - tests database error handling');
+            console.log('3. Direct access - tests direct API access protection');
+        });
+    </script>
+</body>
+</html>

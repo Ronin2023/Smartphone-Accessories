@@ -1,0 +1,290 @@
+
+# MAINTENANCE MODE DISABLED - Commenting out to fix contact.html redirect issue
+
+# # Maintenance Mode - Let PHP handle maintenance checks
+# RewriteEngine On
+# # Skip maintenance for admin area
+# RewriteCond %{REQUEST_URI} ^/Smartphone-Accessories/admin/ [OR]
+# RewriteCond %{REQUEST_URI} ^/admin/ [OR]
+# RewriteCond %{REQUEST_URI} ^/Smartphone-Accessories/admin$ [OR]
+# RewriteCond %{REQUEST_URI} ^/admin$ [OR]
+# # Skip maintenance for maintenance and special access files
+# RewriteCond %{REQUEST_URI} ^/Smartphone-Accessories/maintenance\.php$ [OR]
+# RewriteCond %{REQUEST_URI} ^/maintenance\.php$ [OR]
+# RewriteCond %{REQUEST_URI} ^/Smartphone-Accessories/verify-special-access\.php$ [OR]
+# RewriteCond %{REQUEST_URI} ^/verify-special-access\.php$ [OR]
+# RewriteCond %{REQUEST_URI} ^/Smartphone-Accessories/direct_test\.php$ [OR]
+# RewriteCond %{REQUEST_URI} ^/direct_test\.php$ [OR]
+# RewriteCond %{REQUEST_URI} ^/Smartphone-Accessories/test-db-connection\.php$ [OR]
+# RewriteCond %{REQUEST_URI} ^/test-db-connection\.php$ [OR]
+# RewriteCond %{REQUEST_URI} ^/Smartphone-Accessories/debug-contact\.php$ [OR]
+# RewriteCond %{REQUEST_URI} ^/debug-contact\.php$ [OR]
+# RewriteCond %{REQUEST_URI} ^/Smartphone-Accessories/connection-error\.php$ [OR]
+# RewriteCond %{REQUEST_URI} ^/connection-error\.php$ [OR]
+# RewriteCond %{REQUEST_URI} ^/Smartphone-Accessories/connection-error\.html$ [OR]
+# RewriteCond %{REQUEST_URI} ^/connection-error\.html$ [OR]
+# RewriteCond %{REQUEST_URI} ^/Smartphone-Accessories/403\.html$ [OR]
+# RewriteCond %{REQUEST_URI} ^/403\.html$ [OR]
+# # Skip maintenance for assets
+# RewriteCond %{REQUEST_URI} ^/Smartphone-Accessories/css/ [OR]
+# RewriteCond %{REQUEST_URI} ^/css/ [OR]
+# RewriteCond %{REQUEST_URI} ^/Smartphone-Accessories/js/ [OR]
+# RewriteCond %{REQUEST_URI} ^/js/ [OR]
+# RewriteCond %{REQUEST_URI} ^/Smartphone-Accessories/assets/ [OR]
+# RewriteCond %{REQUEST_URI} ^/assets/ [OR]
+# RewriteCond %{REQUEST_URI} ^/Smartphone-Accessories/uploads/ [OR]
+# RewriteCond %{REQUEST_URI} ^/uploads/ [OR]
+# # Skip maintenance for main content pages (let PHP middleware handle them)
+# RewriteCond %{REQUEST_URI} ^/Smartphone-Accessories/index\.php$ [OR]
+# RewriteCond %{REQUEST_URI} ^/index\.php$ [OR]
+# RewriteCond %{REQUEST_URI} ^/Smartphone-Accessories/index\.html$ [OR]
+# RewriteCond %{REQUEST_URI} ^/index\.html$ [OR]
+# RewriteCond %{REQUEST_URI} ^/Smartphone-Accessories/$ [OR]
+# RewriteCond %{REQUEST_URI} ^/$ [OR]
+# RewriteCond %{REQUEST_URI} ^/Smartphone-Accessories/products\.php$ [OR]
+# RewriteCond %{REQUEST_URI} ^/products\.php$ [OR]
+# RewriteCond %{REQUEST_URI} ^/Smartphone-Accessories/compare\.php$ [OR]
+# RewriteCond %{REQUEST_URI} ^/compare\.php$ [OR]
+# RewriteCond %{REQUEST_URI} ^/Smartphone-Accessories/contact\.php$ [OR]
+# RewriteCond %{REQUEST_URI} ^/contact\.php$ [OR]
+# # Skip maintenance for special access (FIXED PARAMETERS)
+# RewriteCond %{QUERY_STRING} special_access_token= [OR]
+# RewriteCond %{QUERY_STRING} special_access= [OR]
+# RewriteCond %{QUERY_STRING} admin_bypass=1
+# RewriteRule ^ - [S=1]
+# # Redirect everything else to maintenance (handle both environments)
+# RewriteRule ^(.*)$ maintenance.php [L]
+# # End Maintenance Mode
+
+
+# TechCompare - Apache Configuration (.htaccess)
+# This file controls server behavior for the TechCompare website
+
+# ================================
+# SECURITY CONFIGURATIONS
+# ================================
+
+# Disable server signature (hide Apache version info)
+ServerSignature Off
+
+# Prevent access to sensitive files and directories
+<FilesMatch "\.(htaccess|htpasswd|ini|log|sh|inc|bak|backup|old|tmp)$">
+    Require all denied
+</FilesMatch>
+
+# Protect configuration and include files
+<FilesMatch "^(config|db_connect|functions)\.php$">
+    Require all denied
+</FilesMatch>
+
+# Block access to directories that shouldn't be web accessible
+RedirectMatch 404 /\.git
+RedirectMatch 404 /includes/
+RedirectMatch 404 /database/
+RedirectMatch 404 /vendor/
+RedirectMatch 404 /logs/
+RedirectMatch 404 /cache/
+
+# Prevent access to backup files
+<FilesMatch "\.(bak|backup|old|orig|save|swo|swp|tmp)$">
+    Require all denied
+</FilesMatch>
+
+# Block suspicious request methods
+<LimitExcept GET POST HEAD>
+    Require all denied
+</LimitExcept>
+
+# Protect against script injection
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{QUERY_STRING} (<|%3C).*script.*(>|%3E) [NC,OR]
+    RewriteCond %{QUERY_STRING} GLOBALS(=|\[|\%[0-9A-Z]{0,2}) [OR]
+    RewriteCond %{QUERY_STRING} _REQUEST(=|\[|\%[0-9A-Z]{0,2}) [OR]
+    RewriteCond %{QUERY_STRING} (<|%3C).*iframe.*(>|%3E) [NC,OR]
+    RewriteCond %{QUERY_STRING} (<|%3C).*object.*(>|%3E) [NC,OR]
+    RewriteCond %{QUERY_STRING} base64_encode.*\(.*\) [NC,OR]
+    RewriteCond %{QUERY_STRING} (\.|%2E)(\.|%2E)(%2F|/) [NC]
+    RewriteRule ^(.*)$ - [F,L]
+</IfModule>
+
+# ================================
+# URL REWRITING & ROUTING
+# ================================
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    # Force HTTPS (uncomment for production)
+    # RewriteCond %{HTTPS} off
+    # RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+    
+    # Remove www prefix (or add it - choose one)
+    # RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+    # RewriteRule ^(.*)$ https://%1%{REQUEST_URI} [R=301,L]
+    
+    # Redirect HTML to PHP for special access protection
+    RewriteRule ^index\.html$ index.php [L,QSA]
+    RewriteRule ^products\.html$ products.php [L,QSA]
+    RewriteRule ^compare\.html$ compare.php [L,QSA]
+    RewriteRule ^contact\.html$ contact.php [L,QSA]
+    
+    # Pretty URLs for products
+    RewriteRule ^product/([0-9]+)/?$ products.php?id=$1 [L,QSA]
+    RewriteRule ^product/([0-9]+)/([^/]+)/?$ products.php?id=$1&slug=$2 [L,QSA]
+    
+    # Category URLs
+    RewriteRule ^category/([^/]+)/?$ products.php?category=$1 [L,QSA]
+    
+    # Brand URLs
+    RewriteRule ^brand/([^/]+)/?$ products.php?brand=$1 [L,QSA]
+    
+    # Compare URLs with product IDs
+    RewriteRule ^compare/([0-9,]+)/?$ compare.php?products=$1 [L,QSA]
+    
+    # Admin clean URLs
+    RewriteRule ^admin/?$ admin/index.php [L]
+    RewriteRule ^admin/login/?$ admin/index.php [L]
+    RewriteRule ^admin/dashboard/?$ admin/dashboard.php [L]
+    
+    # API endpoints
+    RewriteRule ^api/products/?$ api/get_products.php [L,QSA]
+    RewriteRule ^api/product/([0-9]+)/?$ api/get_product.php?id=$1 [L,QSA]
+    RewriteRule ^api/compare/?$ api/compare_products.php [L,QSA]
+    RewriteRule ^api/search/?$ api/search_products.php [L,QSA]
+</IfModule>
+
+# ================================
+# PERFORMANCE OPTIMIZATIONS
+# ================================
+
+# Enable compression
+<IfModule mod_deflate.c>
+    # Compress HTML, CSS, JavaScript, Text, XML and fonts
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE application/rss+xml
+    AddOutputFilterByType DEFLATE application/vnd.ms-fontobject
+    AddOutputFilterByType DEFLATE application/x-font
+    AddOutputFilterByType DEFLATE application/x-font-opentype
+    AddOutputFilterByType DEFLATE application/x-font-otf
+    AddOutputFilterByType DEFLATE application/x-font-truetype
+    AddOutputFilterByType DEFLATE application/x-font-ttf
+    AddOutputFilterByType DEFLATE application/x-javascript
+    AddOutputFilterByType DEFLATE application/xhtml+xml
+    AddOutputFilterByType DEFLATE application/xml
+    AddOutputFilterByType DEFLATE font/opentype
+    AddOutputFilterByType DEFLATE font/otf
+    AddOutputFilterByType DEFLATE font/ttf
+    AddOutputFilterByType DEFLATE image/svg+xml
+    AddOutputFilterByType DEFLATE image/x-icon
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/javascript
+    AddOutputFilterByType DEFLATE text/plain
+    AddOutputFilterByType DEFLATE text/xml
+</IfModule>
+
+# Browser Caching
+<IfModule mod_expires.c>
+    ExpiresActive On
+    
+    # Images
+    ExpiresByType image/jpg "access plus 1 month"
+    ExpiresByType image/jpeg "access plus 1 month"
+    ExpiresByType image/gif "access plus 1 month"
+    ExpiresByType image/png "access plus 1 month"
+    ExpiresByType image/webp "access plus 1 month"
+    ExpiresByType image/svg+xml "access plus 1 month"
+    ExpiresByType image/x-icon "access plus 1 year"
+    
+    # CSS and JavaScript
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+    ExpiresByType text/javascript "access plus 1 month"
+    
+    # Fonts
+    ExpiresByType font/woff "access plus 1 year"
+    ExpiresByType font/woff2 "access plus 1 year"
+    ExpiresByType application/font-woff "access plus 1 year"
+    ExpiresByType application/font-woff2 "access plus 1 year"
+    
+    # HTML and PHP (short cache)
+    ExpiresByType text/html "access plus 2 hours"
+    ExpiresByType application/xhtml+xml "access plus 2 hours"
+</IfModule>
+
+# Enable Keep-Alive
+<IfModule mod_headers.c>
+    Header always set Connection keep-alive
+    
+    # Security headers
+    Header always set X-Content-Type-Options nosniff
+    Header always set X-Frame-Options DENY
+    Header always set X-XSS-Protection "1; mode=block"
+    Header always set Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    
+    # Remove sensitive server info
+    Header unset Server
+    Header unset X-Powered-By
+</IfModule>
+
+# ================================
+# FILE HANDLING
+# ================================
+
+# Set default charset
+AddDefaultCharset UTF-8
+
+# MIME types for common files
+<IfModule mod_mime.c>
+    AddType application/font-woff woff
+    AddType application/font-woff2 woff2
+    AddType image/webp webp
+</IfModule>
+
+# Prevent hotlinking of images (disabled for development)
+# <IfModule mod_rewrite.c>
+#     RewriteCond %{HTTP_REFERER} !^$
+#     RewriteCond %{HTTP_REFERER} !^https?://(www\.)?yourdomain\.com [NC]
+#     RewriteCond %{HTTP_REFERER} !^https?://(www\.)?localhost [NC]
+#     RewriteCond %{HTTP_REFERER} !^https?://(www\.)?127\.0\.0\.1 [NC]
+#     RewriteCond %{HTTP_REFERER} !^https?://.*\.ngrok\.io [NC]
+#     RewriteRule \.(jpg|jpeg|png|gif|webp)$ - [F]
+# </IfModule>
+
+# ================================
+# ERROR HANDLING
+# ================================
+
+# Custom error pages
+ErrorDocument 400 /Smartphone-Accessories/error.html
+ErrorDocument 401 /Smartphone-Accessories/error.html
+ErrorDocument 403 /Smartphone-Accessories/403.html
+ErrorDocument 404 /Smartphone-Accessories/error.html
+ErrorDocument 500 /Smartphone-Accessories/connection-error.php
+ErrorDocument 503 /Smartphone-Accessories/connection-error.php
+
+# Hide PHP errors in production (commented out to avoid Apache issues)
+# php_flag display_errors Off
+# php_flag log_errors On
+
+# ================================
+# UPLOAD LIMITS (if needed)
+# ================================
+
+# Increase upload limits for admin panel
+php_value upload_max_filesize 10M
+php_value post_max_size 10M
+php_value max_execution_time 300
+php_value max_input_time 300
+
+# ================================
+# DIRECTORY BROWSING
+# ================================
+
+# Disable directory browsing
+Options -Indexes
+
+# Default index files
+DirectoryIndex index.php index.html index.htm

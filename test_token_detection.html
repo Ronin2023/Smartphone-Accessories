@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Special Access Detection</title>
+</head>
+<body>
+    <h1>URL Parameter Test</h1>
+    <script>
+        // Get URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const specialToken = urlParams.get('special_access_token') || urlParams.get('special_access');
+        
+        console.log('Full URL:', window.location.href);
+        console.log('Search params:', window.location.search);
+        console.log('Special token found:', specialToken);
+        
+        document.body.innerHTML += '<h2>Debug Info:</h2>';
+        document.body.innerHTML += '<p><strong>URL:</strong> ' + window.location.href + '</p>';
+        document.body.innerHTML += '<p><strong>Search:</strong> ' + window.location.search + '</p>';
+        document.body.innerHTML += '<p><strong>Token:</strong> ' + (specialToken || 'NOT FOUND') + '</p>';
+        
+        if (specialToken) {
+            document.body.innerHTML += '<p style="color: green;"><strong>✅ Token detected! Overlay should appear.</strong></p>';
+        } else {
+            document.body.innerHTML += '<p style="color: red;"><strong>❌ No token found. Check URL parameter.</strong></p>';
+        }
+    </script>
+</body>
+</html>

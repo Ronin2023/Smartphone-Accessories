@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                           http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+
+    <!-- Homepage - Highest Priority -->
+    <url>
+        <loc>http://localhost:8080/</loc>
+        <lastmod>2025-09-29</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>1.0</priority>
+        <image:image>
+            <image:loc>http://localhost:8080/assets/images/logo.png</image:loc>
+            <image:title>TechCompare - Smart Product Comparisons</image:title>
+            <image:caption>Compare tech products smartly and make informed decisions</image:caption>
+        </image:image>
+    </url>
+
+    <!-- Main Pages - High Priority -->
+    <url>
+        <loc>http://localhost:8080/index.html</loc>
+        <lastmod>2025-09-29</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>1.0</priority>
+    </url>
+
+    <url>
+        <loc>http://localhost:8080/products.html</loc>
+        <lastmod>2025-09-29</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.9</priority>
+    </url>
+
+    <url>
+        <loc>http://localhost:8080/compare.html</loc>
+        <lastmod>2025-09-29</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+
+    <url>
+        <loc>http://localhost:8080/about.html</loc>
+        <lastmod>2025-09-29</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <url>
+        <loc>http://localhost:8080/contact.html</loc>
+        <lastmod>2025-09-29</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+
+    <!-- Category Pages - High Priority for SEO -->
+    <url>
+        <loc>http://localhost:8080/category/smart-watches</loc>
+        <lastmod>2025-09-29</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+        <image:image>
+            <image:loc>http://localhost:8080/assets/images/categories/smart-watches.jpg</image:loc>
+            <image:title>Smart Watches Comparison</image:title>
+            <image:caption>Compare the latest smart watches and fitness trackers</image:caption>
+        </image:image>
+    </url>
+
+    <url>
+        <loc>http://localhost:8080/category/wireless-headphones</loc>
+        <lastmod>2025-09-29</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+        <image:image>
+            <image:loc>http://localhost:8080/assets/images/categories/wireless-headphones.jpg</image:loc>
+            <image:title>Wireless Headphones Comparison</image:title>
+            <image:caption>Find the perfect wireless headphones for your needs</image:caption>
+        </image:image>
+    </url>
+
+    <url>
+        <loc>http://localhost:8080/category/wired-headphones</loc>
+        <lastmod>2025-09-29</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+        <image:image>
+            <image:loc>http://localhost:8080/assets/images/categories/wired-headphones.jpg</image:loc>
+            <image:title>Wired Headphones Comparison</image:title>
+            <image:caption>Discover high-quality wired headphones for audiophiles</image:caption>
+        </image:image>
+    </url>
+
+    <!-- Brand Pages -->
+    <url>
+        <loc>http://localhost:8080/brand/apple</loc>
+        <lastmod>2025-09-29</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <url>
+        <loc>http://localhost:8080/brand/samsung</loc>
+        <lastmod>2025-09-29</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <url>
+        <loc>http://localhost:8080/brand/sony</loc>
+        <lastmod>2025-09-29</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <url>
+        <loc>http://localhost:8080/brand/bose</loc>
+        <lastmod>2025-09-29</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <url>
+        <loc>http://localhost:8080/brand/sennheiser</loc>
+        <lastmod>2025-09-29</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <url>
+        <loc>http://localhost:8080/brand/fitbit</loc>
+        <lastmod>2025-09-29</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <url>
+        <loc>http://localhost:8080/brand/garmin</loc>
+        <lastmod>2025-09-29</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <url>
+        <loc>http://localhost:8080/brand/jbl</loc>
+        <lastmod>2025-09-29</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <!-- Sample Product Pages (You can add more as your database grows) -->
+    <url>
+        <loc>http://localhost:8080/product/1/apple-watch-series-9</loc>
+        <lastmod>2025-09-29</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+        <image:image>
+            <image:loc>http://localhost:8080/uploads/products/apple-watch-series-9.jpg</image:loc>
+            <image:title>Apple Watch Series 9</image:title>
+            <image:caption>Latest Apple Watch with advanced health monitoring</image:caption>
+        </image:image>
+    </url>
+
+    <url>
+        <loc>http://localhost:8080/product/2/samsung-galaxy-watch-6</loc>
+        <lastmod>2025-09-29</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+        <image:image>
+            <image:loc>http://localhost:8080/uploads/products/samsung-galaxy-watch-6.jpg</image:loc>
+            <image:title>Samsung Galaxy Watch 6</image:title>
+            <image:caption>Premium Android smartwatch with comprehensive health tracking</image:caption>
+        </image:image>
+    </url>
+
+    <url>
+        <loc>http://localhost:8080/product/3/sony-wh-1000xm5</loc>
+        <lastmod>2025-09-29</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+        <image:image>
+            <image:loc>http://localhost:8080/uploads/products/sony-wh-1000xm5.jpg</image:loc>
+            <image:title>Sony WH-1000XM5 Wireless Headphones</image:title>
+            <image:caption>Industry-leading noise canceling wireless headphones</image:caption>
+        </image:image>
+    </url>
+
+    <url>
+        <loc>http://localhost:8080/product/4/bose-quietcomfort-45</loc>
+        <lastmod>2025-09-29</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+        <image:image>
+            <image:loc>http://localhost:8080/uploads/products/bose-quietcomfort-45.jpg</image:loc>
+            <image:title>Bose QuietComfort 45 Headphones</image:title>
+            <image:caption>Premium noise-canceling headphones for ultimate comfort</image:caption>
+        </image:image>
+    </url>
+
+    <url>
+        <loc>http://localhost:8080/product/5/airpods-pro-2nd-gen</loc>
+        <lastmod>2025-09-29</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+        <image:image>
+            <image:loc>http://localhost:8080/uploads/products/airpods-pro-2nd-gen.jpg</image:loc>
+            <image:title>Apple AirPods Pro 2nd Generation</image:title>
+            <image:caption>Advanced wireless earbuds with active noise cancellation</image:caption>
+        </image:image>
+    </url>
+
+    <!-- Comparison Pages -->
+    <url>
+        <loc>http://localhost:8080/compare/1,2</loc>
+        <lastmod>2025-09-29</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+
+    <url>
+        <loc>http://localhost:8080/compare/3,4</loc>
+        <lastmod>2025-09-29</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+
+    <!-- API Endpoints for Search Engines (if publicly accessible) -->
+    <url>
+        <loc>http://localhost:8080/api/products</loc>
+        <lastmod>2025-09-29</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.3</priority>
+    </url>
+
+    <!-- Static Pages -->
+    <url>
+        <loc>http://localhost:8080/privacy-policy.html</loc>
+        <lastmod>2025-09-29</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.3</priority>
+    </url>
+
+    <url>
+        <loc>http://localhost:8080/terms-of-service.html</loc>
+        <lastmod>2025-09-29</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.3</priority>
+    </url>
+
+    <url>
+        <loc>http://localhost:8080/faq.html</loc>
+        <lastmod>2025-09-29</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.4</priority>
+    </url>
+
+    <!-- Blog/News Section (if you add one) -->
+    <url>
+        <loc>http://localhost:8080/blog</loc>
+        <lastmod>2025-09-29</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.5</priority>
+    </url>
+
+    <!-- Help/Support Pages -->
+    <url>
+        <loc>http://localhost:8080/help</loc>
+        <lastmod>2025-09-29</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.4</priority>
+    </url>
+
+    <url>
+        <loc>http://localhost:8080/buying-guide</loc>
+        <lastmod>2025-09-29</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+
+    <!-- Special Landing Pages -->
+    <url>
+        <loc>http://localhost:8080/best-smart-watches-2025</loc>
+        <lastmod>2025-09-29</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+
+    <url>
+        <loc>http://localhost:8080/best-wireless-headphones-2025</loc>
+        <lastmod>2025-09-29</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+
+    <!-- Seasonal/Trending Pages -->
+    <url>
+        <loc>http://localhost:8080/black-friday-deals</loc>
+        <lastmod>2025-09-29</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <url>
+        <loc>http://localhost:8080/christmas-gifts-tech</loc>
+        <lastmod>2025-09-29</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+</urlset>

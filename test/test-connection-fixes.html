@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database Connection Tests</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .test-section { margin: 20px 0; padding: 20px; border: 1px solid #ddd; }
+        .result { margin: 10px 0; padding: 10px; border-radius: 5px; }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .warning { background: #fff3cd; color: #856404; }
+        button { padding: 10px 20px; margin: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Database Connection Error Handling Tests</h1>
+    
+    <div class="test-section">
+        <h2>Test 1: Contact Form Submission</h2>
+        <p>This should redirect to connection-error.php when database is down, return JSON when database is up.</p>
+        <button onclick="testContactForm()">Test Contact Form</button>
+        <div id="contact-result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test 2: Database Connection Check</h2>
+        <p>Direct test of database connectivity endpoint.</p>
+        <button onclick="testDatabaseConnection()">Test Database Connection</button>
+        <div id="db-result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test 3: Server Status Check</h2>
+        <p>Test the improved server status checking function.</p>
+        <button onclick="testServerStatus()">Test Server Status</button>
+        <div id="status-result"></div>
+    </div>
+
+    <script>
+        // Detect current base path
+        const currentPath = window.location.pathname;
+        let basePath = '';
+        if (currentPath.includes('/Smartphone-Accessories/')) {
+            basePath = '/Smartphone-Accessories/';
+        } else {
+            basePath = '/';
+        }
+
+        async function testContactForm() {
+            const resultDiv = document.getElementById('contact-result');
+            resultDiv.innerHTML = '<div class="warning">Testing contact form submission...</div>';
+            
+            try {
+                const response = await fetch(basePath + 'api/submit_contact.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: 'Test User',
+                        email: 'test@example.com',
+                        subject: 'Test Subject',
+                        message: 'Test message'
+                    }),
+                    redirect: 'manual' // Prevent automatic redirect following
+                });
+                
+                if (response.type === 'opaqueredirect' || response.status === 302) {
+                    const location = response.headers.get('Location') || 'Unknown';
+                    resultDiv.innerHTML = `<div class="success">✅ SUCCESS: Contact form correctly redirected to: ${location}</div>`;
+                } else if (response.ok) {
+                    const data = await response.json();
+                    resultDiv.innerHTML = `<div class="success">✅ SUCCESS: Contact form returned JSON response: ${JSON.stringify(data)}</div>`;
+                } else {
+                    resultDiv.innerHTML = `<div class="error">❌ UNEXPECTED: Response status ${response.status}</div>`;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="error">❌ ERROR: ${error.message}</div>`;
+            }
+        }
+        
+        async function testDatabaseConnection() {
+            const resultDiv = document.getElementById('db-result');
+            resultDiv.innerHTML = '<div class="warning">Testing database connection...</div>';
+            
+            try {
+                const response = await fetch(basePath + 'test-db-connection.php', {
+                    headers: {
+                        'X-Connection-Test': 'true'
+                    }
+                });
+                
+                if (response.ok) {
+                    const text = await response.text();
+                    if (text.includes('✅') || text.includes('Database is available')) {
+                        resultDiv.innerHTML = `<div class="success">✅ SUCCESS: ${text}</div>`;
+                    } else {
+                        resultDiv.innerHTML = `<div class="error">❌ DATABASE DOWN: ${text}</div>`;
+                    }
+                } else {
+                    resultDiv.innerHTML = `<div class="error">❌ ERROR: HTTP ${response.status}</div>`;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="error">❌ ERROR: ${error.message}</div>`;
+            }
+        }
+        
+        async function testServerStatus() {
+            const resultDiv = document.getElementById('status-result');
+            resultDiv.innerHTML = '<div class="warning">Testing server status...</div>';
+            
+            const endpoints = [
+                { name: 'Web Server', url: basePath + 'index.html' },
+                { name: 'Error System', url: basePath + 'connection-error.html' },
+                { name: 'Database', url: basePath + 'test-db-connection.php' }
+            ];
+
+            let results = [];
+            let workingServices = 0;
+
+            for (const endpoint of endpoints) {
+                try {
+                    const fetchOptions = {
+                        method: 'GET',
+                        cache: 'no-cache'
+                    };
+
+                    if (endpoint.name === 'Database') {
+                        fetchOptions.headers = { 'X-Connection-Test': 'true' };
+                    } else {
+                        fetchOptions.method = 'HEAD';
+                    }
+
+                    const response = await fetch(endpoint.url, fetchOptions);
+                    
+                    if (endpoint.name === 'Database') {
+                        const text = await response.text();
+                        if (response.ok && (text.includes('Database is available') || text.includes('✅'))) {
+                            workingServices++;
+                            results.push(`✅ ${endpoint.name}: Online`);
+                        } else {
+                            results.push(`❌ ${endpoint.name}: Offline - ${text.substring(0, 50)}`);
+                        }
+                    } else {
+                        if (response.ok) {
+                            workingServices++;
+                            results.push(`✅ ${endpoint.name}: Online`);
+                        } else {
+                            results.push(`❌ ${endpoint.name}: Offline (Status: ${response.status})`);
+                        }
+                    }
+                } catch (error) {
+                    results.push(`❌ ${endpoint.name}: Error - ${error.message}`);
+                }
+            }
+
+            const resultHTML = results.join('<br>') + `<br><strong>Summary: ${workingServices}/${endpoints.length} services working</strong>`;
+            
+            if (workingServices === endpoints.length) {
+                resultDiv.innerHTML = `<div class="success">${resultHTML}</div>`;
+            } else if (workingServices > 0) {
+                resultDiv.innerHTML = `<div class="warning">${resultHTML}</div>`;
+            } else {
+                resultDiv.innerHTML = `<div class="error">${resultHTML}</div>`;
+            }
+        }
+    </script>
+</body>
+</html>

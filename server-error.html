@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connection Error - TechCompare</title>
+    <style>
+        /* Inline styles to avoid external dependencies */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: #333;
+        }
+
+        .error-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            padding: 40px;
+            text-align: center;
+            max-width: 600px;
+            width: 100%;
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .error-icon {
+            font-size: 4rem;
+            color: #e74c3c;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.7; }
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(231, 76, 60, 0.1);
+            color: #e74c3c;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 20px;
+            border: 2px solid rgba(231, 76, 60, 0.2);
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            background: #e74c3c;
+            border-radius: 50%;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0.3; }
+        }
+
+        .error-title {
+            font-size: 2.2rem;
+            color: #333;
+            margin: 20px 0;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .error-description {
+            color: #666;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .details-box {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-left: 4px solid #e74c3c;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .details-box h4 {
+            margin: 0 0 15px 0;
+            color: #333;
+            font-size: 1.1rem;
+        }
+
+        .details-box ul {
+            margin: 0;
+            padding-left: 20px;
+            color: #666;
+        }
+
+        .details-box li {
+            margin: 8px 0;
+            line-height: 1.4;
+        }
+
+        .action-section {
+            margin: 30px 0;
+            padding: 25px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(248,249,250,0.9) 100%);
+            border-radius: 15px;
+            border: 2px dashed rgba(231, 76, 60, 0.3);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 140px;
+            justify-content: center;
+        }
+
+        .btn-retry {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+        }
+
+        .btn-retry:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
+            color: white;
+        }
+
+        .btn-home {
+            background: transparent;
+            color: #e74c3c;
+            border: 2px solid #e74c3c;
+        }
+
+        .btn-home:hover {
+            background: #e74c3c;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .tips-section {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .tip-card {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #e74c3c;
+            text-align: left;
+        }
+
+        .tip-card .tip-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .tip-card .tip-text {
+            font-size: 0.85rem;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        .status-message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 10px;
+            font-weight: 500;
+            z-index: 1000;
+            max-width: 300px;
+            animation: slideInRight 0.3s ease-out;
+        }
+
+        .msg-success { background: #28a745; color: white; }
+        .msg-error { background: #dc3545; color: white; }
+        .msg-info { background: #17a2b8; color: white; }
+
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes slideOutRight {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            .error-container {
+                padding: 30px 20px;
+                margin: 10px;
+            }
+
+            .error-title {
+                font-size: 1.8rem;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .tips-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <!-- Error Icon -->
+        <div class="error-icon">⚠️</div>
+        
+        <!-- Status Badge -->
+        <div class="status-badge">
+            <div class="status-dot"></div>
+            <span>Database Server Unavailable</span>
+        </div>
+
+        <!-- Main Title -->
+        <h1 class="error-title">Server Connection Error</h1>
+        
+        <!-- Description -->
+        <p class="error-description">
+            We're experiencing technical difficulties with our database server. This is usually temporary and should be resolved within a few minutes.
+        </p>
+
+        <!-- Technical Details -->
+        <div class="details-box">
+            <h4>🔍 What's happening?</h4>
+            <ul>
+                <li><strong>Database server is temporarily unavailable</strong></li>
+                <li>This could be due to routine maintenance or high traffic</li>
+                <li>Your internet connection appears to be working fine</li>
+                <li>No data has been lost during this outage</li>
+            </ul>
+        </div>
+
+        <!-- Action Section -->
+        <div class="action-section">
+            <h3 style="margin-bottom: 15px; color: #333;">🔄 What can you do?</h3>
+            
+            <div class="action-buttons">
+                <button onclick="retryConnection()" class="btn btn-retry">
+                    🔄 Retry Connection
+                </button>
+                <button onclick="checkStatus()" class="btn btn-home">
+                    📊 Check Status
+                </button>
+            </div>
+            
+            <div class="action-buttons">
+                <a href="javascript:history.back()" class="btn btn-home">
+                    ← Go Back
+                </a>
+                <a href="index.html" class="btn btn-home">
+                    🏠 Home Page
+                </a>
+            </div>
+        </div>
+
+        <!-- Tips Section -->
+        <div class="tips-section">
+            <h4 style="color: #333; margin-bottom: 10px;">💡 Helpful Tips</h4>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <div class="tip-title">⏰ Wait & Retry</div>
+                    <div class="tip-text">Most server issues resolve automatically within 2-5 minutes.</div>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-title">🔄 Refresh Page</div>
+                    <div class="tip-text">Sometimes a simple page refresh fixes temporary glitches.</div>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-title">📱 Try Later</div>
+                    <div class="tip-text">Bookmark this page and return in a few minutes.</div>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-title">📞 Contact Us</div>
+                    <div class="tip-text">If the issue persists, please contact our support team.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Info -->
+        <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(0,0,0,0.1); font-size: 0.9rem; color: #666;">
+            <p><strong>Error ID:</strong> DB_CONNECTION_FAILED</p>
+            <p><strong>Time:</strong> <span id="current-time"></span></p>
+        </div>
+    </div>
+
+    <script>
+        // Set current time
+        document.getElementById('current-time').textContent = new Date().toLocaleString();
+
+        let retryCount = 0;
+
+        function retryConnection() {
+            retryCount++;
+            const retryBtn = document.querySelector('.btn-retry');
+            
+            retryBtn.disabled = true;
+            retryBtn.innerHTML = '🔄 Checking...';
+            retryBtn.style.opacity = '0.7';
+
+            // Detect current environment
+            const currentPath = window.location.pathname;
+            const basePath = currentPath.includes('/Smartphone-Accessories/') ? '/Smartphone-Accessories/' : '/';
+
+            // Test connection by trying to access a simple endpoint
+            Promise.race([
+                fetch(basePath + 'test-db-connection.php', { 
+                    method: 'GET', 
+                    cache: 'no-cache',
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                }),
+                new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), 5000))
+            ])
+            .then(response => response.text())
+            .then(data => {
+                if (data.includes('✅') || data.includes('Database is available')) {
+                    showMessage('✅ Connection restored! Redirecting...', 'success');
+                    setTimeout(() => {
+                        window.location.href = basePath + 'index.html';
+                    }, 2000);
+                } else {
+                    throw new Error('Database still unavailable');
+                }
+            })
+            .catch(error => {
+                showMessage(`❌ Still unavailable (attempt ${retryCount}). Trying again in a moment...`, 'error');
+                
+                // Auto retry after delay
+                setTimeout(() => {
+                    retryBtn.disabled = false;
+                    retryBtn.innerHTML = '🔄 Retry Connection';
+                    retryBtn.style.opacity = '1';
+                }, 3000);
+            });
+        }
+
+        function checkStatus() {
+            showMessage('📊 Checking server status...', 'info');
+            
+            const currentPath = window.location.pathname;
+            const basePath = currentPath.includes('/Smartphone-Accessories/') ? '/Smartphone-Accessories/' : '/';
+            
+            const endpoints = [
+                { name: 'Web Server', url: basePath + 'index.html' },
+                { name: 'Static Assets', url: basePath + 'css/style.css' },
+                { name: 'Database', url: basePath + 'test-db-connection.php' }
+            ];
+
+            let results = [];
+            let completed = 0;
+
+            endpoints.forEach(endpoint => {
+                fetch(endpoint.url, { method: 'HEAD', cache: 'no-cache' })
+                .then(response => {
+                    results.push({ ...endpoint, status: response.ok ? 'Online' : 'Offline' });
+                })
+                .catch(error => {
+                    results.push({ ...endpoint, status: 'Offline' });
+                })
+                .finally(() => {
+                    completed++;
+                    if (completed === endpoints.length) {
+                        const online = results.filter(r => r.status === 'Online').length;
+                        const total = results.length;
+                        
+                        if (online === total) {
+                            showMessage(`✅ All systems operational (${online}/${total})`, 'success');
+                        } else if (online > 0) {
+                            showMessage(`⚠️ Partial outage (${online}/${total} systems online)`, 'error');
+                        } else {
+                            showMessage('❌ Complete service outage detected', 'error');
+                        }
+                        
+                        console.table(results);
+                    }
+                });
+            });
+        }
+
+        function showMessage(message, type) {
+            // Remove existing messages
+            document.querySelectorAll('.status-message').forEach(msg => msg.remove());
+
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `status-message msg-${type}`;
+            messageDiv.textContent = message;
+
+            document.body.appendChild(messageDiv);
+
+            setTimeout(() => {
+                messageDiv.style.animation = 'slideOutRight 0.3s ease-in';
+                setTimeout(() => messageDiv.remove(), 300);
+            }, 4000);
+        }
+
+        // Auto-retry after 15 seconds for first attempt
+        setTimeout(() => {
+            if (retryCount === 0) {
+                showMessage('🔄 Auto-retrying connection...', 'info');
+                setTimeout(retryConnection, 1000);
+            }
+        }, 15000);
+
+        // Prevent form resubmission on page refresh
+        if (window.history.replaceState) {
+            window.history.replaceState(null, null, window.location.href);
+        }
+    </script>
+</body>
+</html>

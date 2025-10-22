@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔧 Contact API Debug & Fix Status</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+        .status-box {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid #007bff;
+        }
+        .success { border-left-color: #28a745; background: #d4edda; }
+        .warning { border-left-color: #ffc107; background: #fff3cd; }
+        .error { border-left-color: #dc3545; background: #f8d7da; }
+        .test-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 2px solid #e9ecef;
+        }
+        .btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn:hover { background: #0056b3; }
+        .btn-success { background: #28a745; }
+        .btn-success:hover { background: #1e7e34; }
+        .btn-danger { background: #dc3545; }
+        .btn-danger:hover { background: #c82333; }
+        .btn-warning { background: #ffc107; color: #212529; }
+        .btn-warning:hover { background: #e0a800; }
+        .result {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 10px 0;
+            font-family: monospace;
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .emoji { font-size: 1.2em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div style="text-align: center; margin-bottom: 30px;">
+            <h1><span class="emoji">🔧</span> Contact API Debug & Fix Status</h1>
+            <p>Comprehensive testing and debugging for database connection error handling</p>
+        </div>
+
+        <div class="status-box success">
+            <h3><span class="emoji">✅</span> Recent Fixes Applied:</h3>
+            <ul>
+                <li><strong>API Path Detection:</strong> Fixed hardcoded paths in test-contact-api.html</li>
+                <li><strong>Database Error Handling:</strong> Enhanced submit_contact.php to handle both AJAX and non-AJAX requests</li>
+                <li><strong>Connection Error Detection:</strong> Added proper error flags and redirect logic</li>
+                <li><strong>Session Storage:</strong> Fixed error information storage for connection error page</li>
+            </ul>
+        </div>
+
+        <div class="test-section">
+            <h3><span class="emoji">🧪</span> API Response Tests</h3>
+            <p>Test the contact API directly to verify proper error responses:</p>
+            
+            <button class="btn btn-success" onclick="testApiNormal()">Test API (Normal)</button>
+            <button class="btn btn-warning" onclick="testApiWithDB()">Test API (Current DB State)</button>
+            <button class="btn btn-danger" onclick="testConnectionError()">Simulate Connection Error</button>
+            
+            <div id="apiResults" class="result" style="display: none;"></div>
+        </div>
+
+        <div class="test-section">
+            <h3><span class="emoji">📝</span> Form Submission Tests</h3>
+            <p>Test different types of form submissions:</p>
+            
+            <a href="test-contact-api.html" class="btn btn-success">AJAX Form Tests</a>
+            <a href="test-form-submission.html" class="btn btn-warning">Regular Form Test</a>
+            <a href="contact.html" class="btn">Main Contact Form</a>
+            
+            <div style="margin-top: 15px; padding: 15px; background: #e3f2fd; border-radius: 5px;">
+                <strong>Expected Behaviors:</strong>
+                <ul>
+                    <li><strong>AJAX Requests:</strong> Should get JSON with connection_error: true, then redirect</li>
+                    <li><strong>Regular Forms:</strong> Should redirect directly to connection-error.php</li>
+                    <li><strong>Contact Form:</strong> Should detect errors and redirect to error page</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h3><span class="emoji">🛠️</span> Manual Connection Error Test</h3>
+            <p>Manually trigger the connection error page with test data:</p>
+            
+            <button class="btn btn-danger" onclick="manualConnectionErrorTest()">Trigger Connection Error Page</button>
+            
+            <div style="margin-top: 15px; padding: 15px; background: #fff3cd; border-radius: 5px;">
+                <strong>Note:</strong> This will redirect you to connection-error.php with stored error information to test the error page functionality.
+            </div>
+        </div>
+
+        <div class="status-box warning">
+            <h3><span class="emoji">⚠️</span> Current Issue Analysis:</h3>
+            <p>The main problem is that the contact form always uses AJAX, so it gets JSON responses. The fix involves:</p>
+            <ol>
+                <li><strong>API Response:</strong> Return proper JSON with connection_error: true flag</li>
+                <li><strong>Frontend Detection:</strong> Contact form detects this flag and redirects</li>
+                <li><strong>Error Page:</strong> Shows proper error information and recovery options</li>
+            </ol>
+        </div>
+
+        <div class="status-box">
+            <h3><span class="emoji">📋</span> Testing Checklist:</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                <div>
+                    <strong>With Database Running:</strong>
+                    <ul>
+                        <li>✅ Normal form submissions work</li>
+                        <li>✅ API returns success responses</li>
+                        <li>✅ No error pages shown</li>
+                    </ul>
+                </div>
+                <div>
+                    <strong>With Database Stopped:</strong>
+                    <ul>
+                        <li>❓ AJAX gets connection_error: true</li>
+                        <li>❓ Contact form redirects to error page</li>
+                        <li>❓ Error page shows proper information</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showResult(elementId, message, isSuccess = true) {
+            const resultEl = document.getElementById(elementId);
+            resultEl.textContent = message;
+            resultEl.style.display = 'block';
+            resultEl.style.borderLeft = `4px solid ${isSuccess ? '#28a745' : '#dc3545'}`;
+            resultEl.style.background = isSuccess ? '#d4edda' : '#f8d7da';
+        }
+
+        async function testApiNormal() {
+            try {
+                showResult('apiResults', 'Testing API with normal data...');
+                
+                const formData = new FormData();
+                formData.append('name', 'Debug Test User');
+                formData.append('email', 'debug@test.com');
+                formData.append('subject', 'Debug Test');
+                formData.append('message', 'Testing API response for debugging');
+                formData.append('priority', 'medium');
+                
+                const response = await fetch('api/submit_contact.php', {
+                    method: 'POST',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    body: formData
+                });
+
+                const result = await response.json();
+                
+                let message = `API Test Results:
+Status: ${response.status}
+Content-Type: ${response.headers.get('content-type')}
+
+Response:
+${JSON.stringify(result, null, 2)}
+
+Analysis:`;
+
+                if (response.ok && result.success) {
+                    message += '\n✅ API working normally - database is available';
+                } else if (result.connection_error) {
+                    message += '\n⚠️ Connection error detected - this should trigger redirect';
+                } else if (response.status === 503) {
+                    message += '\n⚠️ Service unavailable - database connection issue';
+                } else {
+                    message += '\n❌ Unexpected response - check logs';
+                }
+                
+                showResult('apiResults', message, response.ok || result.connection_error);
+                
+            } catch (error) {
+                showResult('apiResults', `API Test Error: ${error.message}\n\nThis could indicate network or server issues.`, false);
+            }
+        }
+
+        async function testApiWithDB() {
+            try {
+                showResult('apiResults', 'Testing current database state...');
+                await testApiNormal();
+            } catch (error) {
+                showResult('apiResults', `Database test failed: ${error.message}`, false);
+            }
+        }
+
+        function testConnectionError() {
+            showResult('apiResults', `Connection Error Simulation:
+
+To properly test database connection errors:
+
+1. Stop your MySQL/MariaDB service:
+   - Windows: Stop "MySQL" service in Services
+   - Or stop XAMPP/LARAGON MySQL
+
+2. Click "Test API (Current DB State)" button
+
+3. Expected result:
+   - HTTP 503 status
+   - connection_error: true in response
+   - Service unavailable message
+
+4. Contact form should detect this and redirect to connection-error.php
+
+Current test will use the current database state...`);
+            
+            setTimeout(() => {
+                testApiNormal();
+            }, 2000);
+        }
+
+        function manualConnectionErrorTest() {
+            // Store test error information
+            const errorInfo = {
+                type: 'database',
+                message: 'Manual connection error test from debug page',
+                timestamp: Date.now(),
+                referring_page: window.location.href
+            };
+            
+            sessionStorage.setItem('connectionErrorInfo', JSON.stringify(errorInfo));
+            
+            alert('🚨 Redirecting to connection error page...\n\nThis will test the error page display with stored error information.');
+            
+            setTimeout(() => {
+                window.location.href = 'connection-error.php';
+            }, 1000);
+        }
+
+        // Auto-run initial test
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🔧 Contact API Debug Page Loaded');
+            console.log('Run tests to verify database connection error handling');
+            
+            setTimeout(() => {
+                testApiNormal();
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

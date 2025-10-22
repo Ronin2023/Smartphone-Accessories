@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechCompare - Compare Smart Watches & Headphones</title>
+    <meta name="description" content="Compare specifications, prices, and features of smart watches, wireless headphones, and wired headphones across top brands.">
+    <meta name="keywords" content="smart watch comparison, headphones comparison, tech products, Apple Watch, Samsung Galaxy Watch, Sony headphones, Bose">
+    
+    <!-- SEO Meta Tags -->
+    <meta property="og:title" content="TechCompare - Smart Tech Product Comparisons">
+    <meta property="og:description" content="Compare the latest smart watches and headphones with detailed specifications and prices.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://techcompare.example.com">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="css/style.css" as="style">
+    <link rel="preload" href="js/main.js" as="script">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <a href="index.html" class="nav-logo">
+                    <i class="fas fa-balance-scale-right"></i>
+                    TechCompare
+                </a>
+                
+                <div class="nav-menu">
+                    <a href="index.html" class="nav-link active">Home</a>
+                    <div class="nav-dropdown">
+                        <a href="products.html" class="nav-link">Products <i class="fas fa-chevron-down"></i></a>
+                        <div class="dropdown-content">
+                            <a href="products.html?category=smart-watches">Smart Watches</a>
+                            <a href="products.html?category=wireless-headphones">Wireless Headphones</a>
+                            <a href="products.html?category=wired-headphones">Wired Headphones</a>
+                        </div>
+                    </div>
+                    <a href="compare.html" class="nav-link">Compare</a>
+                    <a href="about.html" class="nav-link">About</a>
+                    <a href="contact.html" class="nav-link">Contact</a>
+                </div>
+                
+                <div class="nav-actions">
+                    <a href="user_login.php" class="btn btn-outline">
+                        <i class="fas fa-user"></i> Login
+                    </a>
+                    <a href="user_login.php" class="btn btn-primary">
+                        <i class="fas fa-user-plus"></i> Sign Up
+                    </a>
+                </div>
+                
+                <div class="nav-toggle">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">Compare Tech Products Smartly</h1>
+                <p class="hero-description">
+                    Make informed decisions with our comprehensive comparison tool for smart watches, 
+                    wireless headphones, and wired headphones across all major brands.
+                </p>
+                <div class="hero-buttons">
+                    <a href="compare.html" class="btn btn-primary">Start Comparing</a>
+                    <a href="products.html" class="btn btn-secondary">Browse Products</a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="product-showcase">
+                    <div class="showcase-item watch">
+                        <img src="assets/images/products/watch-showcase.png" alt="Smart Watch" loading="lazy" onerror="this.src='https://via.placeholder.com/300x300/4361ee/ffffff?text=Smart+Watch'">
+                    </div>
+                    <div class="showcase-item headphones">
+                        <img src="assets/images/products/headphones-showcase.png" alt="Wireless Headphones" loading="lazy" onerror="this.src='https://via.placeholder.com/300x300/7209b7/ffffff?text=Headphones'">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="categories">
+        <div class="container">
+            <h2 class="section-title">Browse by Category</h2>
+            <div class="categories-grid">
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3>Smart Watches</h3>
+                    <p>Compare features, battery life, and compatibility of the latest smart watches.</p>
+                    <a href="products.html?category=smart-watches" class="category-link">Explore <i class="fas fa-arrow-right"></i></a>
+                </div>
+                
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-headphones"></i>
+                    </div>
+                    <h3>Wireless Headphones</h3>
+                    <p>Compare sound quality, battery life, and connectivity options.</p>
+                    <a href="products.html?category=wireless-headphones" class="category-link">Explore <i class="fas fa-arrow-right"></i></a>
+                </div>
+                
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-headphones-alt"></i>
+                    </div>
+                    <h3>Wired Headphones</h3>
+                    <p>Compare audio quality, comfort, and durability of wired options.</p>
+                    <a href="products.html?category=wired-headphones" class="category-link">Explore <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Products -->
+    <section class="featured-products">
+        <div class="container">
+            <h2 class="section-title">Featured Products</h2>
+            <div class="products-grid" id="featured-products">
+                <!-- Products loaded via JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Comparison Tool Preview -->
+    <section class="comparison-preview">
+        <div class="container">
+            <div class="preview-content">
+                <h2>Smart Comparison Tool</h2>
+                <p>Our advanced comparison tool lets you side-by-side compare up to 4 products with detailed specifications.</p>
+                <ul class="feature-list">
+                    <li><i class="fas fa-check"></i> Detailed specification comparison</li>
+                    <li><i class="fas fa-check"></i> Price tracking</li>
+                    <li><i class="fas fa-check"></i> User reviews integration</li>
+                    <li><i class="fas fa-check"></i> Expert ratings</li>
+                </ul>
+                <a href="compare.html" class="btn btn-primary">Try Comparison Tool</a>
+            </div>
+            <div class="preview-visual">
+                <img src="assets/images/comparison-preview.svg" alt="Comparison Tool Preview" loading="lazy" onerror="this.src='https://via.placeholder.com/500x300/667eea/ffffff?text=Comparison+Tool'">
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>TechCompare</h3>
+                    <p>Your trusted source for tech product comparisons and reviews.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="products.html">Products</a></li>
+                        <li><a href="compare.html">Compare</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Categories</h4>
+                    <ul>
+                        <li><a href="products.html?category=smart-watches">Smart Watches</a></li>
+                        <li><a href="products.html?category=wireless-headphones">Wireless Headphones</a></li>
+                        <li><a href="products.html?category=wired-headphones">Wired Headphones</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><i class="fas fa-envelope"></i> info@techcompare.com</li>
+                        <li><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
+                        <li><i class="fas fa-paper-plane"></i> <a href="contact.html" style="color: inherit;">Contact Form</a></li>
+                        <li><i class="fas fa-search"></i> <a href="check-response.php" style="color: inherit;">Check Response</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 TechCompare. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/connection-error-handler.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

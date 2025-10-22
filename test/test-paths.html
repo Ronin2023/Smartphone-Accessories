@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Path Detection Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin: 20px 0;
+        }
+        .path-info {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            border-left: 4px solid #2196f3;
+        }
+        .test-button {
+            background: #4caf50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .test-button:hover { background: #45a049; }
+        .error-button {
+            background: #f44336;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .error-button:hover { background: #da190b; }
+        .result {
+            background: #f9f9f9;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 Path Detection & Connection Error Test</h1>
+    
+    <div class="test-container">
+        <h3>Current Path Information</h3>
+        <div class="path-info">
+            <strong>Current URL:</strong> <span id="currentUrl"></span><br>
+            <strong>Pathname:</strong> <span id="pathname"></span><br>
+            <strong>Detected Base Path:</strong> <span id="basePath"></span><br>
+            <strong>Expected Error Page URL:</strong> <span id="errorPageUrl"></span><br>
+            <strong>Expected API Base:</strong> <span id="apiBase"></span>
+        </div>
+    </div>
+    
+    <div class="test-container">
+        <h3>Connection Handler Tests</h3>
+        <button class="test-button" onclick="testPathDetection()">Test Path Detection</button>
+        <button class="test-button" onclick="testApiCall()">Test API Call</button>
+        <button class="error-button" onclick="simulateConnectionError()">Simulate Connection Error</button>
+        <button class="test-button" onclick="debugConnectionHandler()">Debug Connection Handler</button>
+        
+        <div id="testResults" class="result" style="display: none;"></div>
+    </div>
+
+    <div class="test-container">
+        <h3>Manual Connection Error Test</h3>
+        <p>This will redirect to the connection error page with test data to verify the redirection works properly.</p>
+        <button class="error-button" onclick="manualErrorRedirect()">Test Error Page Redirect</button>
+    </div>
+
+    <script src="js/connection-error-handler.js"></script>
+    <script>
+        // Update path information on load
+        function updatePathInfo() {
+            document.getElementById('currentUrl').textContent = window.location.href;
+            document.getElementById('pathname').textContent = window.location.pathname;
+            
+            // Detect base path (same logic as connection handler)
+            const currentPath = window.location.pathname;
+            let basePath = '/';
+            if (currentPath.includes('/Smartphone-Accessories/')) {
+                basePath = '/Smartphone-Accessories/';
+            }
+            
+            document.getElementById('basePath').textContent = basePath;
+            document.getElementById('errorPageUrl').textContent = basePath + 'connection-error.php';
+            document.getElementById('apiBase').textContent = basePath + 'api/';
+        }
+
+        function showResult(message, isSuccess = true) {
+            const resultEl = document.getElementById('testResults');
+            resultEl.innerHTML = `<strong>${isSuccess ? '✅' : '❌'} ${message}</strong>`;
+            resultEl.style.display = 'block';
+            resultEl.style.background = isSuccess ? '#e8f5e8' : '#ffe8e8';
+            resultEl.style.borderColor = isSuccess ? '#4caf50' : '#f44336';
+        }
+
+        function testPathDetection() {
+            updatePathInfo();
+            showResult('Path detection updated! Check the values above.');
+        }
+
+        async function testApiCall() {
+            try {
+                const currentPath = window.location.pathname;
+                let basePath = '/';
+                if (currentPath.includes('/Smartphone-Accessories/')) {
+                    basePath = '/Smartphone-Accessories/';
+                }
+                
+                const apiUrl = basePath + 'api/get_products.php?limit=1';
+                console.log('Testing API call to:', apiUrl);
+                
+                const response = await fetch(apiUrl);
+                if (response.ok) {
+                    showResult(`API call successful! Response status: ${response.status}`);
+                } else {
+                    showResult(`API call failed! Response status: ${response.status}`, false);
+                }
+            } catch (error) {
+                showResult(`API call error: ${error.message}`, false);
+                console.error('API test error:', error);
+            }
+        }
+
+        function simulateConnectionError() {
+            if (window.connectionErrorHandler) {
+                showResult('Simulating connection error... You should see connection error messages.');
+                window.connectionErrorHandler.showConnectionError();
+            } else {
+                showResult('Connection error handler not found!', false);
+            }
+        }
+
+        function debugConnectionHandler() {
+            if (window.connectionErrorHandler) {
+                window.connectionErrorHandler.debugPaths();
+                showResult('Debug info logged to console. Check browser dev tools.');
+            } else {
+                showResult('Connection error handler not initialized!', false);
+            }
+        }
+
+        function manualErrorRedirect() {
+            // Store test error info
+            const errorInfo = {
+                type: 'database',
+                message: 'Manual test - simulated connection error from path test page',
+                referring_page: window.location.href,
+                timestamp: new Date().toISOString()
+            };
+            
+            sessionStorage.setItem('connectionErrorInfo', JSON.stringify(errorInfo));
+            
+            // Detect base path and redirect
+            const currentPath = window.location.pathname;
+            let basePath = '/';
+            if (currentPath.includes('/Smartphone-Accessories/')) {
+                basePath = '/Smartphone-Accessories/';
+            }
+            
+            showResult('Redirecting to connection error page...');
+            
+            setTimeout(() => {
+                window.location.href = basePath + 'connection-error.php';
+            }, 1000);
+        }
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', function() {
+            updatePathInfo();
+            
+            // Add debug function to global scope
+            window.debugPaths = updatePathInfo;
+            
+            setTimeout(() => {
+                if (window.connectionErrorHandler) {
+                    showResult('Connection Error Handler is loaded and ready!');
+                } else {
+                    showResult('Connection Error Handler not found - check console for errors.', false);
+                }
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

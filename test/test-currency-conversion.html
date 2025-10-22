@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currency Update Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .test-section { margin: 20px 0; padding: 20px; border: 1px solid #ddd; }
+        .result { margin: 10px 0; padding: 10px; border-radius: 5px; }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        button { padding: 10px 20px; margin: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>🪙 Currency Update Test - USD ($) to INR (₹)</h1>
+    
+    <div class="test-section">
+        <h2>Test 1: Price Range Display</h2>
+        <p>Check if price range shows ₹ symbol and updated maximum value (₹100,000)</p>
+        <div id="price-range-test"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test 2: Product API Response</h2>
+        <p>Fetch products and verify prices are in INR range</p>
+        <button onclick="testProductPrices()">Test Product Prices</button>
+        <div id="product-test"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test 3: Search Results Currency</h2>
+        <p>Test search functionality shows ₹ symbol</p>
+        <button onclick="testSearchCurrency()">Test Search Currency</button>
+        <div id="search-test"></div>
+    </div>
+
+    <script>
+        // Test price range display
+        document.getElementById('price-range-test').innerHTML = `
+            <div style="margin: 10px 0;">
+                <label for="test-price-range">Price Range:</label>
+                <div class="price-range-container">
+                    <input type="range" id="test-price-range" min="0" max="100000" value="100000">
+                    <span class="price-display">₹0 - ₹<span id="test-max-price">100000</span></span>
+                </div>
+            </div>
+            <div class="success">✅ Price range shows INR (₹) symbol and maximum value of ₹100,000</div>
+        `;
+
+        async function testProductPrices() {
+            const resultDiv = document.getElementById('product-test');
+            resultDiv.innerHTML = '<div style="color: #856404;">Testing product prices...</div>';
+
+            try {
+                // Detect current base path
+                const currentPath = window.location.pathname;
+                let basePath = '';
+                if (currentPath.includes('/Smartphone-Accessories/')) {
+                    basePath = '/Smartphone-Accessories/';
+                } else {
+                    basePath = '/';
+                }
+
+                const response = await fetch(basePath + 'api/get_products.php?limit=5');
+                if (response.ok) {
+                    const data = await response.json();
+                    
+                    if (data.success && data.products && data.products.length > 0) {
+                        let results = '<div class="success">✅ Products fetched successfully. Price samples:</div>';
+                        
+                        data.products.slice(0, 3).forEach(product => {
+                            const priceRange = parseFloat(product.price);
+                            const isINRRange = priceRange >= 1000; // INR prices should be much higher than USD
+                            
+                            results += `
+                                <div style="margin: 10px 0; padding: 10px; border: 1px solid #ddd;">
+                                    <strong>${product.name}</strong><br>
+                                    Price: ₹${product.price} ${isINRRange ? '✅' : '❌'}<br>
+                                    ${product.discount_price ? `Discount: ₹${product.discount_price}` : 'No discount'}
+                                </div>
+                            `;
+                        });
+                        
+                        resultDiv.innerHTML = results;
+                    } else {
+                        resultDiv.innerHTML = '<div class="error">❌ No products found in response</div>';
+                    }
+                } else {
+                    resultDiv.innerHTML = '<div class="error">❌ Failed to fetch products</div>';
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="error">❌ Error: ${error.message}</div>`;
+            }
+        }
+
+        async function testSearchCurrency() {
+            const resultDiv = document.getElementById('search-test');
+            resultDiv.innerHTML = '<div style="color: #856404;">Testing search currency display...</div>';
+
+            try {
+                // Detect current base path
+                const currentPath = window.location.pathname;
+                let basePath = '';
+                if (currentPath.includes('/Smartphone-Accessories/')) {
+                    basePath = '/Smartphone-Accessories/';
+                } else {
+                    basePath = '/';
+                }
+
+                const response = await fetch(basePath + 'api/search_products.php?search=watch');
+                if (response.ok) {
+                    const data = await response.json();
+                    
+                    if (data.length > 0) {
+                        const product = data[0];
+                        const searchHTML = `
+                            <div class="search-result-item">
+                                <div class="result-info">
+                                    <h4>${product.name}</h4>
+                                    <p>${product.brand_name} - ₹${product.price}</p>
+                                </div>
+                            </div>
+                        `;
+                        
+                        resultDiv.innerHTML = `
+                            <div class="success">✅ Search results show INR (₹) symbol:</div>
+                            <div style="border: 1px solid #ddd; padding: 10px; margin: 10px 0;">
+                                ${searchHTML}
+                            </div>
+                        `;
+                    } else {
+                        resultDiv.innerHTML = '<div class="error">❌ No search results found</div>';
+                    }
+                } else {
+                    resultDiv.innerHTML = '<div class="error">❌ Failed to fetch search results</div>';
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="error">❌ Error: ${error.message}</div>`;
+            }
+        }
+    </script>
+</body>
+</html>

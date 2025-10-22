@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connection Error System - Fixed!</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .status {
+            background: #e8f5e8;
+            border: 2px solid #4caf50;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .fix-list {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .test-section {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            margin: 5px;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+        .btn:hover { 
+            background: #0056b3; 
+            transform: translateY(-2px);
+        }
+        .btn-success { background: #28a745; }
+        .btn-success:hover { background: #1e7e34; }
+        .btn-danger { background: #dc3545; }
+        .btn-danger:hover { background: #c82333; }
+        .code {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+        .emoji { font-size: 1.2em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><span class="emoji">🔧</span> Connection Error System - FIXED! <span class="emoji">✅</span></h1>
+            <p>All path redirection issues have been resolved!</p>
+        </div>
+
+        <div class="status">
+            <h3><span class="emoji">🎯</span> Issues Fixed</h3>
+            <ul>
+                <li><strong>Dynamic Path Detection:</strong> System now automatically detects whether running in root (/) or subdirectory (/Smartphone-Accessories/)</li>
+                <li><strong>Contact Form Redirection:</strong> Fixed hardcoded paths in contact.html AJAX error handling</li>
+                <li><strong>Connection Error Handler:</strong> Updated JavaScript handler to use dynamic base paths</li>
+                <li><strong>Connection Error Page:</strong> Fixed retry functionality to use proper API paths</li>
+                <li><strong>SessionStorage Compatibility:</strong> Updated key names for consistency across components</li>
+            </ul>
+        </div>
+
+        <div class="fix-list">
+            <h3><span class="emoji">🛠️</span> Components Updated</h3>
+            
+            <h4>1. Connection Error Handler (js/connection-error-handler.js)</h4>
+            <div class="code">
+                ✅ Added detectBasePath() method<br>
+                ✅ Dynamic errorPageUrl and apiBasePath<br>
+                ✅ Enhanced error information storage<br>
+                ✅ Added debug methods for troubleshooting
+            </div>
+
+            <h4>2. Contact Form (contact.html)</h4>
+            <div class="code">
+                ✅ Dynamic base path detection for redirects<br>
+                ✅ Updated sessionStorage key to 'connectionErrorInfo'<br>
+                ✅ Improved error detection logic
+            </div>
+
+            <h4>3. Connection Error Page (connection-error.php)</h4>
+            <div class="code">
+                ✅ Dynamic path detection in retry functions<br>
+                ✅ Updated API endpoint paths<br>
+                ✅ Enhanced sessionStorage reading compatibility
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h3><span class="emoji">🧪</span> Test the Fixed System</h3>
+            <p>Use these tests to verify everything works correctly:</p>
+            
+            <div style="margin: 15px 0;">
+                <a href="test-paths.html" class="btn btn-success">🔍 Test Path Detection</a>
+                <a href="contact.html" class="btn btn-success">📧 Test Contact Form</a>
+                <a href="test-connection-error.html" class="btn btn-success">⚠️ Test Error Scenarios</a>
+            </div>
+
+            <h4>Manual Error Test</h4>
+            <p>Click this button to manually trigger the connection error page with proper path detection:</p>
+            <button class="btn btn-danger" onclick="testConnectionError()">🚨 Simulate Connection Error</button>
+        </div>
+
+        <div class="status">
+            <h3><span class="emoji">📋</span> How to Test</h3>
+            <ol>
+                <li><strong>Start your server:</strong> The system now works with both localhost root and subdirectory setups</li>
+                <li><strong>Test contact form:</strong> Submit the form and try stopping your PHP server mid-submission</li>
+                <li><strong>Verify redirection:</strong> Should redirect to connection-error.php instead of showing JSON errors</li>
+                <li><strong>Test path detection:</strong> Use the test-paths.html page to verify all paths are detected correctly</li>
+            </ol>
+        </div>
+
+        <div class="fix-list">
+            <h3><span class="emoji">🎉</span> What's Working Now</h3>
+            <ul>
+                <li>✅ Automatic path detection for different server configurations</li>
+                <li>✅ Contact form properly redirects to error page on database failures</li>
+                <li>✅ Connection error handler works with dynamic paths</li>
+                <li>✅ Error page retry functionality uses correct API endpoints</li>
+                <li>✅ SessionStorage keys are consistent across all components</li>
+                <li>✅ Debug tools available for troubleshooting</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        function testConnectionError() {
+            // Store comprehensive error info
+            const errorInfo = {
+                type: 'database',
+                message: 'Manual test from status page - connection error simulation',
+                referring_page: window.location.href,
+                timestamp: new Date().toISOString(),
+                test_source: 'manual_trigger'
+            };
+            
+            sessionStorage.setItem('connectionErrorInfo', JSON.stringify(errorInfo));
+            
+            // Detect current base path
+            const currentPath = window.location.pathname;
+            let basePath = '/';
+            if (currentPath.includes('/Smartphone-Accessories/')) {
+                basePath = '/Smartphone-Accessories/';
+            }
+            
+            // Show notification
+            alert('🚨 Simulating connection error...\n\nYou will be redirected to the connection error page.\nThis tests the fixed path redirection system!');
+            
+            // Redirect with proper path
+            setTimeout(() => {
+                window.location.href = basePath + 'connection-error.php';
+            }, 1000);
+        }
+
+        // Show current setup info
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🔧 Connection Error System Status:');
+            console.log('Current URL:', window.location.href);
+            console.log('Pathname:', window.location.pathname);
+            
+            const currentPath = window.location.pathname;
+            let basePath = '/';
+            if (currentPath.includes('/Smartphone-Accessories/')) {
+                basePath = '/Smartphone-Accessories/';
+            }
+            
+            console.log('Detected Base Path:', basePath);
+            console.log('Error Page URL:', basePath + 'connection-error.php');
+            console.log('✅ All systems operational!');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,812 @@
+<?php
+/**
+ * Special Access Token Management
+ * Admin Interface for managing special access tokens with passkey system
+ */
+
+session_start();
+require_once '../includes/config.php';
+require_once '../includes/db_connect.php';
+require_once '../includes/functions.php';
+require_once '../includes/special-access-manager.php';
+
+// SECURITY: Check authentication
+if (!isLoggedIn() || !hasAdminAccess()) {
+    header('Location: login.php');
+    exit;
+}
+
+$manager = getSpecialAccessManager();
+$message = '';
+$messageType = '';
+
+// Handle actions
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $action = $_POST['action'] ?? '';
+    
+    switch ($action) {
+        case 'create_token':
+            $name = trim($_POST['name'] ?? '');
+            $email = trim($_POST['email'] ?? '');
+            $description = trim($_POST['description'] ?? '');
+            
+            if (empty($name)) {
+                $message = 'Name is required';
+                $messageType = 'error';
+            } else {
+                $result = $manager->createToken($name, $email, $description, $_SESSION['user_id'] ?? null);
+                
+                if ($result['success']) {
+                    $message = 'Token created successfully!';
+                    $messageType = 'success';
+                    // Store token details for display
+                    $_SESSION['new_token'] = $result;
+                } else {
+                    $message = 'Failed to create token: ' . $result['error'];
+                    $messageType = 'error';
+                }
+            }
+            break;
+            
+        case 'revoke_token':
+            $tokenId = intval($_POST['token_id'] ?? 0);
+            $result = $manager->revokeToken($tokenId);
+            
+            if ($result['success']) {
+                $message = 'Token revoked successfully';
+                $messageType = 'success';
+            } else {
+                $message = 'Failed to revoke token: ' . $result['error'];
+                $messageType = 'error';
+            }
+            break;
+            
+        case 'reactivate_token':
+            $tokenId = intval($_POST['token_id'] ?? 0);
+            $result = $manager->reactivateToken($tokenId);
+            
+            if ($result['success']) {
+                $message = 'Token reactivated successfully';
+                $messageType = 'success';
+            } else {
+                $message = 'Failed to reactivate token: ' . $result['error'];
+                $messageType = 'error';
+            }
+            break;
+    }
+}
+
+// Get all tokens
+$tokens = $manager->getAllTokens();
+
+// Check for newly created token
+$newToken = null;
+if (isset($_SESSION['new_token'])) {
+    $newToken = $_SESSION['new_token'];
+    unset($_SESSION['new_token']);
+}
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Special Access Management - TechCompare Admin</title>
+    <link rel="stylesheet" href="../css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Match Settings Page Styling */
+        .dashboard-content {
+            padding: 2rem;
+            background: #f8f9fa;
+            min-height: calc(100vh - 120px);
+        }
+        
+        .settings-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .settings-card h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: #1f2937;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .token-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            transition: all 0.3s;
+        }
+        
+        .token-card:hover {
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        
+        .token-card.revoked {
+            opacity: 0.6;
+            background: #f9fafb;
+        }
+        
+        .token-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .token-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .token-status {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .status-active {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+        
+        .status-revoked {
+            background: #ffebee;
+            color: #c62828;
+        }
+        
+        .status-with-session {
+            background: #e3f2fd;
+            color: #1565c0;
+        }
+        
+        .token-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .info-item i {
+            color: #999;
+            width: 16px;
+        }
+        
+        .token-actions {
+            display: flex;
+            gap: 0.625rem;
+            flex-wrap: wrap;
+        }
+        
+        .token-actions .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .new-token-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            animation: fadeIn 0.3s;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: slideIn 0.3s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .modal-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .modal-header i {
+            font-size: 48px;
+            color: #4CAF50;
+            margin-bottom: 15px;
+        }
+        
+        .modal-header h2 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .credential-box {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        .credential-item {
+            margin-bottom: 20px;
+        }
+        
+        .credential-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .credential-label {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 5px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .credential-value {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: white;
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+        }
+        
+        .credential-text {
+            flex: 1;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            color: #333;
+            word-break: break-all;
+        }
+        
+        .copy-btn {
+            background: #2196F3;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            white-space: nowrap;
+        }
+        
+        .copy-btn:hover {
+            background: #1976D2;
+        }
+        
+        .copy-btn.copied {
+            background: #4CAF50;
+        }
+        
+        .warning-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .warning-box strong {
+            display: block;
+            margin-bottom: 8px;
+            color: #856404;
+        }
+        
+        .warning-box ul {
+            margin: 0;
+            padding-left: 20px;
+            color: #856404;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        
+        .stat-card:hover {
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transform: translateY(-2px);
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            font-size: 0.875rem;
+            color: #6b7280;
+            font-weight: 500;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+        
+        .empty-state i {
+            font-size: 64px;
+            margin-bottom: 20px;
+            opacity: 0.3;
+        }
+
+        .info-box {
+            background: #eff6ff;
+            padding: 1rem 1.25rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid #3b82f6;
+        }
+
+        .info-box h4 {
+            margin: 0 0 0.75rem 0;
+            color: #1e40af;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .info-box ul {
+            margin: 0;
+            padding-left: 1.25rem;
+            font-size: 0.8125rem;
+            color: #4b5563;
+        }
+
+        .info-box li {
+            margin-bottom: 0.375rem;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body class="admin-body">
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-balance-scale-right"></i>
+                    <span>TechCompare</span>
+                </div>
+                <p class="admin-welcome">
+                    Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?><br>
+                    <small>(<?php echo getUserRoleDisplay($_SESSION['role'] ?? 'editor'); ?>)</small>
+                </p>
+            </div>
+
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="nav-item">
+                        <a href="dashboard.php">
+                            <i class="fas fa-th-large"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="products.php">
+                            <i class="fas fa-box"></i> Products
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="categories.php">
+                            <i class="fas fa-tags"></i> Categories
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="brands.php">
+                            <i class="fas fa-award"></i> Brands
+                        </a>
+                    </li>
+                    <?php if (isAdmin()): ?>
+                    <li class="nav-item">
+                        <a href="users.php">
+                            <i class="fas fa-users"></i> Users
+                        </a>
+                    </li>
+                    <?php endif; ?>
+                    <li class="nav-item">
+                        <a href="contacts.php">
+                            <i class="fas fa-envelope"></i> Contact Messages
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="settings.php">
+                            <i class="fas fa-cog"></i> Settings
+                        </a>
+                    </li>
+                    <li class="nav-item active">
+                        <a href="special-access.php">
+                            <i class="fas fa-key"></i> Special Access
+                        </a>
+                    </li>
+                    <li class="nav-divider"></li>
+                    <li class="nav-item">
+                        <a href="../index.html" target="_blank">
+                            <i class="fas fa-external-link-alt"></i> View Site
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="logout.php">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <div class="admin-header">
+                <h1><i class="fas fa-key"></i> Special Access Management</h1>
+                <span><?php echo date('F j, Y'); ?></span>
+            </div>
+
+            <div class="dashboard-content">
+                <?php if ($message): ?>
+                    <div class="alert alert-<?php echo $messageType === 'error' ? 'danger' : $messageType; ?>">
+                        <i class="fas fa-<?php echo $messageType === 'success' ? 'check-circle' : ($messageType === 'error' ? 'exclamation-circle' : 'info-circle'); ?>"></i>
+                        <?php echo htmlspecialchars($message); ?>
+                    </div>
+                <?php endif; ?>
+
+                <!-- Info Box -->
+                <div class="info-box">
+                    <h4><i class="fas fa-info-circle"></i> How Special Access Works</h4>
+                    <ul>
+                        <li><strong>Step 1:</strong> Create a token - generates unique access link + passkey</li>
+                        <li><strong>Step 2:</strong> Share both credentials with developer/editor</li>
+                        <li><strong>Step 3:</strong> User opens link, enters passkey, gets full site access</li>
+                        <li><strong>Security:</strong> Only 1 active session per passkey, admin can revoke anytime</li>
+                        <li><strong>Duration:</strong> Access lasts until maintenance mode ends</li>
+                    </ul>
+                </div>
+
+                <!-- Statistics -->
+                <div class="stats-grid">
+                    <?php
+                    $totalTokens = count($tokens);
+                    $activeTokens = count(array_filter($tokens, fn($t) => $t['is_active']));
+                    $revokedTokens = $totalTokens - $activeTokens;
+                    $activeSessions = array_sum(array_column($tokens, 'active_sessions'));
+                    ?>
+                    <div class="stat-card">
+                        <div class="stat-value"><?php echo $totalTokens; ?></div>
+                        <div class="stat-label">Total Tokens</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value"><?php echo $activeTokens; ?></div>
+                        <div class="stat-label">Active Tokens</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value"><?php echo $activeSessions; ?></div>
+                        <div class="stat-label">Active Sessions</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value"><?php echo $revokedTokens; ?></div>
+                        <div class="stat-label">Revoked Tokens</div>
+                    </div>
+                </div>
+
+                <!-- Create New Token Form -->
+                <div class="settings-card">
+                    <h2><i class="fas fa-plus-circle"></i> Create New Token</h2>
+                    
+                    <form method="POST" style="max-width: 600px;">
+                        <input type="hidden" name="action" value="create_token">
+                        
+                        <div class="form-group" style="margin-bottom: 1.5rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #374151;">Name / Role *</label>
+                            <input type="text" name="name" class="form-control" required 
+                                   placeholder="e.g., John Doe - Developer"
+                                   style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 6px; font-size: 0.875rem;">
+                        </div>
+                        
+                        <div class="form-group" style="margin-bottom: 1.5rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #374151;">Email (optional)</label>
+                            <input type="email" name="email" class="form-control" 
+                                   placeholder="john@example.com"
+                                   style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 6px; font-size: 0.875rem;">
+                        </div>
+                        
+                        <div class="form-group" style="margin-bottom: 1.5rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #374151;">Description (optional)</label>
+                            <textarea name="description" class="form-control" rows="2" 
+                                      placeholder="Purpose of this access token"
+                                      style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 6px; font-size: 0.875rem; resize: vertical;"></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary" style="padding: 0.75rem 1.5rem; border-radius: 6px; border: none; cursor: pointer; font-weight: 600; transition: all 0.3s;">
+                            <i class="fas fa-plus"></i> Generate Token & Passkey
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Existing Tokens -->
+                <div class="settings-card">
+                    <h2><i class="fas fa-list"></i> Access Tokens (<?php echo count($tokens); ?>)</h2>
+                    
+                    <?php if (empty($tokens)): ?>
+                        <div class="empty-state" style="text-align: center; padding: 3rem 1rem; color: #9ca3af;">
+                            <i class="fas fa-key" style="font-size: 4rem; margin-bottom: 1rem; opacity: 0.3;"></i>
+                            <p style="font-size: 1.125rem; font-weight: 600; color: #6b7280; margin-bottom: 0.5rem;">No tokens created yet</p>
+                            <p style="font-size: 0.875rem; color: #9ca3af;">Create your first special access token to get started</p>
+                        </div>
+                    <?php else: ?>
+                        <?php foreach ($tokens as $token): ?>
+                            <div class="token-card <?php echo $token['is_active'] ? '' : 'revoked'; ?>">
+                                <div class="token-header">
+                                    <div class="token-name">
+                                        <i class="fas fa-user"></i> <?php echo htmlspecialchars($token['name']); ?>
+                                    </div>
+                                    <div>
+                                        <?php if ($token['is_active']): ?>
+                                            <?php if ($token['active_sessions'] > 0): ?>
+                                                <span class="token-status status-with-session">
+                                                    <i class="fas fa-circle"></i> Active Session
+                                                </span>
+                                            <?php else: ?>
+                                                <span class="token-status status-active">
+                                                    <i class="fas fa-check"></i> Active
+                                                </span>
+                                            <?php endif; ?>
+                                        <?php else: ?>
+                                            <span class="token-status status-revoked">
+                                                <i class="fas fa-ban"></i> Revoked
+                                            </span>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                                
+                                <div class="token-info">
+                                    <?php if ($token['email']): ?>
+                                        <div class="info-item">
+                                            <i class="fas fa-envelope"></i>
+                                            <span><?php echo htmlspecialchars($token['email']); ?></span>
+                                        </div>
+                                    <?php endif; ?>
+                                    <div class="info-item">
+                                        <i class="fas fa-calendar"></i>
+                                        <span>Created: <?php echo date('M j, Y', strtotime($token['created_at'])); ?></span>
+                                    </div>
+                                    <div class="info-item">
+                                        <i class="fas fa-clock"></i>
+                                        <span>Used: <?php echo $token['usage_count']; ?> times</span>
+                                    </div>
+                                    <?php if ($token['last_used_at']): ?>
+                                        <div class="info-item">
+                                            <i class="fas fa-history"></i>
+                                            <span>Last: <?php echo date('M j, Y H:i', strtotime($token['last_used_at'])); ?></span>
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
+                                
+                                <?php if ($token['description']): ?>
+                                    <div style="margin: 15px 0; padding: 10px; background: #f8f9fa; border-radius: 4px; font-size: 14px; color: #666;">
+                                        <i class="fas fa-info-circle"></i> <?php echo htmlspecialchars($token['description']); ?>
+                                    </div>
+                                <?php endif; ?>
+                                
+                                <div class="token-actions" style="margin-top: 1rem;">
+                                    <button onclick="viewToken('<?php echo $token['token']; ?>', '<?php echo $token['passkey']; ?>')" 
+                                            class="btn btn-sm" 
+                                            style="background: #3b82f6; color: white; padding: 0.5rem 1rem; border-radius: 6px; border: none; cursor: pointer; font-size: 0.8125rem; font-weight: 600; transition: all 0.3s;">
+                                        <i class="fas fa-eye"></i> View Credentials
+                                    </button>
+                                    
+                                    <?php if ($token['is_active']): ?>
+                                        <form method="POST" style="display: inline;" 
+                                              onsubmit="return confirm('Revoke access for <?php echo htmlspecialchars($token['name']); ?>?\n\nThis will immediately terminate their session.')">
+                                            <input type="hidden" name="action" value="revoke_token">
+                                            <input type="hidden" name="token_id" value="<?php echo $token['id']; ?>">
+                                            <button type="submit" class="btn btn-sm" 
+                                                    style="background: #ef4444; color: white; padding: 0.5rem 1rem; border-radius: 6px; border: none; cursor: pointer; font-size: 0.8125rem; font-weight: 600; transition: all 0.3s;">
+                                                <i class="fas fa-ban"></i> Revoke Access
+                                            </button>
+                                        </form>
+                                    <?php else: ?>
+                                        <form method="POST" style="display: inline;">
+                                            <input type="hidden" name="action" value="reactivate_token">
+                                            <input type="hidden" name="token_id" value="<?php echo $token['id']; ?>">
+                                            <button type="submit" class="btn btn-sm" 
+                                                    style="background: #10b981; color: white; padding: 0.5rem 1rem; border-radius: 6px; border: none; cursor: pointer; font-size: 0.8125rem; font-weight: 600; transition: all 0.3s;">
+                                                <i class="fas fa-check"></i> Reactivate
+                                            </button>
+                                        </form>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- New Token Modal -->
+    <?php if ($newToken): ?>
+        <div class="new-token-modal" id="newTokenModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <i class="fas fa-check-circle"></i>
+                    <h2>Token Created Successfully!</h2>
+                    <p>Share these credentials with <strong><?php echo htmlspecialchars($newToken['name']); ?></strong></p>
+                </div>
+
+                <div class="credential-box">
+                    <div class="credential-item">
+                        <div class="credential-label">🔗 Access Link</div>
+                        <div class="credential-value">
+                            <span class="credential-text" id="accessLink">
+                                <?php echo SITE_URL; ?>?special_access=<?php echo $newToken['token']; ?>
+                            </span>
+                            <button class="copy-btn" onclick="copyToClipboard('accessLink', this)">
+                                <i class="fas fa-copy"></i> Copy
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="credential-item">
+                        <div class="credential-label">🔑 Passkey</div>
+                        <div class="credential-value">
+                            <span class="credential-text" id="passkey">
+                                <?php echo $newToken['passkey']; ?>
+                            </span>
+                            <button class="copy-btn" onclick="copyToClipboard('passkey', this)">
+                                <i class="fas fa-copy"></i> Copy
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="warning-box">
+                    <strong><i class="fas fa-exclamation-triangle"></i> Important!</strong>
+                    <ul>
+                        <li>Save these credentials now - you won't see them again</li>
+                        <li>User must use <strong>BOTH</strong> the access link AND passkey</li>
+                        <li>Only one active session allowed per passkey</li>
+                        <li>Access lasts until maintenance mode ends</li>
+                        <li>You can revoke access anytime from this page</li>
+                    </ul>
+                </div>
+
+                <button onclick="document.getElementById('newTokenModal').remove()" class="btn btn-primary" style="width: 100%;">
+                    <i class="fas fa-check"></i> Got It!
+                </button>
+            </div>
+        </div>
+    <?php endif; ?>
+
+    <script>
+        function copyToClipboard(elementId, button) {
+            const element = document.getElementById(elementId);
+            const text = element.textContent.trim();
+            
+            navigator.clipboard.writeText(text).then(() => {
+                const originalHTML = button.innerHTML;
+                button.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                button.classList.add('copied');
+                
+                setTimeout(() => {
+                    button.innerHTML = originalHTML;
+                    button.classList.remove('copied');
+                }, 2000);
+            }).catch(err => {
+                alert('Failed to copy. Please copy manually.');
+            });
+        }
+
+        function viewToken(token, passkey) {
+            const accessLink = '<?php echo SITE_URL; ?>?special_access=' + token;
+            
+            const modal = document.createElement('div');
+            modal.className = 'new-token-modal';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <i class="fas fa-key"></i>
+                        <h2>Token Credentials</h2>
+                    </div>
+
+                    <div class="credential-box">
+                        <div class="credential-item">
+                            <div class="credential-label">🔗 Access Link</div>
+                            <div class="credential-value">
+                                <span class="credential-text" id="viewAccessLink">${accessLink}</span>
+                                <button class="copy-btn" onclick="copyToClipboard('viewAccessLink', this)">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="credential-item">
+                            <div class="credential-label">🔑 Passkey</div>
+                            <div class="credential-value">
+                                <span class="credential-text" id="viewPasskey">${passkey}</span>
+                                <button class="copy-btn" onclick="copyToClipboard('viewPasskey', this)">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button onclick="this.closest('.new-token-modal').remove()" class="btn btn-primary" style="width: 100%;">
+                        <i class="fas fa-times"></i> Close
+                    </button>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            // Close on background click
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.remove();
+                }
+            });
+        }
+
+        // Close modal on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                const modals = document.querySelectorAll('.new-token-modal');
+                modals.forEach(modal => modal.remove());
+            }
+        });
+    </script>
+</body>
+</html>
