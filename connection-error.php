@@ -372,7 +372,7 @@ $backgroundGradient = $isServerError ?
 
             <!-- Action Buttons -->
             <div class="retry-buttons">
-                <a href="index.html" class="btn btn-home">
+                <a href="index.php" class="btn btn-home">
                     <i class="fas fa-home"></i>
                     Go to Homepage
                 </a>
@@ -380,7 +380,7 @@ $backgroundGradient = $isServerError ?
                     <i class="fas fa-arrow-left"></i>
                     Try Again
                 </a>
-                <a href="contact.html" class="btn btn-home">
+                <a href="contact.php" class="btn btn-home">
                     <i class="fas fa-envelope"></i>
                     Contact Support
                 </a>

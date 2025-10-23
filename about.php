@@ -1,0 +1,446 @@
+<?php
+// About page - Simple version without maintenance mode complexity
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - TechCompare</title>
+    <meta name="description" content="Learn about TechCompare - your trusted source for smart tech product comparisons, reviews, and buying guides.">
+    <meta name="keywords" content="about techcompare, tech reviews, product comparison, buying guide">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/about.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/theme.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <a href="index.php" class="nav-logo">
+                    <i class="fas fa-balance-scale-right"></i>
+                    TechCompare
+                </a>
+                
+                <div class="nav-menu">
+                    <a href="index.php" class="nav-link">Home</a>
+                    <div class="nav-dropdown">
+                        <a href="products.php" class="nav-link">Products <i class="fas fa-chevron-down"></i></a>
+                        <div class="dropdown-content">
+                            <a href="products.html?category=smart-watches">Smart Watches</a>
+                            <a href="products.html?category=wireless-headphones">Wireless Headphones</a>
+                            <a href="products.html?category=wired-headphones">Wired Headphones</a>
+                        </div>
+                    </div>
+                    <a href="compare.php" class="nav-link">Compare</a>
+                    <a href="about.php" class="nav-link active">About</a>
+                    <a href="contact.php" class="nav-link">Contact</a>
+                </div>
+                
+                <div class="nav-actions">
+                    <a href="user_login.php" class="btn btn-outline">
+                        <i class="fas fa-user"></i> Login
+                    </a>
+                    <a href="user_login.php" class="btn btn-primary">
+                        <i class="fas fa-user-plus"></i> Sign Up
+                    </a>
+                </div>
+                
+                <div class="nav-toggle">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- About Header -->
+        <section class="about-header">
+            <div class="container">
+                <h1 class="about-title">About TechCompare</h1>
+                <p class="about-subtitle">
+                    We're passionate about helping you make informed decisions when choosing tech products. 
+                    Our comprehensive comparison platform simplifies the research process, saving you time and money 
+                    while ensuring you get the best value for your investment.
+                </p>
+            </div>
+        </section>
+
+        <!-- Our Story -->
+        <section class="story-section">
+            <div class="container">
+                <div class="story-content">
+                    <div class="story-text scroll-reveal">
+                        <h2>Our Story</h2>
+                        <p>
+                            Founded in 2024, TechCompare was born from a simple frustration: the difficulty of 
+                            comparing tech products across different websites and specifications. We realized that 
+                            consumers needed a centralized platform where they could easily compare features, 
+                            prices, and reviews of similar products.
+                        </p>
+                        <p>
+                            Today, we've grown into a trusted resource for millions of tech enthusiasts, helping 
+                            them navigate the complex world of consumer electronics with confidence and clarity.
+                        </p>
+                    </div>
+                    <div class="story-visual scroll-reveal">
+                        <div class="story-image">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="story-stats">
+                    <div class="stat-item scroll-reveal">
+                        <div class="stat-number" data-target="100000">0</div>
+                        <div class="stat-label">Happy Customers</div>
+                    </div>
+                    <div class="stat-item scroll-reveal">
+                        <div class="stat-number" data-target="5000">0</div>
+                        <div class="stat-label">Products Compared</div>
+                    </div>
+                    <div class="stat-item scroll-reveal">
+                        <div class="stat-number" data-target="50">0</div>
+                        <div class="stat-label">Tech Categories</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Our Mission -->
+        <section class="mission-section">
+            <div class="container">
+                <div class="mission-content scroll-reveal">
+                    <div class="mission-icon">
+                        <i class="fas fa-bullseye"></i>
+                    </div>
+                    <h2>Our Mission</h2>
+                    <p>
+                        To democratize technology purchasing decisions by providing transparent, 
+                        comprehensive, and unbiased product comparisons that empower consumers 
+                        to choose the right tech products for their needs and budget.
+                    </p>
+                    
+                    <div class="mission-values">
+                        <div class="value-item scroll-reveal">
+                            <div class="value-icon">
+                                <i class="fas fa-target"></i>
+                            </div>
+                            <div class="value-title">Transparency First</div>
+                        </div>
+                        <div class="value-item scroll-reveal">
+                            <div class="value-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="value-title">User-Centric</div>
+                        </div>
+                        <div class="value-item scroll-reveal">
+                            <div class="value-icon">
+                                <i class="fas fa-lightbulb"></i>
+                            </div>
+                            <div class="value-title">Innovation</div>
+                        </div>
+                        <div class="value-item scroll-reveal">
+                            <div class="value-icon">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <div class="value-title">Trust & Security</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- What We Do -->
+        <section class="what-we-do">
+            <div class="container">
+                <h2 class="section-title">What We Do</h2>
+                <div class="services-grid">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-balance-scale"></i>
+                        </div>
+                        <h3>Product Comparisons</h3>
+                        <p>
+                            Side-by-side comparisons of tech products with detailed specifications, 
+                            features, and pricing information to help you make informed decisions.
+                        </p>
+                    </div>
+                    
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <h3>Expert Reviews</h3>
+                        <p>
+                            In-depth reviews from our team of tech experts who test products thoroughly 
+                            to provide honest, unbiased opinions and recommendations.
+                        </p>
+                    </div>
+                    
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3>Price Tracking</h3>
+                        <p>
+                            Monitor price changes across multiple retailers to help you find the best 
+                            deals and know when it's the right time to buy.
+                        </p>
+                    </div>
+                    
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <h3>Smart Search</h3>
+                        <p>
+                            Advanced search and filtering capabilities to help you quickly find products 
+                            that match your specific needs and preferences.
+                        </p>
+                    </div>
+                    
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-book-open"></i>
+                        </div>
+                        <h3>Buying Guides</h3>
+                        <p>
+                            Comprehensive buying guides that explain key features, technologies, 
+                            and considerations for different product categories.
+                        </p>
+                    </div>
+                    
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <h3>Mobile Experience</h3>
+                        <p>
+                            Optimized mobile experience so you can research and compare products 
+                            anywhere, anytime, on any device.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Our Values -->
+        <section class="our-values">
+            <div class="container">
+                <h2 class="section-title">Our Values</h2>
+                <div class="values-grid">
+                    <div class="value-card">
+                        <div class="value-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3>Trust & Integrity</h3>
+                        <p>
+                            We maintain the highest standards of integrity in all our reviews and 
+                            recommendations, never compromising our independence for commercial gain.
+                        </p>
+                    </div>
+                    
+                    <div class="value-card">
+                        <div class="value-icon">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <h3>Transparency</h3>
+                        <p>
+                            Complete transparency in our methodology, testing procedures, and any 
+                            commercial relationships that might influence our content.
+                        </p>
+                    </div>
+                    
+                    <div class="value-card">
+                        <div class="value-icon">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <h3>Education</h3>
+                        <p>
+                            We believe in educating our users about technology, helping them understand 
+                            features and specifications so they can make their own informed decisions.
+                        </p>
+                    </div>
+                    
+                    <div class="value-card">
+                        <div class="value-icon">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <h3>Innovation</h3>
+                        <p>
+                            Constantly innovating our platform and tools to provide the best possible 
+                            user experience and most valuable insights.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Team Section -->
+        <section class="team-section">
+            <div class="container">
+                <div class="team-header scroll-reveal">
+                    <h2>Meet Our Team</h2>
+                    <p>Passionate professionals dedicated to revolutionizing how you discover and compare technology products.</p>
+                </div>
+                <div class="team-grid">
+                    <div class="team-member scroll-reveal">
+                        <div class="member-avatar">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <h3 class="member-name">Alex Johnson</h3>
+                        <p class="member-role">Founder & CEO</p>
+                        <p class="member-bio">
+                            Tech enthusiast with 15+ years in the industry. Passionate about 
+                            making technology accessible to everyone.
+                        </p>
+                        <div class="member-social">
+                            <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        </div>
+                    </div>
+                    
+                    <div class="team-member scroll-reveal">
+                        <div class="member-avatar">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h3 class="member-name">Sarah Chen</h3>
+                        <p class="member-role">Chief Technology Officer</p>
+                        <p class="member-bio">
+                            Expert in web technologies and user experience design. Leads our 
+                            platform development and innovation initiatives.
+                        </p>
+                        <div class="member-social">
+                            <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                    
+                    
+                    <div class="team-member scroll-reveal">
+                        <div class="member-avatar">
+                            <i class="fas fa-edit"></i>
+                        </div>
+                        <h3 class="member-name">Mike Rodriguez</h3>
+                        <p class="member-role">Head of Content</p>
+                        <p class="member-bio">
+                            Veteran tech journalist with expertise in consumer electronics. 
+                            Oversees all reviews and content quality.
+                        </p>
+                        <div class="member-social">
+                            <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        </div>
+                    </div>
+                    
+                    <div class="team-member scroll-reveal">
+                        <div class="member-avatar">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                        <h3 class="member-name">Emma Wilson</h3>
+                        <p class="member-role">Data Analyst</p>
+                        <p class="member-bio">
+                            Specializes in market research and product data analysis. 
+                            Ensures our comparisons are comprehensive and accurate.
+                        </p>
+                        <div class="member-social">
+                            <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact CTA -->
+        <section class="contact-cta-section">
+            <div class="container">
+                <div class="contact-cta-content scroll-reveal">
+                    <h2>Ready to Start Comparing?</h2>
+                    <p>
+                        Join thousands of satisfied customers who trust TechCompare for their 
+                        technology purchasing decisions. Get started today!
+                    </p>
+                    <div class="cta-buttons">
+                        <a href="products.php" class="cta-btn primary">
+                            <i class="fas fa-search"></i> Browse Products
+                        </a>
+                        <a href="compare.php" class="cta-btn">
+                            <i class="fas fa-balance-scale"></i> Start Comparing
+                        </a>
+                        <a href="contact.php" class="cta-btn">
+                            <i class="fas fa-envelope"></i> Contact Us
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>TechCompare</h3>
+                    <p>Your trusted source for tech product comparisons and reviews.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.php">Home</a></li>
+                        <li><a href="products.php">Products</a></li>
+                        <li><a href="compare.php">Compare</a></li>
+                        <li><a href="about.php">About Us</a></li>
+                        <li><a href="contact.php">Contact Us</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Categories</h4>
+                    <ul>
+                        <li><a href="products.html?category=smart-watches">Smart Watches</a></li>
+                        <li><a href="products.html?category=wireless-headphones">Wireless Headphones</a></li>
+                        <li><a href="products.html?category=wired-headphones">Wired Headphones</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><i class="fas fa-envelope"></i> info@techcompare.com</li>
+                        <li><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
+                        <li><i class="fas fa-paper-plane"></i> <a href="contact.php" style="color: inherit;">Contact Form</a></li>
+                        <li><i class="fas fa-search"></i> <a href="check-response.php" style="color: inherit;">Check Response</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 TechCompare. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/theme.js"></script>
+    <script src="js/connection-error-handler.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/about.js"></script>
+</body>
+</html>

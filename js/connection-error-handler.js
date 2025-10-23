@@ -355,7 +355,7 @@ document.head.appendChild(connectionErrorStyles);
 document.addEventListener('DOMContentLoaded', function() {
     // Only initialize if not already done and not on the connection error page
     if (!window.connectionErrorHandler && 
-        !window.location.pathname.includes('connection-error.html') && 
+        !window.location.pathname.includes('connection-error.php') && 
         !window.location.pathname.includes('connection-error.php')) {
         
         window.connectionErrorHandler = new ConnectionErrorHandler();

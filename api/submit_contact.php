@@ -390,7 +390,7 @@ function showDirectAccessPage() {
                 <li>Check response status - use our response portal</li>
                 <li>Access admin panel - use the admin dashboard</li>
             </ul>
-            <a href="../contact.html" class="btn">
+            <a href="../contact.php" class="btn">
                 <i class="fas fa-envelope"></i> Contact Form
             </a>
             <a href="../check-response.php" class="btn">
@@ -519,7 +519,7 @@ function showResultPage($success, $message, $submissionId = null, $email = null)
             </div>
             <?php endif; ?>
             
-            <a href="../contact.html" class="btn">
+            <a href="../contact.php" class="btn">
                 <i class="fas fa-envelope"></i> Submit Another Message
             </a>
             
@@ -529,7 +529,7 @@ function showResultPage($success, $message, $submissionId = null, $email = null)
             </a>
             <?php endif; ?>
             
-            <a href="../index.html" class="btn">
+            <a href="../index.php" class="btn">
                 <i class="fas fa-home"></i> Back to Home
             </a>
         </div>

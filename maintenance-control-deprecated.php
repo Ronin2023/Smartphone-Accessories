@@ -206,7 +206,7 @@ http_response_code(403);
                 <i class="fas fa-sign-in-alt"></i>
                 Admin Login
             </a>
-            <a href="index.html" class="btn btn-secondary">
+            <a href="index.php" class="btn btn-secondary">
                 <i class="fas fa-home"></i>
                 Go Home
             </a>

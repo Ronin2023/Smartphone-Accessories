@@ -926,7 +926,7 @@ closeDB($pdo);
                 <div class="support-section">
                     <div class="support-header">
                         <h3><i class="fas fa-life-ring"></i> Support Tickets</h3>
-                        <a href="contact.html" class="btn btn-primary">
+                        <a href="contact.php" class="btn btn-primary">
                             <i class="fas fa-plus"></i> Create New Ticket
                         </a>
                     </div>
@@ -977,7 +977,7 @@ closeDB($pdo);
                             </div>
                             <h4>No Support Tickets</h4>
                             <p>You haven't submitted any support tickets yet. If you need help, feel free to contact our support team.</p>
-                            <a href="contact.html" class="btn btn-primary">
+                            <a href="contact.php" class="btn btn-primary">
                                 <i class="fas fa-plus"></i> Create Your First Ticket
                             </a>
                         </div>

@@ -369,8 +369,47 @@
     </style>
 </head>
 <body>
-    <!-- Include Header -->
-    <div id="header-placeholder"></div>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <a href="index.php" class="nav-logo">
+                    <i class="fas fa-balance-scale-right"></i>
+                    TechCompare
+                </a>
+                
+                <div class="nav-menu">
+                    <a href="index.php" class="nav-link">Home</a>
+                    <div class="nav-dropdown">
+                        <a href="products.php" class="nav-link">Products <i class="fas fa-chevron-down"></i></a>
+                        <div class="dropdown-content">
+                            <a href="products.php?category=smart-watches">Smart Watches</a>
+                            <a href="products.php?category=wireless-headphones">Wireless Headphones</a>
+                            <a href="products.php?category=wired-headphones">Wired Headphones</a>
+                        </div>
+                    </div>
+                    <a href="compare.php" class="nav-link">Compare</a>
+                    <a href="about.php" class="nav-link">About</a>
+                    <a href="contact.php" class="nav-link active">Contact</a>
+                </div>
+                
+                <div class="nav-actions">
+                    <a href="user_login.php" class="btn btn-outline">
+                        <i class="fas fa-user"></i> Login
+                    </a>
+                    <a href="user_login.php" class="btn btn-primary">
+                        <i class="fas fa-user-plus"></i> Sign Up
+                    </a>
+                </div>
+                
+                <div class="nav-toggle">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+    </header>
 
     <!-- Contact Hero Section -->
     <section class="contact-hero">

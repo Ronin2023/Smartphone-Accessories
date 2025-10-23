@@ -158,8 +158,8 @@
         ?>
         
         <div class="back-link">
-            <a href="contact.html"><i class="fas fa-arrow-left"></i> Back to Contact Form</a> |
-            <a href="test-direct-api.html"><i class="fas fa-vial"></i> Test Direct API</a>
+            <a href="contact.php"><i class="fas fa-arrow-left"></i> Back to Contact Form</a> |
+            <a href="test/test-direct-api.html"><i class="fas fa-vial"></i> Test Direct API</a>
         </div>
     </div>
 

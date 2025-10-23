@@ -519,7 +519,7 @@ $stats = $stats_stmt->fetchAll(PDO::FETCH_ASSOC);
                 </ul>
                 
                 <div class="sidebar-footer">
-                    <a href="../index.html" class="nav-link" target="_blank">
+                    <a href="../index.php" class="nav-link" target="_blank">
                         <i class="fas fa-external-link-alt"></i>
                         <span>View Site</span>
                     </a>

@@ -277,7 +277,7 @@ if (!isLoggedIn() && isset($_COOKIE['admin_remember_token'])) {
         <!-- Login Footer -->
         <div class="login-footer">
             <p>
-                <a href="../index.html">
+                <a href="../index.php">
                     <i class="fas fa-arrow-left"></i>
                     Back to Main Site
                 </a>

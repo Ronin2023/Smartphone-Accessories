@@ -139,8 +139,14 @@ if ($submission_id && $email) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Check Response Status - TechCompare</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/theme.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        body {
+            padding-top: 80px; /* Add space for fixed navbar */
+            background: #f5f7fa;
+        }
+        
         .response-portal {
             max-width: 800px;
             margin: 50px auto;
@@ -153,21 +159,26 @@ if ($submission_id && $email) {
         .portal-header {
             text-align: center;
             margin-bottom: 30px;
-            padding-bottom: 20px;
+            padding: 30px 20px 20px;
             border-bottom: 2px solid #f0f0f0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px 15px 0 0;
+            margin: -20px -20px 30px -20px;
         }
         
         .portal-header h1 {
-            color: #333;
+            color: white;
             margin-bottom: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 15px;
+            font-size: 2rem;
         }
         
         .portal-header p {
-            color: #666;
+            color: rgba(255, 255, 255, 0.95);
             font-size: 1.1rem;
         }
         
@@ -359,9 +370,19 @@ if ($submission_id && $email) {
         }
         
         @media (max-width: 768px) {
+            body {
+                padding-top: 70px; /* Adjust for smaller navbar on mobile */
+            }
+            
             .response-portal {
                 margin: 20px;
                 padding: 15px;
+            }
+            
+            .portal-header h1 {
+                font-size: 1.5rem;
+                flex-direction: column;
+                gap: 10px;
             }
             
             .submission-meta {
@@ -396,7 +417,47 @@ if ($submission_id && $email) {
     </style>
 </head>
 <body>
-    <?php include 'templates/header.html'; ?>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <a href="index.php" class="nav-logo">
+                    <i class="fas fa-balance-scale-right"></i>
+                    TechCompare
+                </a>
+                
+                <div class="nav-menu">
+                    <a href="index.php" class="nav-link">Home</a>
+                    <div class="nav-dropdown">
+                        <a href="products.php" class="nav-link">Products <i class="fas fa-chevron-down"></i></a>
+                        <div class="dropdown-content">
+                            <a href="products.php?category=smart-watches">Smart Watches</a>
+                            <a href="products.php?category=wireless-headphones">Wireless Headphones</a>
+                            <a href="products.php?category=wired-headphones">Wired Headphones</a>
+                        </div>
+                    </div>
+                    <a href="compare.php" class="nav-link">Compare</a>
+                    <a href="about.php" class="nav-link">About</a>
+                    <a href="contact.php" class="nav-link">Contact</a>
+                </div>
+                
+                <div class="nav-actions">
+                    <a href="user_login.php" class="btn btn-outline">
+                        <i class="fas fa-user"></i> Login
+                    </a>
+                    <a href="user_login.php" class="btn btn-primary">
+                        <i class="fas fa-user-plus"></i> Sign Up
+                    </a>
+                </div>
+                
+                <div class="nav-toggle">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+    </header>
     
     <div class="response-portal">
         <div class="portal-header">
@@ -405,6 +466,12 @@ if ($submission_id && $email) {
                 Check Response Status
             </h1>
             <p>Track the status of your inquiry and view admin responses</p>
+            <div style="margin-top: 15px;">
+                <a href="contact.php" style="color: white; text-decoration: none; padding: 8px 20px; background: rgba(255,255,255,0.2); border-radius: 20px; display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s; border: 1px solid rgba(255,255,255,0.3);" onmouseover="this.style.background='rgba(255,255,255,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Contact
+                </a>
+            </div>
         </div>
         
         <?php if (!$submission && !isset($submissions)): ?>
@@ -694,7 +761,7 @@ if ($submission_id && $email) {
                     Check Another Response
                 </a>
                 <span style="margin: 0 20px; color: #ccc;">|</span>
-                <a href="index.html" class="back-link">
+                <a href="index.php" class="back-link">
                     <i class="fas fa-home"></i>
                     Back to Home
                 </a>
@@ -888,5 +955,8 @@ if ($submission_id && $email) {
             });
         });
     </script>
+    
+    <!-- Dark Mode / Light Mode Script -->
+    <script src="js/theme.js"></script>
 </body>
 </html>
