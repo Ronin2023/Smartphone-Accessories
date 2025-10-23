@@ -12,5 +12,5 @@ if (isset($_COOKIE['remember_token'])) {
 }
 
 // Redirect to login page
-redirect('login.php?logged_out=1');
+redirect('index?logged_out=1');
 ?>

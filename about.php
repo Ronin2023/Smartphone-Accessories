@@ -22,31 +22,31 @@
     <header class="header">
         <nav class="navbar">
             <div class="nav-container">
-                <a href="index.php" class="nav-logo">
+                <a href="index" class="nav-logo">
                     <i class="fas fa-balance-scale-right"></i>
                     TechCompare
                 </a>
                 
                 <div class="nav-menu">
-                    <a href="index.php" class="nav-link">Home</a>
+                    <a href="index" class="nav-link">Home</a>
                     <div class="nav-dropdown">
-                        <a href="products.php" class="nav-link">Products <i class="fas fa-chevron-down"></i></a>
+                        <a href="products" class="nav-link">Products <i class="fas fa-chevron-down"></i></a>
                         <div class="dropdown-content">
                             <a href="products.html?category=smart-watches">Smart Watches</a>
                             <a href="products.html?category=wireless-headphones">Wireless Headphones</a>
                             <a href="products.html?category=wired-headphones">Wired Headphones</a>
                         </div>
                     </div>
-                    <a href="compare.php" class="nav-link">Compare</a>
-                    <a href="about.php" class="nav-link active">About</a>
-                    <a href="contact.php" class="nav-link">Contact</a>
+                    <a href="compare" class="nav-link">Compare</a>
+                    <a href="about" class="nav-link active">About</a>
+                    <a href="contact" class="nav-link">Contact</a>
                 </div>
                 
                 <div class="nav-actions">
-                    <a href="user_login.php" class="btn btn-outline">
+                    <a href="user_login" class="btn btn-outline">
                         <i class="fas fa-user"></i> Login
                     </a>
-                    <a href="user_login.php" class="btn btn-primary">
+                    <a href="user_login" class="btn btn-primary">
                         <i class="fas fa-user-plus"></i> Sign Up
                     </a>
                 </div>
@@ -371,13 +371,13 @@
                         technology purchasing decisions. Get started today!
                     </p>
                     <div class="cta-buttons">
-                        <a href="products.php" class="cta-btn primary">
+                        <a href="products" class="cta-btn primary">
                             <i class="fas fa-search"></i> Browse Products
                         </a>
-                        <a href="compare.php" class="cta-btn">
+                        <a href="compare" class="cta-btn">
                             <i class="fas fa-balance-scale"></i> Start Comparing
                         </a>
-                        <a href="contact.php" class="cta-btn">
+                        <a href="contact" class="cta-btn">
                             <i class="fas fa-envelope"></i> Contact Us
                         </a>
                     </div>
@@ -403,11 +403,11 @@
                 <div class="footer-section">
                     <h4>Quick Links</h4>
                     <ul>
-                        <li><a href="index.php">Home</a></li>
-                        <li><a href="products.php">Products</a></li>
-                        <li><a href="compare.php">Compare</a></li>
-                        <li><a href="about.php">About Us</a></li>
-                        <li><a href="contact.php">Contact Us</a></li>
+                        <li><a href="index">Home</a></li>
+                        <li><a href="products">Products</a></li>
+                        <li><a href="compare">Compare</a></li>
+                        <li><a href="about">About Us</a></li>
+                        <li><a href="contact">Contact Us</a></li>
                     </ul>
                 </div>
                 
@@ -425,8 +425,8 @@
                     <ul>
                         <li><i class="fas fa-envelope"></i> info@techcompare.com</li>
                         <li><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
-                        <li><i class="fas fa-paper-plane"></i> <a href="contact.php" style="color: inherit;">Contact Form</a></li>
-                        <li><i class="fas fa-search"></i> <a href="check-response.php" style="color: inherit;">Check Response</a></li>
+                        <li><i class="fas fa-paper-plane"></i> <a href="contact" style="color: inherit;">Contact Form</a></li>
+                        <li><i class="fas fa-search"></i> <a href="check-response" style="color: inherit;">Check Response</a></li>
                     </ul>
                 </div>
             </div>

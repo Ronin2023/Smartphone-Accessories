@@ -369,16 +369,16 @@ try {
         </div>
         
         <div class="quick-links">
-            <a href="dashboard.php" class="quick-link">
+            <a href="dashboard" class="quick-link">
                 <i class="fas fa-tachometer-alt"></i><br>Dashboard
             </a>
-            <a href="special-access.php" class="quick-link">
+            <a href="special-access" class="quick-link">
                 <i class="fas fa-key"></i><br>Special Access Links
             </a>
-            <a href="../maintenance-control.php" class="quick-link">
+            <a href="../maintenance-control" class="quick-link">
                 <i class="fas fa-cog"></i><br>Advanced Control
             </a>
-            <a href="../get-admin-key.php" class="quick-link">
+            <a href="../get-admin-key" class="quick-link">
                 <i class="fas fa-unlock"></i><br>Get Admin Key
             </a>
         </div>

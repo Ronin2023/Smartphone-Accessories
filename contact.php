@@ -373,31 +373,31 @@
     <header class="header">
         <nav class="navbar">
             <div class="nav-container">
-                <a href="index.php" class="nav-logo">
+                <a href="index" class="nav-logo">
                     <i class="fas fa-balance-scale-right"></i>
                     TechCompare
                 </a>
                 
                 <div class="nav-menu">
-                    <a href="index.php" class="nav-link">Home</a>
+                    <a href="index" class="nav-link">Home</a>
                     <div class="nav-dropdown">
-                        <a href="products.php" class="nav-link">Products <i class="fas fa-chevron-down"></i></a>
+                        <a href="products" class="nav-link">Products <i class="fas fa-chevron-down"></i></a>
                         <div class="dropdown-content">
-                            <a href="products.php?category=smart-watches">Smart Watches</a>
-                            <a href="products.php?category=wireless-headphones">Wireless Headphones</a>
-                            <a href="products.php?category=wired-headphones">Wired Headphones</a>
+                            <a href="products?category=smart-watches">Smart Watches</a>
+                            <a href="products?category=wireless-headphones">Wireless Headphones</a>
+                            <a href="products?category=wired-headphones">Wired Headphones</a>
                         </div>
                     </div>
-                    <a href="compare.php" class="nav-link">Compare</a>
-                    <a href="about.php" class="nav-link">About</a>
-                    <a href="contact.php" class="nav-link active">Contact</a>
+                    <a href="compare" class="nav-link">Compare</a>
+                    <a href="about" class="nav-link">About</a>
+                    <a href="contact" class="nav-link active">Contact</a>
                 </div>
                 
                 <div class="nav-actions">
-                    <a href="user_login.php" class="btn btn-outline">
+                    <a href="user_login" class="btn btn-outline">
                         <i class="fas fa-user"></i> Login
                     </a>
-                    <a href="user_login.php" class="btn btn-primary">
+                    <a href="user_login" class="btn btn-primary">
                         <i class="fas fa-user-plus"></i> Sign Up
                     </a>
                 </div>
@@ -424,7 +424,7 @@
         <div class="container">
             <h3>Already contacted us? Quick Actions</h3>
             <div class="quick-links-grid">
-                <a href="check-response.php" class="quick-link-card highlight">
+                <a href="check-response" class="quick-link-card highlight">
                     <i class="fas fa-search quick-link-icon"></i>
                     <div class="quick-link-title">Check Response Status</div>
                     <div class="quick-link-desc">Track your inquiry and view admin responses using your email address</div>
@@ -929,7 +929,7 @@
             
             // If coming from success page or other source, highlight appropriate action
             if (action === 'check-response') {
-                const checkResponseCard = document.querySelector('a[href="check-response.php"]');
+                const checkResponseCard = document.querySelector('a[href="check-response"]');
                 if (checkResponseCard) {
                     checkResponseCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     checkResponseCard.style.animation = 'quickLinkPulse 3s ease-in-out 3';

@@ -202,11 +202,11 @@ http_response_code(403);
         </div>
         
         <div>
-            <a href="admin/login.php" class="btn">
+            <a href="admin/login" class="btn">
                 <i class="fas fa-sign-in-alt"></i>
                 Admin Login
             </a>
-            <a href="index.php" class="btn btn-secondary">
+            <a href="index" class="btn btn-secondary">
                 <i class="fas fa-home"></i>
                 Go Home
             </a>

@@ -432,7 +432,7 @@ function addToCompare(productId) {
 }
 
 function viewFullDetails(productId) {
-    window.location.href = `product-detail.php?id=${productId}`;
+    window.location.href = `product-detail?id=${productId}`;
 }
 
 function handleFilterChange() {

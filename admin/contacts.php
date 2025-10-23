@@ -13,7 +13,7 @@ require_once '../includes/email_notifications.php';
 
 // Check if admin or editor is logged in
 if (!isLoggedIn() || !hasAdminAccess()) {
-    redirect('login.php');
+    redirect('index');
     exit();
 }
 
@@ -471,46 +471,46 @@ $stats = $stats_stmt->fetchAll(PDO::FETCH_ASSOC);
             <nav class="sidebar-nav">
                 <ul>
                     <li class="nav-item">
-                        <a href="dashboard.php" class="nav-link">
+                        <a href="dashboard" class="nav-link">
                             <i class="fas fa-tachometer-alt"></i>
                             <span>Dashboard</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="products.php" class="nav-link">
+                        <a href="products" class="nav-link">
                             <i class="fas fa-box"></i>
                             <span>Products</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="categories.php" class="nav-link">
+                        <a href="categories" class="nav-link">
                             <i class="fas fa-tags"></i>
                             <span>Categories</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="brands.php" class="nav-link">
+                        <a href="brands" class="nav-link">
                             <i class="fas fa-award"></i>
                             <span>Brands</span>
                         </a>
                     </li>
                     <?php if (isAdmin()): ?>
                     <li class="nav-item">
-                        <a href="users.php" class="nav-link">
+                        <a href="users" class="nav-link">
                             <i class="fas fa-users"></i>
                             <span>Users</span>
                         </a>
                     </li>
                     <?php endif; ?>
                     <li class="nav-item active">
-                        <a href="contacts.php" class="nav-link">
+                        <a href="contacts" class="nav-link">
                             <i class="fas fa-envelope"></i>
                             <span>Contact Messages</span>
                         </a>
                     </li>
                     <?php if (isAdmin()): ?>
                     <li class="nav-item">
-                        <a href="settings.php" class="nav-link">
+                        <a href="settings" class="nav-link">
                             <i class="fas fa-cog"></i>
                             <span>Settings</span>
                         </a>
@@ -519,11 +519,11 @@ $stats = $stats_stmt->fetchAll(PDO::FETCH_ASSOC);
                 </ul>
                 
                 <div class="sidebar-footer">
-                    <a href="../index.php" class="nav-link" target="_blank">
+                    <a href="../index" class="nav-link" target="_blank">
                         <i class="fas fa-external-link-alt"></i>
                         <span>View Site</span>
                     </a>
-                    <a href="logout.php" class="nav-link logout">
+                    <a href="logout" class="nav-link logout">
                         <i class="fas fa-sign-out-alt"></i>
                         <span>Logout</span>
                     </a>
@@ -619,7 +619,7 @@ $stats = $stats_stmt->fetchAll(PDO::FETCH_ASSOC);
 
                     <div class="filter-group">
                         <label>&nbsp;</label>
-                        <a href="contacts.php" class="btn btn-secondary">Clear</a>
+                        <a href="contacts" class="btn btn-secondary">Clear</a>
                     </div>
                 </form>
 

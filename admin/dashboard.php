@@ -8,7 +8,7 @@ require_once '../includes/functions.php';
 
 // Check authentication - Allow both admin and editor access
 if (!isLoggedIn() || !hasAdminAccess()) {
-    redirect('login.php');
+    redirect('index');
     exit();
 }
 
@@ -472,58 +472,58 @@ if ($showAll && $stats['products'] > 0) {
             <nav class="sidebar-nav">
                 <ul>
                     <li class="nav-item active">
-                        <a href="dashboard.php" class="nav-link">
+                        <a href="dashboard" class="nav-link">
                             <i class="fas fa-tachometer-alt"></i>
                             <span>Dashboard</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="products.php" class="nav-link">
+                        <a href="products" class="nav-link">
                             <i class="fas fa-box"></i>
                             <span>Products</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="categories.php" class="nav-link">
+                        <a href="categories" class="nav-link">
                             <i class="fas fa-tags"></i>
                             <span>Categories</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="brands.php" class="nav-link">
+                        <a href="brands" class="nav-link">
                             <i class="fas fa-award"></i>
                             <span>Brands</span>
                         </a>
                     </li>
                     <?php if (isAdmin()): ?>
                     <li class="nav-item">
-                        <a href="users.php" class="nav-link">
+                        <a href="users" class="nav-link">
                             <i class="fas fa-users"></i>
                             <span>Users</span>
                         </a>
                     </li>
                     <?php endif; ?>
                     <li class="nav-item">
-                        <a href="contacts.php" class="nav-link">
+                        <a href="contacts" class="nav-link">
                             <i class="fas fa-envelope"></i>
                             <span>Contact Messages</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="settings.php" class="nav-link">
+                        <a href="settings" class="nav-link">
                             <i class="fas fa-cogs"></i>
                             <span>Settings</span>
                         </a>
                     </li>
                     <li class="nav-divider" style="margin: 1rem 0; border-top: 1px solid rgba(255,255,255,0.1);"></li>
                     <li class="nav-item">
-                        <a href="../index.php" class="nav-link" target="_blank">
+                        <a href="../index" class="nav-link" target="_blank">
                             <i class="fas fa-external-link-alt"></i>
                             <span>View Site</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="logout.php" class="nav-link" style="color: #dc3545 !important; background: rgba(220, 53, 69, 0.1); border-radius: 6px; margin: 0 1rem;">
+                        <a href="logout" class="nav-link" style="color: #dc3545 !important; background: rgba(220, 53, 69, 0.1); border-radius: 6px; margin: 0 1rem;">
                             <i class="fas fa-sign-out-alt"></i>
                             <span>Logout</span>
                         </a>
@@ -637,7 +637,7 @@ if ($showAll && $stats['products'] > 0) {
                         </p>
                     </div>
                     <div>
-                        <a href="settings.php" 
+                        <a href="settings" 
                            class="btn" style="
                                background: #10b981;
                                color: white;
@@ -670,7 +670,7 @@ if ($showAll && $stats['products'] > 0) {
                         </p>
                     </div>
                     <div style="display: flex; gap: 0.5rem;">
-                        <a href="settings.php" 
+                        <a href="settings" 
                            class="btn" style="
                                background: #f59e0b;
                                color: white;
@@ -681,7 +681,7 @@ if ($showAll && $stats['products'] > 0) {
                            ">
                             <i class="fas fa-tools"></i> Enable Maintenance
                         </a>
-                        <a href="settings.php" 
+                        <a href="settings" 
                            class="btn" style="
                                background: #6b7280;
                                color: white;
@@ -692,7 +692,7 @@ if ($showAll && $stats['products'] > 0) {
                            ">
                             <i class="fas fa-cog"></i> Settings
                         </a>
-                        <a href="special-access.php" 
+                        <a href="special-access" 
                            class="btn" style="
                                background: #8b5cf6;
                                color: white;
@@ -708,7 +708,7 @@ if ($showAll && $stats['products'] > 0) {
                 <?php endif; ?>
 
                 <div class="view-toggle">
-                    <a href="dashboard.php" class="btn btn-primary">
+                    <a href="dashboard" class="btn btn-primary">
                         <i class="fas fa-tachometer-alt"></i>
                         Dashboard Summary
                     </a>
@@ -724,7 +724,7 @@ if ($showAll && $stats['products'] > 0) {
                     <div class="dashboard-section">
                         <div class="section-header">
                             <h2>All Products (<?php echo $stats['products']; ?> total)</h2>
-                            <a href="products.php?action=add" class="btn btn-primary">
+                            <a href="products?action=add" class="btn btn-primary">
                                 <i class="fas fa-plus"></i>
                                 Add New Product
                             </a>
@@ -767,7 +767,7 @@ if ($showAll && $stats['products'] > 0) {
                                                 <?php endif; ?>
                                                 
                                                 <div style="margin-top: 1rem;">
-                                                    <a href="products.php?action=edit&id=<?php echo $product['id']; ?>" 
+                                                    <a href="products?action=edit&id=<?php echo $product['id']; ?>" 
                                                        class="btn btn-outline" style="font-size: 0.8rem; padding: 0.5rem 1rem;">
                                                         <i class="fas fa-edit"></i> Edit Product
                                                     </a>
@@ -840,7 +840,7 @@ if ($showAll && $stats['products'] > 0) {
                                                 <div class="product-meta"><?php echo htmlspecialchars($product['brand_name']); ?></div>
                                                 <div class="product-price">₹<?php echo number_format($product['price'], 2); ?></div>
                                                 
-                                                <a href="products.php?action=edit&id=<?php echo $product['id']; ?>" 
+                                                <a href="products?action=edit&id=<?php echo $product['id']; ?>" 
                                                    class="btn btn-outline" style="font-size: 0.8rem; padding: 0.5rem 1rem; margin-top: 0.5rem;">
                                                     <i class="fas fa-edit"></i> Edit
                                                 </a>
@@ -853,7 +853,7 @@ if ($showAll && $stats['products'] > 0) {
                                     <i class="fas fa-box"></i>
                                     <h3>No Products Found</h3>
                                     <p>Get started by adding your first product to the store</p>
-                                    <a href="products.php?action=add" class="btn btn-primary" style="margin-top: 1rem;">
+                                    <a href="products?action=add" class="btn btn-primary" style="margin-top: 1rem;">
                                         <i class="fas fa-plus"></i> Add First Product
                                     </a>
                                 </div>
@@ -874,25 +874,25 @@ if ($showAll && $stats['products'] > 0) {
                         
                         <div class="section-content">
                             <div class="quick-actions">
-                                <a href="products.php?action=add" class="action-card primary">
+                                <a href="products?action=add" class="action-card primary">
                                     <i class="fas fa-plus-circle action-icon"></i>
                                     <div style="font-weight: 600;">Add New Product</div>
                                     <small style="color: #718096; margin-top: 0.5rem; display: block;">Create a new product listing</small>
                                 </a>
                                 
-                                <a href="categories.php?action=add" class="action-card success">
+                                <a href="categories?action=add" class="action-card success">
                                     <i class="fas fa-tags action-icon"></i>
                                     <div style="font-weight: 600;">Add Category</div>
                                     <small style="color: #718096; margin-top: 0.5rem; display: block;">Organize products by category</small>
                                 </a>
                                 
-                                <a href="brands.php?action=add" class="action-card warning">
+                                <a href="brands?action=add" class="action-card warning">
                                     <i class="fas fa-award action-icon"></i>
                                     <div style="font-weight: 600;">Add Brand</div>
                                     <small style="color: #718096; margin-top: 0.5rem; display: block;">Manage product brands</small>
                                 </a>
                                 
-                                <a href="contacts.php" class="action-card info">
+                                <a href="contacts" class="action-card info">
                                     <i class="fas fa-envelope action-icon"></i>
                                     <div style="font-weight: 600;">View Contact Messages</div>
                                     <small style="color: #718096; margin-top: 0.5rem; display: block;">Review customer inquiries</small>

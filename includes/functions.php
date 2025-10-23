@@ -310,6 +310,24 @@ function getUserRoleDisplay($role) {
  * Redirect to URL
  */
 function redirect($url) {
+    // If URL doesn't start with http:// or https://, make it relative
+    if (!preg_match('/^https?:\/\//', $url)) {
+        // Remove .php extension if present for clean URLs
+        $url = preg_replace('/\.php$/', '', $url);
+        
+        // If URL doesn't start with /, prepend the base path
+        if (substr($url, 0, 1) !== '/') {
+            // Get the base path from the current script
+            $scriptPath = dirname($_SERVER['SCRIPT_NAME']);
+            // For files in root, scriptPath might be just '/'
+            // For files in subdirectories like /Smartphone-Accessories, we need that path
+            if ($scriptPath !== '/') {
+                $url = $scriptPath . '/' . $url;
+            } else {
+                $url = '/' . $url;
+            }
+        }
+    }
     header("Location: $url");
     exit();
 }

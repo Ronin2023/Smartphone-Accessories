@@ -114,6 +114,7 @@ RedirectMatch 404 /cache/
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
+    RewriteBase /Smartphone-Accessories/
     
     # Force HTTPS (uncomment for production)
     # RewriteCond %{HTTPS} off
@@ -123,11 +124,41 @@ RedirectMatch 404 /cache/
     # RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
     # RewriteRule ^(.*)$ https://%1%{REQUEST_URI} [R=301,L]
     
-    # Redirect HTML to PHP for special access protection
+    # ================================
+    # CLEAN URL RULES - Remove .php extension
+    # ================================
+    
+    # Redirect .php URLs to clean URLs (301 permanent redirect)
+    # This ensures search engines and users see clean URLs
+    # But skip API, admin, and other protected directories
+    # IMPORTANT: Only redirect GET requests, not POST (to preserve form submissions)
+    RewriteCond %{REQUEST_METHOD} !=POST
+    RewriteCond %{REQUEST_URI} !^/Smartphone-Accessories/(api|admin|includes|database)/
+    RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /Smartphone-Accessories/([^.]+)\.php(\?[^\ ]*)?\ HTTP/
+    RewriteRule ^([^.]+)\.php$ /Smartphone-Accessories/$1%2 [R=301,L]
+    
+    # Skip rewriting for existing files and directories
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    
+    # Skip rewriting for specific directories
+    RewriteCond %{REQUEST_URI} !^/Smartphone-Accessories/(css|js|assets|uploads|api|admin|includes|database|vendor|test|Documentations)/
+    
+    # Skip rewriting for files with extensions (images, css, js, etc.)
+    RewriteCond %{REQUEST_URI} !\.(jpg|jpeg|png|gif|webp|svg|ico|css|js|woff|woff2|ttf|eot|pdf|zip|json|xml|txt)$
+    
+    # Rewrite clean URLs to .php files
+    RewriteRule ^([a-zA-Z0-9_-]+)$ $1.php [L,QSA]
+    RewriteRule ^([a-zA-Z0-9_-]+)/$ $1.php [L,QSA]
+    
+    # ================================
+    # LEGACY SUPPORT - Redirect HTML to PHP
+    # ================================
     RewriteRule ^index\.html$ index.php [L,QSA]
     RewriteRule ^products\.html$ products.php [L,QSA]
     RewriteRule ^compare\.html$ compare.php [L,QSA]
     RewriteRule ^contact\.html$ contact.php [L,QSA]
+    RewriteRule ^about\.html$ about.php [L,QSA]
     
     # Pretty URLs for products
     RewriteRule ^product/([0-9]+)/?$ products.php?id=$1 [L,QSA]
@@ -144,8 +175,23 @@ RedirectMatch 404 /cache/
     
     # Admin clean URLs
     RewriteRule ^admin/?$ admin/index.php [L]
+    RewriteRule ^admin/index/?$ admin/index.php [L]
     RewriteRule ^admin/login/?$ admin/index.php [L]
     RewriteRule ^admin/dashboard/?$ admin/dashboard.php [L]
+    RewriteRule ^admin/products/?$ admin/products.php [L,QSA]
+    RewriteRule ^admin/categories/?$ admin/categories.php [L,QSA]
+    RewriteRule ^admin/brands/?$ admin/brands.php [L,QSA]
+    RewriteRule ^admin/users/?$ admin/users.php [L,QSA]
+    RewriteRule ^admin/contacts/?$ admin/contacts.php [L,QSA]
+    RewriteRule ^admin/settings/?$ admin/settings.php [L,QSA]
+    RewriteRule ^admin/uploads/?$ admin/uploads.php [L,QSA]
+    RewriteRule ^admin/special-access/?$ admin/special-access.php [L,QSA]
+    RewriteRule ^admin/maintenance-manager/?$ admin/maintenance-manager.php [L,QSA]
+    RewriteRule ^admin/session-debug/?$ admin/session-debug.php [L,QSA]
+    RewriteRule ^admin/setup/?$ admin/setup.php [L,QSA]
+    RewriteRule ^admin/setup-contacts/?$ admin/setup_contacts.php [L,QSA]
+    RewriteRule ^admin/setup-simple/?$ admin/setup_simple.php [L,QSA]
+    RewriteRule ^admin/logout/?$ admin/logout.php [L]
     
     # API endpoints
     RewriteRule ^api/products/?$ api/get_products.php [L,QSA]

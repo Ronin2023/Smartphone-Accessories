@@ -6,7 +6,7 @@ require_once '../includes/functions.php';
 
 // Check if admin or editor is logged in
 if (!isLoggedIn() || !hasAdminAccess()) {
-    redirect('login.php');
+    redirect('index');
     exit();
 }
 
@@ -272,46 +272,46 @@ if ($action === 'edit' && isset($_GET['id'])) {
             <nav class="sidebar-nav">
                 <ul>
                     <li class="nav-item">
-                        <a href="dashboard.php" class="nav-link">
+                        <a href="dashboard" class="nav-link">
                             <i class="fas fa-tachometer-alt"></i>
                             <span>Dashboard</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="products.php" class="nav-link">
+                        <a href="products" class="nav-link">
                             <i class="fas fa-box"></i>
                             <span>Products</span>
                         </a>
                     </li>
                     <li class="nav-item active">
-                        <a href="categories.php" class="nav-link">
+                        <a href="categories" class="nav-link">
                             <i class="fas fa-tags"></i>
                             <span>Categories</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="brands.php" class="nav-link">
+                        <a href="brands" class="nav-link">
                             <i class="fas fa-award"></i>
                             <span>Brands</span>
                         </a>
                     </li>
                     <?php if (isAdmin()): ?>
                     <li class="nav-item">
-                        <a href="users.php" class="nav-link">
+                        <a href="users" class="nav-link">
                             <i class="fas fa-users"></i>
                             <span>Users</span>
                         </a>
                     </li>
                     <?php endif; ?>
                     <li class="nav-item">
-                        <a href="contacts.php" class="nav-link">
+                        <a href="contacts" class="nav-link">
                             <i class="fas fa-envelope"></i>
                             <span>Contact Messages</span>
                         </a>
                     </li>
                     <?php if (isAdmin()): ?>
                     <li class="nav-item">
-                        <a href="settings.php" class="nav-link">
+                        <a href="settings" class="nav-link">
                             <i class="fas fa-cogs"></i>
                             <span>Settings</span>
                         </a>
@@ -319,13 +319,13 @@ if ($action === 'edit' && isset($_GET['id'])) {
                     <?php endif; ?>
                     <li class="nav-divider" style="margin: 1rem 0; border-top: 1px solid rgba(255,255,255,0.1);"></li>
                     <li class="nav-item">
-                        <a href="../index.php" class="nav-link" target="_blank">
+                        <a href="../index" class="nav-link" target="_blank">
                             <i class="fas fa-external-link-alt"></i>
                             <span>View Site</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="logout.php" class="nav-link" style="color: #dc3545 !important;">
+                        <a href="logout" class="nav-link" style="color: #dc3545 !important;">
                             <i class="fas fa-sign-out-alt"></i>
                             <span>Logout</span>
                         </a>
@@ -351,7 +351,7 @@ if ($action === 'edit' && isset($_GET['id'])) {
                             <i class="fas fa-plus"></i> Add New Category
                         </a>
                     <?php else: ?>
-                        <a href="categories.php" class="btn btn-secondary">
+                        <a href="categories" class="btn btn-secondary">
                             <i class="fas fa-arrow-left"></i> Back to Categories
                         </a>
                     <?php endif; ?>
@@ -435,7 +435,7 @@ if ($action === 'edit' && isset($_GET['id'])) {
                                         <i class="fas fa-save"></i>
                                         <?php echo $action === 'add' ? 'Add Category' : 'Update Category'; ?>
                                     </button>
-                                    <a href="categories.php" class="btn btn-secondary">
+                                    <a href="categories" class="btn btn-secondary">
                                         <i class="fas fa-times"></i> Cancel
                                     </a>
                                 </div>

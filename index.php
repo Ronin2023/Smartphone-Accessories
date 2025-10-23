@@ -33,31 +33,31 @@
     <header class="header">
         <nav class="navbar">
             <div class="nav-container">
-                <a href="index.php" class="nav-logo">
+                <a href="index" class="nav-logo">
                     <i class="fas fa-balance-scale-right"></i>
                     TechCompare
                 </a>
                 
                 <div class="nav-menu">
-                    <a href="index.php" class="nav-link active">Home</a>
+                    <a href="index" class="nav-link active">Home</a>
                     <div class="nav-dropdown">
-                        <a href="products.php" class="nav-link">Products <i class="fas fa-chevron-down"></i></a>
+                        <a href="products" class="nav-link">Products <i class="fas fa-chevron-down"></i></a>
                         <div class="dropdown-content">
-                            <a href="products.php?category=smart-watches">Smart Watches</a>
-                            <a href="products.php?category=wireless-headphones">Wireless Headphones</a>
-                            <a href="products.php?category=wired-headphones">Wired Headphones</a>
+                            <a href="products?category=smart-watches">Smart Watches</a>
+                            <a href="products?category=wireless-headphones">Wireless Headphones</a>
+                            <a href="products?category=wired-headphones">Wired Headphones</a>
                         </div>
                     </div>
-                    <a href="compare.php" class="nav-link">Compare</a>
-                    <a href="about.php" class="nav-link">About</a>
-                    <a href="contact.php" class="nav-link">Contact</a>
+                    <a href="compare" class="nav-link">Compare</a>
+                    <a href="about" class="nav-link">About</a>
+                    <a href="contact" class="nav-link">Contact</a>
                 </div>
                 
                 <div class="nav-actions">
-                    <a href="user_login.php" class="btn btn-outline">
+                    <a href="user_login" class="btn btn-outline">
                         <i class="fas fa-user"></i> Login
                     </a>
-                    <a href="user_login.php" class="btn btn-primary">
+                    <a href="user_login" class="btn btn-primary">
                         <i class="fas fa-user-plus"></i> Sign Up
                     </a>
                 </div>
@@ -81,8 +81,8 @@
                     wireless headphones, and wired headphones across all major brands.
                 </p>
                 <div class="hero-buttons">
-                    <a href="compare.php" class="btn btn-primary">Start Comparing</a>
-                    <a href="products.php" class="btn btn-secondary">Browse Products</a>
+                    <a href="compare" class="btn btn-primary">Start Comparing</a>
+                    <a href="products" class="btn btn-secondary">Browse Products</a>
                 </div>
             </div>
             <div class="hero-visual">
@@ -109,7 +109,7 @@
                     </div>
                     <h3>Smart Watches</h3>
                     <p>Compare features, battery life, and compatibility of the latest smart watches.</p>
-                    <a href="products.php?category=smart-watches" class="category-link">Explore <i class="fas fa-arrow-right"></i></a>
+                    <a href="products?category=smart-watches" class="category-link">Explore <i class="fas fa-arrow-right"></i></a>
                 </div>
                 
                 <div class="category-card">
@@ -118,7 +118,7 @@
                     </div>
                     <h3>Wireless Headphones</h3>
                     <p>Compare sound quality, battery life, and connectivity options.</p>
-                    <a href="products.php?category=wireless-headphones" class="category-link">Explore <i class="fas fa-arrow-right"></i></a>
+                    <a href="products?category=wireless-headphones" class="category-link">Explore <i class="fas fa-arrow-right"></i></a>
                 </div>
                 
                 <div class="category-card">
@@ -127,7 +127,7 @@
                     </div>
                     <h3>Wired Headphones</h3>
                     <p>Compare audio quality, comfort, and durability of wired options.</p>
-                    <a href="products.php?category=wired-headphones" class="category-link">Explore <i class="fas fa-arrow-right"></i></a>
+                    <a href="products?category=wired-headphones" class="category-link">Explore <i class="fas fa-arrow-right"></i></a>
                 </div>
             </div>
         </div>
@@ -155,7 +155,7 @@
                     <li><i class="fas fa-check"></i> User reviews integration</li>
                     <li><i class="fas fa-check"></i> Expert ratings</li>
                 </ul>
-                <a href="compare.php" class="btn btn-primary">Try Comparison Tool</a>
+                <a href="compare" class="btn btn-primary">Try Comparison Tool</a>
             </div>
             <div class="preview-visual">
                 <img src="assets/images/comparison-preview.svg" alt="Comparison Tool Preview" loading="lazy" onerror="this.src='https://via.placeholder.com/500x300/667eea/ffffff?text=Comparison+Tool'">
@@ -180,19 +180,19 @@
                 <div class="footer-section">
                     <h4>Quick Links</h4>
                     <ul>
-                        <li><a href="index.php">Home</a></li>
-                        <li><a href="products.php">Products</a></li>
-                        <li><a href="compare.php">Compare</a></li>
-                        <li><a href="about.php">About Us</a></li>
+                        <li><a href="index">Home</a></li>
+                        <li><a href="products">Products</a></li>
+                        <li><a href="compare">Compare</a></li>
+                        <li><a href="about">About Us</a></li>
                     </ul>
                 </div>
                 
                 <div class="footer-section">
                     <h4>Categories</h4>
                     <ul>
-                        <li><a href="products.php?category=smart-watches">Smart Watches</a></li>
-                        <li><a href="products.php?category=wireless-headphones">Wireless Headphones</a></li>
-                        <li><a href="products.php?category=wired-headphones">Wired Headphones</a></li>
+                        <li><a href="products?category=smart-watches">Smart Watches</a></li>
+                        <li><a href="products?category=wireless-headphones">Wireless Headphones</a></li>
+                        <li><a href="products?category=wired-headphones">Wired Headphones</a></li>
                     </ul>
                 </div>
                 
@@ -201,8 +201,8 @@
                     <ul>
                         <li><i class="fas fa-envelope"></i> info@techcompare.com</li>
                         <li><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
-                        <li><i class="fas fa-paper-plane"></i> <a href="contact.php" style="color: inherit;">Contact Form</a></li>
-                        <li><i class="fas fa-search"></i> <a href="check-response.php" style="color: inherit;">Check Response</a></li>
+                        <li><i class="fas fa-paper-plane"></i> <a href="contact" style="color: inherit;">Contact Form</a></li>
+                        <li><i class="fas fa-search"></i> <a href="check-response" style="color: inherit;">Check Response</a></li>
                     </ul>
                 </div>
             </div>

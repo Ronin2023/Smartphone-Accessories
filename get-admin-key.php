@@ -19,9 +19,9 @@ echo "</ul>";
 
 echo "<h3>🔄 Alternative Access Methods:</h3>";
 echo "<ul>";
-echo "<li><strong>Admin Dashboard:</strong> <a href='admin/dashboard.php'>admin/dashboard.php</a> (should work even during maintenance)</li>";
+echo "<li><strong>Admin Dashboard:</strong> <a href='admin/dashboard'>admin/dashboard</a> (should work even during maintenance)</li>";
 echo "<li><strong>Simple Bypass:</strong> <a href='index.html?admin_bypass=1'>index.html?admin_bypass=1</a></li>";
-echo "<li><strong>Maintenance Control:</strong> <a href='maintenance-control.php'>maintenance-control.php</a></li>";
+echo "<li><strong>Maintenance Control:</strong> <a href='maintenance-control'>maintenance-control</a></li>";
 echo "</ul>";
 
 echo "<p><em>💡 Note: The admin key changes daily for security. Bookmark this page to get the current key anytime.</em></p>";

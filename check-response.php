@@ -421,31 +421,31 @@ if ($submission_id && $email) {
     <header class="header">
         <nav class="navbar">
             <div class="nav-container">
-                <a href="index.php" class="nav-logo">
+                <a href="index" class="nav-logo">
                     <i class="fas fa-balance-scale-right"></i>
                     TechCompare
                 </a>
                 
                 <div class="nav-menu">
-                    <a href="index.php" class="nav-link">Home</a>
+                    <a href="index" class="nav-link">Home</a>
                     <div class="nav-dropdown">
-                        <a href="products.php" class="nav-link">Products <i class="fas fa-chevron-down"></i></a>
+                        <a href="products" class="nav-link">Products <i class="fas fa-chevron-down"></i></a>
                         <div class="dropdown-content">
-                            <a href="products.php?category=smart-watches">Smart Watches</a>
-                            <a href="products.php?category=wireless-headphones">Wireless Headphones</a>
-                            <a href="products.php?category=wired-headphones">Wired Headphones</a>
+                            <a href="products?category=smart-watches">Smart Watches</a>
+                            <a href="products?category=wireless-headphones">Wireless Headphones</a>
+                            <a href="products?category=wired-headphones">Wired Headphones</a>
                         </div>
                     </div>
-                    <a href="compare.php" class="nav-link">Compare</a>
-                    <a href="about.php" class="nav-link">About</a>
-                    <a href="contact.php" class="nav-link">Contact</a>
+                    <a href="compare" class="nav-link">Compare</a>
+                    <a href="about" class="nav-link">About</a>
+                    <a href="contact" class="nav-link">Contact</a>
                 </div>
                 
                 <div class="nav-actions">
-                    <a href="user_login.php" class="btn btn-outline">
+                    <a href="user_login" class="btn btn-outline">
                         <i class="fas fa-user"></i> Login
                     </a>
-                    <a href="user_login.php" class="btn btn-primary">
+                    <a href="user_login" class="btn btn-primary">
                         <i class="fas fa-user-plus"></i> Sign Up
                     </a>
                 </div>
@@ -467,7 +467,7 @@ if ($submission_id && $email) {
             </h1>
             <p>Track the status of your inquiry and view admin responses</p>
             <div style="margin-top: 15px;">
-                <a href="contact.php" style="color: white; text-decoration: none; padding: 8px 20px; background: rgba(255,255,255,0.2); border-radius: 20px; display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s; border: 1px solid rgba(255,255,255,0.3);" onmouseover="this.style.background='rgba(255,255,255,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'">
+                <a href="contact" style="color: white; text-decoration: none; padding: 8px 20px; background: rgba(255,255,255,0.2); border-radius: 20px; display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s; border: 1px solid rgba(255,255,255,0.3);" onmouseover="this.style.background='rgba(255,255,255,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'">
                     <i class="fas fa-arrow-left"></i>
                     Back to Contact
                 </a>
@@ -642,7 +642,7 @@ if ($submission_id && $email) {
                 <?php endforeach; ?>
                 
                 <div style="text-align: center; margin-top: 30px;">
-                    <a href="check-response.php" class="back-link">
+                    <a href="check-response" class="back-link">
                         <i class="fas fa-search"></i>
                         Search Again
                     </a>
@@ -761,7 +761,7 @@ if ($submission_id && $email) {
                     Check Another Response
                 </a>
                 <span style="margin: 0 20px; color: #ccc;">|</span>
-                <a href="index.php" class="back-link">
+                <a href="index" class="back-link">
                     <i class="fas fa-home"></i>
                     Back to Home
                 </a>

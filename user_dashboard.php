@@ -792,8 +792,8 @@ closeDB($pdo);
                 <p>Manage your TechCompare account and preferences</p>
             </div>
             <div class="header-actions">
-                <a href="index.php"><i class="fas fa-home"></i> Home</a>
-                <a href="user_logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                <a href="index"><i class="fas fa-home"></i> Home</a>
+                <a href="user_logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
             </div>
         </div>
     </header>
@@ -926,7 +926,7 @@ closeDB($pdo);
                 <div class="support-section">
                     <div class="support-header">
                         <h3><i class="fas fa-life-ring"></i> Support Tickets</h3>
-                        <a href="contact.php" class="btn btn-primary">
+                        <a href="contact" class="btn btn-primary">
                             <i class="fas fa-plus"></i> Create New Ticket
                         </a>
                     </div>
@@ -977,7 +977,7 @@ closeDB($pdo);
                             </div>
                             <h4>No Support Tickets</h4>
                             <p>You haven't submitted any support tickets yet. If you need help, feel free to contact our support team.</p>
-                            <a href="contact.php" class="btn btn-primary">
+                            <a href="contact" class="btn btn-primary">
                                 <i class="fas fa-plus"></i> Create Your First Ticket
                             </a>
                         </div>

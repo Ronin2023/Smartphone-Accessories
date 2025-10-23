@@ -196,7 +196,7 @@ function displayProducts(products, container) {
                         <span class="current-price">₹${product.discount_price}</span>
                     ` : `<span class="current-price">₹${product.price}</span>`}
                 </div>
-                <a href="products.php?id=${product.id}" class="btn btn-outline">View Details</a>
+                <a href="products?id=${product.id}" class="btn btn-outline">View Details</a>
             </div>
         </div>
     `).join('');

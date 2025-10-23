@@ -22,24 +22,24 @@
     <header class="header">
         <nav class="navbar">
             <div class="nav-container">
-                <a href="index.php" class="nav-logo">
+                <a href="index" class="nav-logo">
                     <i class="fas fa-balance-scale-right"></i>
                     TechCompare
                 </a>
                 
                 <div class="nav-menu">
-                    <a href="index.php" class="nav-link">Home</a>
+                    <a href="index" class="nav-link">Home</a>
                     <div class="nav-dropdown">
-                        <a href="products.php" class="nav-link active">Products <i class="fas fa-chevron-down"></i></a>
+                        <a href="products" class="nav-link active">Products <i class="fas fa-chevron-down"></i></a>
                         <div class="dropdown-content">
                             <a href="products.html?category=smart-watches">Smart Watches</a>
                             <a href="products.html?category=wireless-headphones">Wireless Headphones</a>
                             <a href="products.html?category=wired-headphones">Wired Headphones</a>
                         </div>
                     </div>
-                    <a href="compare.php" class="nav-link">Compare</a>
-                    <a href="about.php" class="nav-link">About</a>
-                    <a href="contact.php" class="nav-link">Contact</a>
+                    <a href="compare" class="nav-link">Compare</a>
+                    <a href="about" class="nav-link">About</a>
+                    <a href="contact" class="nav-link">Contact</a>
                 </div>
                 
                 <div class="nav-search">
@@ -51,10 +51,10 @@
                 </div>
                 
                 <div class="nav-actions">
-                    <a href="user_login.php" class="btn btn-outline">
+                    <a href="user_login" class="btn btn-outline">
                         <i class="fas fa-user"></i> Login
                     </a>
-                    <a href="user_login.php" class="btn btn-primary">
+                    <a href="user_login" class="btn btn-primary">
                         <i class="fas fa-user-plus"></i> Sign Up
                     </a>
                 </div>
@@ -74,7 +74,7 @@
         <section class="breadcrumb-section">
             <div class="container">
                 <nav class="breadcrumb">
-                    <a href="index.php">Home</a>
+                    <a href="index">Home</a>
                     <span class="separator">/</span>
                     <span class="current">Products</span>
                 </nav>
@@ -180,10 +180,10 @@
                 <div class="footer-section">
                     <h4>Quick Links</h4>
                     <ul>
-                        <li><a href="index.php">Home</a></li>
-                        <li><a href="products.php">Products</a></li>
-                        <li><a href="compare.php">Compare</a></li>
-                        <li><a href="about.php">About Us</a></li>
+                        <li><a href="index">Home</a></li>
+                        <li><a href="products">Products</a></li>
+                        <li><a href="compare">Compare</a></li>
+                        <li><a href="about">About Us</a></li>
                     </ul>
                 </div>
                 

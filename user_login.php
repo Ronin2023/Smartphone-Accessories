@@ -5,7 +5,7 @@ require_once 'includes/functions.php';
 
 // Redirect if already logged in as user
 if (isLoggedIn() && isUser()) {
-    redirect('user_dashboard.php');
+    redirect('user_dashboard');
     exit();
 }
 ?>

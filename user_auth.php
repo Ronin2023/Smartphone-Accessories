@@ -92,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 
                 $_SESSION['message'] = 'Welcome back, ' . $user['first_name'] . '!';
                 $response['success'] = true;
-                $response['redirect'] = 'user_dashboard.php';
+                $response['redirect'] = 'user_dashboard';
                 break;
                 
             case 'register':
@@ -146,7 +146,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 
                 $_SESSION['message'] = 'Account created successfully! Please login with your credentials.';
                 $response['success'] = true;
-                $response['redirect'] = 'user_login.php?tab=login';
+                $response['redirect'] = 'user_login?tab=login';
                 break;
                 
             default:
@@ -173,7 +173,7 @@ if ($response['success'] && isset($response['redirect'])) {
     header('Location: ' . $response['redirect']);
     exit;
 } else {
-    header('Location: user_login.php');
+    header('Location: user_login');
     exit;
 }
 ?>

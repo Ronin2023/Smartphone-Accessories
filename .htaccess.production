@@ -1,0 +1,217 @@
+# TechCompare - Production .htaccess Configuration
+# Copy this file to .htaccess when deploying to production
+
+# MAINTENANCE MODE DISABLED
+# (Maintenance mode rules commented out - see original .htaccess for reference)
+
+# ================================
+# SECURITY CONFIGURATIONS
+# ================================
+
+ServerSignature Off
+
+<FilesMatch "\.(htaccess|htpasswd|ini|log|sh|inc|bak|backup|old|tmp)$">
+    Require all denied
+</FilesMatch>
+
+<FilesMatch "^(config|db_connect|functions)\.php$">
+    Require all denied
+</FilesMatch>
+
+RedirectMatch 404 /\.git
+RedirectMatch 404 /includes/
+RedirectMatch 404 /database/
+RedirectMatch 404 /vendor/
+RedirectMatch 404 /logs/
+RedirectMatch 404 /cache/
+
+<FilesMatch "\.(bak|backup|old|orig|save|swo|swp|tmp)$">
+    Require all denied
+</FilesMatch>
+
+<LimitExcept GET POST HEAD>
+    Require all denied
+</LimitExcept>
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{QUERY_STRING} (<|%3C).*script.*(>|%3E) [NC,OR]
+    RewriteCond %{QUERY_STRING} GLOBALS(=|\[|\%[0-9A-Z]{0,2}) [OR]
+    RewriteCond %{QUERY_STRING} _REQUEST(=|\[|\%[0-9A-Z]{0,2}) [OR]
+    RewriteCond %{QUERY_STRING} (<|%3C).*iframe.*(>|%3E) [NC,OR]
+    RewriteCond %{QUERY_STRING} (<|%3C).*object.*(>|%3E) [NC,OR]
+    RewriteCond %{QUERY_STRING} base64_encode.*\(.*\) [NC,OR]
+    RewriteCond %{QUERY_STRING} (\.|%2E)(\.|%2E)(%2F|/) [NC]
+    RewriteRule ^(.*)$ - [F,L]
+</IfModule>
+
+# ================================
+# URL REWRITING & ROUTING - PRODUCTION
+# ================================
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    # Production: No subfolder, use root
+    RewriteBase /
+    
+    # Force HTTPS in production
+    RewriteCond %{HTTPS} off
+    RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+    
+    # Remove www prefix (optional - uncomment if you want non-www)
+    RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+    RewriteRule ^(.*)$ https://%1%{REQUEST_URI} [R=301,L]
+    
+    # ================================
+    # CLEAN URL RULES - Remove .php extension
+    # ================================
+    
+    # Redirect .php URLs to clean URLs (301 permanent redirect)
+    RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /([^.]+)\.php(\?[^\ ]*)?\ HTTP/
+    RewriteRule ^([^.]+)\.php$ /$1 [R=301,L]
+    
+    # Skip rewriting for existing files and directories
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    
+    # Skip rewriting for specific directories
+    RewriteCond %{REQUEST_URI} !^/(css|js|assets|uploads|api|admin|includes|database|vendor|test|Documentations)/
+    
+    # Skip rewriting for files with extensions
+    RewriteCond %{REQUEST_URI} !\.(jpg|jpeg|png|gif|webp|svg|ico|css|js|woff|woff2|ttf|eot|pdf|zip|json|xml|txt)$
+    
+    # Rewrite clean URLs to .php files
+    RewriteRule ^([a-zA-Z0-9_-]+)$ $1.php [L,QSA]
+    RewriteRule ^([a-zA-Z0-9_-]+)/$ $1.php [L,QSA]
+    
+    # ================================
+    # LEGACY SUPPORT - Redirect HTML to PHP
+    # ================================
+    RewriteRule ^index\.html$ index.php [L,QSA]
+    RewriteRule ^products\.html$ products.php [L,QSA]
+    RewriteRule ^compare\.html$ compare.php [L,QSA]
+    RewriteRule ^contact\.html$ contact.php [L,QSA]
+    RewriteRule ^about\.html$ about.php [L,QSA]
+    
+    # ================================
+    # PRETTY URLs for specific features
+    # ================================
+    
+    # Product URLs
+    RewriteRule ^product/([0-9]+)/?$ products.php?id=$1 [L,QSA]
+    RewriteRule ^product/([0-9]+)/([^/]+)/?$ products.php?id=$1&slug=$2 [L,QSA]
+    
+    # Category URLs
+    RewriteRule ^category/([^/]+)/?$ products.php?category=$1 [L,QSA]
+    
+    # Brand URLs
+    RewriteRule ^brand/([^/]+)/?$ products.php?brand=$1 [L,QSA]
+    
+    # Compare URLs
+    RewriteRule ^compare/([0-9,]+)/?$ compare.php?products=$1 [L,QSA]
+    
+    # Admin URLs
+    RewriteRule ^admin/?$ admin/index.php [L]
+    RewriteRule ^admin/login/?$ admin/index.php [L]
+    RewriteRule ^admin/dashboard/?$ admin/dashboard.php [L]
+    
+    # API endpoints
+    RewriteRule ^api/products/?$ api/get_products.php [L,QSA]
+    RewriteRule ^api/product/([0-9]+)/?$ api/get_product.php?id=$1 [L,QSA]
+    RewriteRule ^api/compare/?$ api/compare_products.php [L,QSA]
+    RewriteRule ^api/search/?$ api/search_products.php [L,QSA]
+</IfModule>
+
+# ================================
+# PERFORMANCE OPTIMIZATIONS
+# ================================
+
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE application/rss+xml
+    AddOutputFilterByType DEFLATE application/vnd.ms-fontobject
+    AddOutputFilterByType DEFLATE application/x-font
+    AddOutputFilterByType DEFLATE application/x-font-opentype
+    AddOutputFilterByType DEFLATE application/x-font-otf
+    AddOutputFilterByType DEFLATE application/x-font-truetype
+    AddOutputFilterByType DEFLATE application/x-font-ttf
+    AddOutputFilterByType DEFLATE application/x-javascript
+    AddOutputFilterByType DEFLATE application/xhtml+xml
+    AddOutputFilterByType DEFLATE application/xml
+    AddOutputFilterByType DEFLATE font/opentype
+    AddOutputFilterByType DEFLATE font/otf
+    AddOutputFilterByType DEFLATE font/ttf
+    AddOutputFilterByType DEFLATE image/svg+xml
+    AddOutputFilterByType DEFLATE image/x-icon
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/javascript
+    AddOutputFilterByType DEFLATE text/plain
+    AddOutputFilterByType DEFLATE text/xml
+</IfModule>
+
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/jpg "access plus 1 month"
+    ExpiresByType image/jpeg "access plus 1 month"
+    ExpiresByType image/gif "access plus 1 month"
+    ExpiresByType image/png "access plus 1 month"
+    ExpiresByType image/webp "access plus 1 month"
+    ExpiresByType image/svg+xml "access plus 1 month"
+    ExpiresByType image/x-icon "access plus 1 year"
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+    ExpiresByType text/javascript "access plus 1 month"
+    ExpiresByType font/woff "access plus 1 year"
+    ExpiresByType font/woff2 "access plus 1 year"
+    ExpiresByType application/font-woff "access plus 1 year"
+    ExpiresByType application/font-woff2 "access plus 1 year"
+    ExpiresByType text/html "access plus 2 hours"
+    ExpiresByType application/xhtml+xml "access plus 2 hours"
+</IfModule>
+
+<IfModule mod_headers.c>
+    Header always set Connection keep-alive
+    Header always set X-Content-Type-Options nosniff
+    Header always set X-Frame-Options DENY
+    Header always set X-XSS-Protection "1; mode=block"
+    Header always set Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header unset Server
+    Header unset X-Powered-By
+</IfModule>
+
+AddDefaultCharset UTF-8
+
+<IfModule mod_mime.c>
+    AddType application/font-woff woff
+    AddType application/font-woff2 woff2
+    AddType image/webp webp
+</IfModule>
+
+# ================================
+# ERROR HANDLING
+# ================================
+
+ErrorDocument 400 /error.html
+ErrorDocument 401 /error.html
+ErrorDocument 403 /403.html
+ErrorDocument 404 /error.html
+ErrorDocument 500 /connection-error.php
+ErrorDocument 503 /connection-error.php
+
+# ================================
+# UPLOAD LIMITS
+# ================================
+
+php_value upload_max_filesize 10M
+php_value post_max_size 10M
+php_value max_execution_time 300
+php_value max_input_time 300
+
+# ================================
+# DIRECTORY BROWSING
+# ================================
+
+Options -Indexes
+DirectoryIndex index.php index.html index.htm
