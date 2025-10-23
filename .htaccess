@@ -128,6 +128,36 @@ RedirectMatch 404 /cache/
     # CLEAN URL RULES - Remove .php extension
     # ================================
     
+    # ================================
+    # ADMIN CLEAN URLs (must come FIRST before generic rules)
+    # ================================
+    RewriteRule ^admin/?$ admin/index.php [L]
+    RewriteRule ^admin/index/?$ admin/index.php [L]
+    RewriteRule ^admin/login/?$ admin/index.php [L]
+    RewriteRule ^admin/dashboard/?$ admin/dashboard.php [L]
+    RewriteRule ^admin/products/?$ admin/products.php [L,QSA]
+    RewriteRule ^admin/categories/?$ admin/categories.php [L,QSA]
+    RewriteRule ^admin/brands/?$ admin/brands.php [L,QSA]
+    RewriteRule ^admin/users/?$ admin/users.php [L,QSA]
+    RewriteRule ^admin/contacts/?$ admin/contacts.php [L,QSA]
+    RewriteRule ^admin/settings/?$ admin/settings.php [L,QSA]
+    RewriteRule ^admin/uploads/?$ admin/uploads.php [L,QSA]
+    RewriteRule ^admin/special-access/?$ admin/special-access.php [L,QSA]
+    RewriteRule ^admin/maintenance-manager/?$ admin/maintenance-manager.php [L,QSA]
+    RewriteRule ^admin/session-debug/?$ admin/session-debug.php [L,QSA]
+    RewriteRule ^admin/setup/?$ admin/setup.php [L,QSA]
+    RewriteRule ^admin/setup-contacts/?$ admin/setup_contacts.php [L,QSA]
+    RewriteRule ^admin/setup-simple/?$ admin/setup_simple.php [L,QSA]
+    RewriteRule ^admin/logout/?$ admin/logout.php [L]
+    
+    # ================================
+    # API ENDPOINTS (must come BEFORE generic rules)
+    # ================================
+    RewriteRule ^api/products/?$ api/get_products.php [L,QSA]
+    RewriteRule ^api/product/([0-9]+)/?$ api/get_product.php?id=$1 [L,QSA]
+    RewriteRule ^api/compare/?$ api/compare_products.php [L,QSA]
+    RewriteRule ^api/search/?$ api/search_products.php [L,QSA]
+    
     # Redirect .php URLs to clean URLs (301 permanent redirect)
     # This ensures search engines and users see clean URLs
     # But skip API, admin, and other protected directories
@@ -173,31 +203,6 @@ RedirectMatch 404 /cache/
     # Compare URLs with product IDs
     RewriteRule ^compare/([0-9,]+)/?$ compare.php?products=$1 [L,QSA]
     
-    # Admin clean URLs
-    RewriteRule ^admin/?$ admin/index.php [L]
-    RewriteRule ^admin/index/?$ admin/index.php [L]
-    RewriteRule ^admin/login/?$ admin/index.php [L]
-    RewriteRule ^admin/dashboard/?$ admin/dashboard.php [L]
-    RewriteRule ^admin/products/?$ admin/products.php [L,QSA]
-    RewriteRule ^admin/categories/?$ admin/categories.php [L,QSA]
-    RewriteRule ^admin/brands/?$ admin/brands.php [L,QSA]
-    RewriteRule ^admin/users/?$ admin/users.php [L,QSA]
-    RewriteRule ^admin/contacts/?$ admin/contacts.php [L,QSA]
-    RewriteRule ^admin/settings/?$ admin/settings.php [L,QSA]
-    RewriteRule ^admin/uploads/?$ admin/uploads.php [L,QSA]
-    RewriteRule ^admin/special-access/?$ admin/special-access.php [L,QSA]
-    RewriteRule ^admin/maintenance-manager/?$ admin/maintenance-manager.php [L,QSA]
-    RewriteRule ^admin/session-debug/?$ admin/session-debug.php [L,QSA]
-    RewriteRule ^admin/setup/?$ admin/setup.php [L,QSA]
-    RewriteRule ^admin/setup-contacts/?$ admin/setup_contacts.php [L,QSA]
-    RewriteRule ^admin/setup-simple/?$ admin/setup_simple.php [L,QSA]
-    RewriteRule ^admin/logout/?$ admin/logout.php [L]
-    
-    # API endpoints
-    RewriteRule ^api/products/?$ api/get_products.php [L,QSA]
-    RewriteRule ^api/product/([0-9]+)/?$ api/get_product.php?id=$1 [L,QSA]
-    RewriteRule ^api/compare/?$ api/compare_products.php [L,QSA]
-    RewriteRule ^api/search/?$ api/search_products.php [L,QSA]
 </IfModule>
 
 # ================================
