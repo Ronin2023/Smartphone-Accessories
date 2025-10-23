@@ -1,95 +1,63 @@
 <?php
-// Simple database connection test endpoint
-// Used by connection-error.php to check database availability
-
+// Simple database connection test
+// This file should only test connectivity, not redirect
 header('Content-Type: text/plain');
 header('Cache-Control: no-cache, no-store, must-revalidate');
-header('Pragma: no-cache');
-header('Expires: 0');
 
-// Check if this is a connection test request
+// Prevent redirects for this test endpoint
 if (isset($_SERVER['HTTP_X_CONNECTION_TEST'])) {
+    // Direct database test without using the redirect mechanism
     try {
-        // Include the database configuration
         require_once 'includes/config.php';
         
-        // Test database connection directly without using Database class
-        // (to avoid redirect behavior)
-        $pdo = new PDO(
-            "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME,
-            DB_USER,
-            DB_PASS,
-            [
-                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-                PDO::ATTR_TIMEOUT => 5
-            ]
-        );
+        // Direct PDO connection test without using Database class
+        $dsn = "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=" . DB_CHARSET;
+        $options = [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            PDO::ATTR_EMULATE_PREPARES => false,
+            PDO::ATTR_TIMEOUT => 3 // Short timeout for testing
+        ];
         
-        // Test with a simple query
-        $stmt = $pdo->query("SELECT 1");
+        $pdo = new PDO($dsn, DB_USER, DB_PASS, $options);
+        $stmt = $pdo->query('SELECT 1 as test');
         $result = $stmt->fetch();
         
-        if ($result) {
-            echo "✅ Database is available";
+        if ($result && $result['test'] == 1) {
+            echo "✅ Database is available\n";
+            echo "Connection: OK\n";
+            echo "Status: READY\n";
+            http_response_code(200);
         } else {
-            echo "❌ Database query failed";
+            echo "❌ Database query failed\n";
+            echo "Status: ERROR\n";
+            http_response_code(503);
         }
-        
-    } catch (PDOException $e) {
-        echo "❌ Database connection failed: " . $e->getMessage();
     } catch (Exception $e) {
-        echo "❌ Database error: " . $e->getMessage();
+        echo "❌ Database connection failed\n";
+        echo "Error: " . $e->getMessage() . "\n";
+        echo "Status: UNAVAILABLE\n";
+        http_response_code(503);
     }
-    exit;
-}
-
-// Original test functionality for debugging
-echo "🧪 Testing Current Database Connection Behavior...\n\n";
-
-// Test database availability
-require_once 'includes/config.php';
-require_once 'includes/db_connect.php';
-
-echo "1. Testing isDatabaseAvailable():\n";
-try {
-    if (isDatabaseAvailable()) {
-        echo "   ✅ Database is available\n";
-    } else {
-        echo "   ❌ Database is NOT available\n";
-    }
-} catch (Exception $e) {
-    echo "   ❌ Exception: " . $e->getMessage() . "\n";
-}
-
-echo "\n2. Testing getDB():\n";
-try {
-    $pdo = getDB();
-    echo "   ✅ getDB() successful\n";
-} catch (Exception $e) {
-    echo "   ❌ getDB() failed: " . $e->getMessage() . "\n";
-}
-
-echo "\n3. Testing Database::getInstance():\n";
-try {
-    $db = Database::getInstance();
-    if ($db->isConnected()) {
-        echo "   ✅ Database instance connected\n";
-    } else {
-        echo "   ❌ Database instance NOT connected\n";
-        if ($db->getConnectionError()) {
-            echo "   Error: " . $db->getConnectionError()->getMessage() . "\n";
+} else {
+    // Normal request - use the regular database connection which may redirect
+    try {
+        require_once 'includes/config.php';
+        require_once 'includes/db_connect.php';
+        
+        $pdo = getDB();
+        $stmt = $pdo->query('SELECT 1');
+        
+        if ($stmt) {
+            echo "✅ Database is available\n";
+            echo "Connection: OK\n";
+            echo "Status: READY\n";
+        } else {
+            echo "❌ Database query failed\n";
         }
+    } catch (Exception $e) {
+        echo "❌ Database connection failed\n";
+        echo "Error: " . $e->getMessage() . "\n";
     }
-} catch (Exception $e) {
-    echo "   ❌ Exception: " . $e->getMessage() . "\n";
 }
-
-echo "\n4. Current Server Variables:\n";
-echo "   REQUEST_URI: " . ($_SERVER['REQUEST_URI'] ?? 'Not set') . "\n";
-echo "   HTTP_X_REQUESTED_WITH: " . ($_SERVER['HTTP_X_REQUESTED_WITH'] ?? 'Not set') . "\n";
-echo "   HTTP_ACCEPT: " . ($_SERVER['HTTP_ACCEPT'] ?? 'Not set') . "\n";
-echo "   CONTENT_TYPE: " . ($_SERVER['CONTENT_TYPE'] ?? 'Not set') . "\n";
-
-echo "\n✅ Test completed.\n";
 ?>

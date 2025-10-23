@@ -19,11 +19,14 @@
     <!-- CSS -->
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/theme.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     
     <!-- Preload critical resources -->
     <link rel="preload" href="css/style.css" as="style">
+    <link rel="preload" href="css/theme.css" as="style">
     <link rel="preload" href="js/main.js" as="script">
+    <link rel="preload" href="js/theme.js" as="script">
 </head>
 <body>
     <!-- Header -->
@@ -211,6 +214,7 @@
     </footer>
 
     <!-- JavaScript -->
+    <script src="js/theme.js"></script>
     <script src="js/connection-error-handler.js"></script>
     <script src="js/main.js"></script>
     

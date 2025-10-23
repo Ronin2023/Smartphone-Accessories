@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dark Mode Demo - TechCompare</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    <link rel="stylesheet" href="../css/theme.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        .demo-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+        
+        .demo-hero {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .demo-hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .demo-hero p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+        }
+        
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .demo-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .demo-card h3 {
+            color: var(--accent-primary);
+            margin-bottom: 15px;
+        }
+        
+        .demo-card p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        
+        .demo-input-group {
+            margin: 20px 0;
+        }
+        
+        .demo-input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+        
+        .demo-input-group input,
+        .demo-input-group select,
+        .demo-input-group textarea {
+            width: 100%;
+            padding: 12px;
+            background: var(--input-bg);
+            border: 2px solid var(--input-border);
+            border-radius: 8px;
+            color: var(--input-text);
+            font-size: 1rem;
+        }
+        
+        .demo-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        
+        .demo-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .demo-btn-primary {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: white;
+        }
+        
+        .demo-btn-secondary {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+        
+        .demo-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .demo-alert {
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        .demo-alert-success {
+            background: rgba(52, 211, 153, 0.1);
+            border: 1px solid var(--success);
+            color: var(--success);
+        }
+        
+        .demo-alert-warning {
+            background: rgba(251, 191, 36, 0.1);
+            border: 1px solid var(--warning);
+            color: var(--warning);
+        }
+        
+        .demo-alert-error {
+            background: rgba(248, 113, 113, 0.1);
+            border: 1px solid var(--error);
+            color: var(--error);
+        }
+        
+        .demo-alert-info {
+            background: rgba(56, 189, 248, 0.1);
+            border: 1px solid var(--info);
+            color: var(--info);
+        }
+        
+        .theme-info {
+            background: var(--bg-secondary);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 40px 0;
+            text-align: center;
+        }
+        
+        .theme-info h2 {
+            margin-bottom: 20px;
+            color: var(--accent-primary);
+        }
+        
+        .current-theme {
+            display: inline-block;
+            padding: 10px 30px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: white;
+            border-radius: 25px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin: 10px 0;
+        }
+        
+        .features-list {
+            list-style: none;
+            padding: 0;
+            margin: 30px 0;
+        }
+        
+        .features-list li {
+            padding: 15px;
+            margin: 10px 0;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .features-list i {
+            color: var(--accent-primary);
+            font-size: 1.5rem;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-top: 40px;
+            padding: 12px 30px;
+            background: var(--accent-primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+        
+        .back-link:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <a href="../index.html" class="nav-logo">
+                    <i class="fas fa-balance-scale-right"></i>
+                    TechCompare
+                </a>
+
+                <div class="nav-menu">
+                    <a href="../index.html" class="nav-link">Home</a>
+                    <a href="../products.html" class="nav-link">Products</a>
+                    <a href="../compare.html" class="nav-link">Compare</a>
+                    <a href="../about.html" class="nav-link">About</a>
+                    <a href="../contact.html" class="nav-link">Contact</a>
+                    <a href="dark-mode-demo.html" class="nav-link active">Demo</a>
+                </div>
+
+                <div class="nav-actions">
+                    <!-- Theme toggle button will be inserted here automatically -->
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="demo-container">
+        <div class="demo-hero">
+            <h1>🌓 Dark Mode / Light Mode</h1>
+            <p>Modern theme system with smooth transitions and persistent preferences</p>
+        </div>
+
+        <div class="theme-info">
+            <h2>Current Theme</h2>
+            <div class="current-theme" id="current-theme-display">Loading...</div>
+            <p style="margin-top: 20px; color: var(--text-secondary);">
+                Click the theme toggle button in the navigation bar to switch themes!
+            </p>
+        </div>
+
+        <div class="demo-grid">
+            <div class="demo-card">
+                <h3><i class="fas fa-palette"></i> Theme Colors</h3>
+                <p>All colors automatically adapt to the selected theme using CSS variables.</p>
+                <div style="margin-top: 15px;">
+                    <div style="display: flex; gap: 10px; margin: 10px 0;">
+                        <div style="width: 40px; height: 40px; background: var(--accent-primary); border-radius: 8px;"></div>
+                        <div style="width: 40px; height: 40px; background: var(--accent-secondary); border-radius: 8px;"></div>
+                        <div style="width: 40px; height: 40px; background: var(--success); border-radius: 8px;"></div>
+                        <div style="width: 40px; height: 40px; background: var(--warning); border-radius: 8px;"></div>
+                        <div style="width: 40px; height: 40px; background: var(--error); border-radius: 8px;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="demo-card">
+                <h3><i class="fas fa-bolt"></i> Performance</h3>
+                <p>Instant theme switching with hardware-accelerated CSS transitions for smooth animations.</p>
+            </div>
+
+            <div class="demo-card">
+                <h3><i class="fas fa-save"></i> Persistent Storage</h3>
+                <p>Your theme preference is saved in localStorage and syncs across all browser tabs.</p>
+            </div>
+        </div>
+
+        <div class="demo-card">
+            <h3>Form Elements Demo</h3>
+            
+            <div class="demo-input-group">
+                <label for="demo-input">Text Input</label>
+                <input type="text" id="demo-input" placeholder="Try typing something...">
+            </div>
+            
+            <div class="demo-input-group">
+                <label for="demo-select">Select Dropdown</label>
+                <select id="demo-select">
+                    <option>Option 1</option>
+                    <option>Option 2</option>
+                    <option>Option 3</option>
+                </select>
+            </div>
+            
+            <div class="demo-input-group">
+                <label for="demo-textarea">Textarea</label>
+                <textarea id="demo-textarea" rows="4" placeholder="Enter your message..."></textarea>
+            </div>
+            
+            <div class="demo-buttons">
+                <button class="demo-btn demo-btn-primary">Primary Button</button>
+                <button class="demo-btn demo-btn-secondary">Secondary Button</button>
+            </div>
+        </div>
+
+        <div class="demo-card">
+            <h3>Alert Messages Demo</h3>
+            
+            <div class="demo-alert demo-alert-success">
+                <i class="fas fa-check-circle"></i>
+                <strong>Success!</strong> Your changes have been saved successfully.
+            </div>
+            
+            <div class="demo-alert demo-alert-info">
+                <i class="fas fa-info-circle"></i>
+                <strong>Info:</strong> This is an informational message.
+            </div>
+            
+            <div class="demo-alert demo-alert-warning">
+                <i class="fas fa-exclamation-triangle"></i>
+                <strong>Warning:</strong> Please review your input before continuing.
+            </div>
+            
+            <div class="demo-alert demo-alert-error">
+                <i class="fas fa-times-circle"></i>
+                <strong>Error:</strong> Something went wrong. Please try again.
+            </div>
+        </div>
+
+        <div class="demo-card">
+            <h3>✨ Key Features</h3>
+            <ul class="features-list">
+                <li>
+                    <i class="fas fa-magic"></i>
+                    <div>
+                        <strong>Auto-Detection</strong><br>
+                        <small style="color: var(--text-secondary);">Automatically detects your system's theme preference</small>
+                    </div>
+                </li>
+                <li>
+                    <i class="fas fa-sync-alt"></i>
+                    <div>
+                        <strong>Cross-Tab Sync</strong><br>
+                        <small style="color: var(--text-secondary);">Theme changes sync across all open tabs instantly</small>
+                    </div>
+                </li>
+                <li>
+                    <i class="fas fa-universal-access"></i>
+                    <div>
+                        <strong>Accessible</strong><br>
+                        <small style="color: var(--text-secondary);">Keyboard navigation, screen reader support, and reduced motion support</small>
+                    </div>
+                </li>
+                <li>
+                    <i class="fas fa-tachometer-alt"></i>
+                    <div>
+                        <strong>High Performance</strong><br>
+                        <small style="color: var(--text-secondary);">Optimized transitions with no lag or flicker</small>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div style="text-align: center;">
+            <a href="../index.html" class="back-link">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="../js/theme.js"></script>
+    <script src="../js/main.js"></script>
+    <script>
+        // Update current theme display
+        function updateThemeDisplay() {
+            const theme = getCurrentTheme();
+            const display = document.getElementById('current-theme-display');
+            if (display) {
+                display.textContent = theme === 'dark' ? '🌙 Dark Mode' : '☀️ Light Mode';
+            }
+        }
+        
+        // Update on load
+        updateThemeDisplay();
+        
+        // Update when theme changes
+        window.addEventListener('themechange', updateThemeDisplay);
+        
+        // Add demo button interactions
+        document.querySelectorAll('.demo-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const type = this.classList.contains('demo-btn-primary') ? 'primary' : 'secondary';
+                console.log(`${type} button clicked!`);
+                
+                // Add a temporary pulse effect
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 150);
+            });
+        });
+    </script>
+</body>
+</html>

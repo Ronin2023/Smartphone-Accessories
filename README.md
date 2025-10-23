@@ -54,22 +54,44 @@ A full-featured web application for comparing smart watches, wireless headphones
 
 ## Project Structure
 
+```
 Smartphone-Accessories/
+├── Documentations/         # 📚 All .md documentation files
+├── test/                   # 🧪 Test & demo files
 ├── admin/                  # Admin panel files
 ├── api/                    # REST API endpoints
 ├── assets/                 # Static assets
 │   ├── fonts/
 │   ├── icons/
 │   └── images/
-├── css/                    # Stylesheets
+├── css/                    # Stylesheets (includes theme.css for dark mode)
 ├── database/               # Database files
 ├── includes/               # PHP includes
-├── js/                     # JavaScript files
+├── js/                     # JavaScript files (includes theme.js for dark mode)
 ├── templates/              # HTML templates
 ├── uploads/                # User uploads
 └── vendor/                 # Third-party libraries
+```
 
-## Quick Start
+## 📚 Documentation
+
+All documentation files are organized in the **`Documentations/`** folder:
+
+- **Dark Mode**: `DARK-MODE-IMPLEMENTATION.md`, `DARK-MODE-SUMMARY.md`, `DARK-MODE-VISUAL-GUIDE.md`
+- **Organization**: `FILE-ORGANIZATION-GUIDE.md`
+- **Special Access**: `SPECIAL-ACCESS-*.md` files
+- **Maintenance**: `MAINTENANCE-*.md` files
+- And 40+ more comprehensive guides
+
+## 🧪 Testing
+
+All test and demo files are in the **`test/`** folder:
+
+- **Dark Mode Demo**: `test/dark-mode-demo.html`
+- **Test Files**: Various `test-*.html` and `test-*.php` files
+- **Debug Files**: Various `debug-*.html` files
+
+## Project Structure
 
 1. **Setup Database**: Visit `/database/setup.php` to create database and sample data
 2. **Main Site**: Access at `/index.html`
