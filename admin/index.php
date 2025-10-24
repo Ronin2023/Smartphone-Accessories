@@ -128,8 +128,8 @@ if (!isLoggedIn() && isset($_COOKIE['admin_remember_token'])) {
     <meta name="robots" content="noindex, nofollow">
     
     <!-- CSS -->
-    <link rel="stylesheet" href="../css/admin.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/admin.css">`n    <link rel="stylesheet" href="../css/admin-dark-mode.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">`n    <script src="../js/admin-dark-mode.js"></script>
     
     <style>
         /* Comprehensive fixes for display issues at all zoom levels */

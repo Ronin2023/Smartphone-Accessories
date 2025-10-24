@@ -1,6 +1,6 @@
 /* Admin Panel Styles */
 
-/* CSS Variables */
+/* CSS Variables - Light Mode (Default) */
 :root {
     --primary-color: #4361ee;
     --secondary-color: #7209b7;
@@ -19,6 +19,75 @@
     --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
     --transition: all 0.3s ease;
     --border-radius: 8px;
+    
+    /* Sidebar specific */
+    --sidebar-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --sidebar-text: #ffffff;
+    --sidebar-hover: rgba(255, 255, 255, 0.1);
+    --sidebar-active: rgba(255, 255, 255, 0.2);
+    
+    /* Main content */
+    --main-bg: #f8f9fa;
+    --card-bg: #ffffff;
+    --card-border: #e2e8f0;
+    
+    /* Header */
+    --header-bg: #ffffff;
+    --header-border: #e2e8f0;
+    
+    /* Input/Form elements */
+    --input-bg: #ffffff;
+    --input-border: #e2e8f0;
+    --input-focus-border: #4361ee;
+    
+    /* Table */
+    --table-header-bg: #f8f9fa;
+    --table-row-hover: #f8f9fa;
+    --table-border: #e2e8f0;
+}
+
+/* Dark Mode Variables */
+[data-theme="dark"] {
+    --primary-color: #5a7bfc;
+    --secondary-color: #9d4edd;
+    --success-color: #2ecc71;
+    --warning-color: #f39c12;
+    --danger-color: #e74c3c;
+    --info-color: #3498db;
+    --light-color: #2d3748;
+    --dark-color: #f8f9fa;
+    --text-dark: #e2e8f0;
+    --text-light: #a0aec0;
+    --background: #1a202c;
+    --background-alt: #2d3748;
+    --border-color: #4a5568;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.4);
+    
+    /* Sidebar specific */
+    --sidebar-bg: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+    --sidebar-text: #e2e8f0;
+    --sidebar-hover: rgba(255, 255, 255, 0.05);
+    --sidebar-active: rgba(255, 255, 255, 0.1);
+    
+    /* Main content */
+    --main-bg: #1a202c;
+    --card-bg: #2d3748;
+    --card-border: #4a5568;
+    
+    /* Header */
+    --header-bg: #2d3748;
+    --header-border: #4a5568;
+    
+    /* Input/Form elements */
+    --input-bg: #2d3748;
+    --input-border: #4a5568;
+    --input-focus-border: #5a7bfc;
+    
+    /* Table */
+    --table-header-bg: #2d3748;
+    --table-row-hover: #374151;
+    --table-border: #4a5568;
 }
 
 /* Base Styles */

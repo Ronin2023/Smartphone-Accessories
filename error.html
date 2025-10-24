@@ -271,7 +271,7 @@
                     <i class="fas fa-home"></i>
                     Go Home
                 </a>
-                <a href="/Smartphone-Accessories/products.html" class="btn btn-secondary">
+                <a href="/Smartphone-Accessories/products" class="btn btn-secondary">
                     <i class="fas fa-mobile-alt"></i>
                     Browse Products
                 </a>
@@ -284,9 +284,9 @@
             <!-- Help Links -->
             <div class="help-links">
                 <h4>Need Help?</h4>
-                <a href="/Smartphone-Accessories/contact.html">Contact Us</a>
-                <a href="/Smartphone-Accessories/about.html">About Us</a>
-                <a href="/Smartphone-Accessories/compare.html">Compare Products</a>
+                <a href="/Smartphone-Accessories/contact">Contact Us</a>
+                <a href="/Smartphone-Accessories/about">About Us</a>
+                <a href="/Smartphone-Accessories/compare">Compare Products</a>
                 <a href="mailto:support@techcompare.com">Email Support</a>
             </div>
         </div>
@@ -391,7 +391,7 @@
             e.preventDefault();
             const query = document.getElementById('searchInput').value.trim();
             if (query) {
-                window.location.href = `/Smartphone-Accessories/products.html?search=${encodeURIComponent(query)}`;
+                window.location.href = `/Smartphone-Accessories/products?search=${encodeURIComponent(query)}`;
             }
         });
 

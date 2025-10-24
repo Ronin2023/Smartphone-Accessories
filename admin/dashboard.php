@@ -148,7 +148,9 @@ if ($showAll && $stats['products'] > 0) {
     <title>Admin Dashboard - TechCompare</title>
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/admin.css">
+    <link rel="stylesheet" href="../css/admin-dark-mode.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="../js/admin-dark-mode.js"></script>
     <style>
         .dashboard-content {
             padding: 2rem;
