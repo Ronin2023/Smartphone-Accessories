@@ -209,6 +209,11 @@ body {
     transform: translateY(0) scale(0.98);
 }
 
+.btn-sm {
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+}
+
 .btn-secondary {
     background: rgba(141, 153, 174, 0.15);
     border-color: rgba(141, 153, 174, 0.3);

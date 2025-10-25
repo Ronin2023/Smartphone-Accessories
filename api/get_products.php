@@ -13,6 +13,9 @@ try {
     // Get query parameters
     $category = $_GET['category'] ?? null;
     $brand = $_GET['brand'] ?? null;
+    $search = $_GET['search'] ?? null;
+    $sort = $_GET['sort'] ?? 'featured';
+    $maxPrice = $_GET['maxPrice'] ?? null;
     $page = (int)($_GET['page'] ?? 1);
     $limit = (int)($_GET['limit'] ?? PRODUCTS_PER_PAGE);
     $offset = ($page - 1) * $limit;
@@ -31,7 +34,26 @@ try {
         $params[':brand'] = $brand;
     }
     
+    if ($search) {
+        $whereConditions[] = "(p.name LIKE :search OR p.model LIKE :search OR p.description LIKE :search OR b.name LIKE :search)";
+        $params[':search'] = '%' . $search . '%';
+    }
+    
+    if ($maxPrice) {
+        $whereConditions[] = "p.price <= :maxPrice";
+        $params[':maxPrice'] = $maxPrice;
+    }
+    
     $whereClause = !empty($whereConditions) ? 'WHERE ' . implode(' AND ', $whereConditions) : '';
+    
+    // Determine sort order
+    $orderBy = match($sort) {
+        'price-low' => 'p.price ASC',
+        'price-high' => 'p.price DESC',
+        'rating' => 'p.rating DESC, p.review_count DESC',
+        'newest' => 'p.created_at DESC',
+        default => 'p.is_featured DESC, p.rating DESC, p.created_at DESC'
+    };
     
     // Get total count
     $countSql = "SELECT COUNT(*) as total 
@@ -50,7 +72,7 @@ try {
             LEFT JOIN brands b ON p.brand_id = b.id 
             LEFT JOIN categories c ON p.category_id = c.id 
             $whereClause
-            ORDER BY p.is_featured DESC, p.rating DESC, p.created_at DESC 
+            ORDER BY $orderBy 
             LIMIT :limit OFFSET :offset";
     
     $stmt = $db->prepare($sql);

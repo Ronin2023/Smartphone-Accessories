@@ -35,6 +35,9 @@ function initializeProductsPage() {
     // Initialize search
     initializeSearch();
     
+    // Initialize new AJAX search
+    initializeAjaxSearch();
+    
     // Initialize view toggles
     initializeViewToggles();
     
@@ -98,6 +101,12 @@ function initializeFilters() {
 function initializeSearch() {
     const searchInput = document.getElementById('search-input');
     const searchResults = document.getElementById('search-results');
+    
+    // Check if old search elements exist (backwards compatibility)
+    if (!searchInput || !searchResults) {
+        console.log('Old search elements not found - using new AJAX search');
+        return;
+    }
     
     searchInput.addEventListener('focus', function() {
         if (this.value.length >= 2) {
@@ -213,6 +222,9 @@ async function loadProducts() {
     const productsGrid = document.getElementById('products-grid');
     const resultsCount = document.getElementById('results-count');
     
+    console.log('📦 Loading products...');
+    console.log('📦 Current filters:', currentFilters);
+    
     // Show loading state
     productsGrid.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading products...</div>';
     
@@ -223,19 +235,27 @@ async function loadProducts() {
             ...currentFilters
         });
         
-        const response = await fetch(`api/get_products.php?${params}`);
+        const url = `api/get_products.php?${params}`;
+        console.log('📡 API URL:', url);
+        
+        const response = await fetch(url);
+        console.log('📡 Response status:', response.status);
+        
         const data = await response.json();
+        console.log('📦 Products data:', data);
         
         if (data.products && data.products.length > 0) {
+            console.log(`✅ Found ${data.products.length} products`);
             allProducts = data.products;
             displayProducts(data.products);
             updateResultsCount(data.pagination);
             generatePagination(data.pagination);
         } else {
+            console.log('⚠️ No products found');
             showEmptyState();
         }
     } catch (error) {
-        console.error('Error loading products:', error);
+        console.error('❌ Error loading products:', error);
         
         // Check if this is a connection error
         if (window.connectionErrorHandler && window.connectionErrorHandler.shouldShowConnectionError(error)) {
@@ -619,3 +639,222 @@ window.addEventListener('load', function() {
         compareProducts = JSON.parse(saved);
     }
 });
+
+// ================================================
+// NEW AJAX SEARCH FUNCTIONALITY
+// ================================================
+
+let searchTimeout = null;
+let currentSelectedProduct = null;
+
+function initializeAjaxSearch() {
+    const searchInput = document.getElementById('product-search-input');
+    const searchBtn = document.getElementById('search-btn');
+    const suggestionsDiv = document.getElementById('search-suggestions');
+    const relatedSection = document.getElementById('related-products');
+    
+    if (!searchInput) return; // Exit if element doesn't exist
+    
+    // Input event - show suggestions
+    searchInput.addEventListener('input', function(e) {
+        const query = e.target.value.trim();
+        
+        clearTimeout(searchTimeout);
+        
+        if (query.length < 2) {
+            hideSuggestions();
+            hideRelatedProducts();
+            return;
+        }
+        
+        searchTimeout = setTimeout(() => {
+            fetchSuggestions(query);
+        }, 300); // Debounce 300ms
+    });
+    
+    // Enter key - search
+    searchInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            performSearch();
+        }
+    });
+    
+    // Search button click
+    if (searchBtn) {
+        searchBtn.addEventListener('click', function() {
+            performSearch();
+        });
+    }
+    
+    // Click outside to close suggestions
+    document.addEventListener('click', function(e) {
+        if (!searchInput.contains(e.target) && !suggestionsDiv.contains(e.target)) {
+            hideSuggestions();
+        }
+    });
+}
+
+async function fetchSuggestions(query) {
+    try {
+        const response = await fetch(`api/search_suggestions.php?q=${encodeURIComponent(query)}&limit=5`);
+        const data = await response.json();
+        
+        if (data.success && data.suggestions.length > 0) {
+            displaySuggestions(data.suggestions);
+        } else {
+            displayNoSuggestions();
+        }
+    } catch (error) {
+        console.error('Error fetching suggestions:', error);
+        displayNoSuggestions();
+    }
+}
+
+function displaySuggestions(suggestions) {
+    const suggestionsDiv = document.getElementById('search-suggestions');
+    
+    const html = suggestions.map(product => `
+        <div class="suggestion-item" onclick="selectProduct(${product.id})">
+            <img src="${getImageUrl(product.image_url)}" 
+                 alt="${escapeHtml(product.name)}"
+                 onerror="this.src='assets/images/placeholder.jpg'">
+            <div class="suggestion-info">
+                <h4>${escapeHtml(product.name)}</h4>
+                ${product.brand_name ? `<div class="suggestion-brand">${escapeHtml(product.brand_name)}</div>` : ''}
+                <div class="suggestion-price">
+                    ${product.has_discount ? 
+                        `<span style="text-decoration: line-through; color: #999; font-size: 0.85rem;">₹${formatPrice(product.price)}</span> 
+                         <span style="color: var(--primary-color);">₹${formatPrice(product.display_price)}</span>` :
+                        `₹${formatPrice(product.display_price)}`
+                    }
+                </div>
+            </div>
+        </div>
+    `).join('');
+    
+    suggestionsDiv.innerHTML = html;
+    suggestionsDiv.classList.add('show');
+}
+
+function displayNoSuggestions() {
+    const suggestionsDiv = document.getElementById('search-suggestions');
+    suggestionsDiv.innerHTML = '<div class="no-suggestions"><i class="fas fa-search"></i> No products found</div>';
+    suggestionsDiv.classList.add('show');
+}
+
+function hideSuggestions() {
+    const suggestionsDiv = document.getElementById('search-suggestions');
+    suggestionsDiv.classList.remove('show');
+    setTimeout(() => {
+        suggestionsDiv.innerHTML = '';
+    }, 300);
+}
+
+function hideRelatedProducts() {
+    const relatedSection = document.getElementById('related-products');
+    if (relatedSection) {
+        relatedSection.style.display = 'none';
+    }
+}
+
+async function selectProduct(productId) {
+    currentSelectedProduct = productId;
+    hideSuggestions();
+    
+    // Load the selected product and related products
+    await loadProductDetails(productId);
+    await loadRelatedProducts(productId);
+}
+
+async function loadProductDetails(productId) {
+    try {
+        const response = await fetch(`api/get_product.php?id=${productId}`);
+        const data = await response.json();
+        
+        if (data.success && data.product) {
+            // Filter products grid to show only this product
+            currentFilters.search = data.product.name;
+            currentPage = 1;
+            loadProducts();
+            
+            // Update search input
+            const searchInput = document.getElementById('product-search-input');
+            if (searchInput) {
+                searchInput.value = data.product.name;
+            }
+        }
+    } catch (error) {
+        console.error('Error loading product details:', error);
+    }
+}
+
+async function loadRelatedProducts(productId) {
+    try {
+        const response = await fetch(`api/get_related_products.php?id=${productId}&limit=6`);
+        const data = await response.json();
+        
+        if (data.success && data.products.length > 0) {
+            displayRelatedProducts(data.products);
+        }
+    } catch (error) {
+        console.error('Error loading related products:', error);
+    }
+}
+
+function displayRelatedProducts(products) {
+    const relatedSection = document.getElementById('related-products');
+    const relatedGrid = document.getElementById('related-products-grid');
+    
+    if (!relatedSection || !relatedGrid) {
+        console.error('Related products container not found');
+        return;
+    }
+    
+    const html = products.map(product => `
+        <div class="related-product-card" onclick="selectProduct(${product.id})">
+            <img src="${getImageUrl(product.image_url)}" 
+                 alt="${escapeHtml(product.name)}"
+                 onerror="this.src='assets/images/placeholder.jpg'">
+            <h4>${escapeHtml(truncateText(product.name, 40))}</h4>
+            <div class="price">₹${formatPrice(product.display_price)}</div>
+        </div>
+    `).join('');
+    
+    relatedGrid.innerHTML = html;
+    relatedSection.style.display = 'block';
+    
+    // Smooth scroll to related products
+    setTimeout(() => {
+        relatedSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }, 100);
+}
+
+function performSearch() {
+    const searchInput = document.getElementById('product-search-input');
+    if (!searchInput) return;
+    
+    const query = searchInput.value.trim();
+    
+    if (query.length < 2) return;
+    
+    // Update filters and reload products
+    currentFilters.search = query;
+    currentPage = 1;
+    loadProducts();
+    
+    hideSuggestions();
+    hideRelatedProducts();
+}
+
+function truncateText(text, maxLength) {
+    if (text.length <= maxLength) return text;
+    return text.substring(0, maxLength) + '...';
+}
+
+function formatPrice(price) {
+    return parseFloat(price).toLocaleString('en-IN', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    });
+}

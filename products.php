@@ -42,19 +42,11 @@
                     <a href="contact" class="nav-link">Contact</a>
                 </div>
                 
-                <div class="nav-search">
-                    <div class="search-container">
-                        <input type="text" id="search-input" placeholder="Search products..." class="search-input">
-                        <button class="search-btn"><i class="fas fa-search"></i></button>
-                        <div id="search-results" class="search-results"></div>
-                    </div>
-                </div>
-                
                 <div class="nav-actions">
-                    <a href="user_login" class="btn btn-outline">
+                    <a href="user_login" class="btn btn-outline btn-sm">
                         <i class="fas fa-user"></i> Login
                     </a>
-                    <a href="user_login" class="btn btn-primary">
+                    <a href="user_login" class="btn btn-primary btn-sm">
                         <i class="fas fa-user-plus"></i> Sign Up
                     </a>
                 </div>
@@ -70,22 +62,38 @@
 
     <!-- Main Content -->
     <main class="main-content">
-        <!-- Breadcrumb -->
-        <section class="breadcrumb-section">
+        <!-- Page Header with Search -->
+        <section class="page-header-new">
             <div class="container">
-                <nav class="breadcrumb">
-                    <a href="index">Home</a>
-                    <span class="separator">/</span>
-                    <span class="current">Products</span>
-                </nav>
-            </div>
-        </section>
-
-        <!-- Page Header -->
-        <section class="page-header">
-            <div class="container">
-                <h1 class="page-title">All Products</h1>
-                <p class="page-description">Discover and compare the latest tech products</p>
+                <div class="header-content">
+                    <div class="header-left">
+                        <nav class="breadcrumb">
+                            <a href="index">Home</a>
+                            <span class="separator">/</span>
+                            <span class="current">Products</span>
+                        </nav>
+                        <h1 class="page-title">All Products</h1>
+                        <p class="page-description">Discover & compare the latest tech products</p>
+                    </div>
+                    
+                    <div class="header-search">
+                        <div class="search-wrapper">
+                            <input type="text" 
+                                   id="product-search-input" 
+                                   placeholder="Search products..." 
+                                   class="product-search-input"
+                                   autocomplete="off">
+                            <button class="search-btn" id="search-btn">
+                                <i class="fas fa-search"></i>
+                            </button>
+                            <div id="search-suggestions" class="search-suggestions"></div>
+                        </div>
+                        <div id="related-products" class="related-products-section" style="display: none;">
+                            <h3>Related Products</h3>
+                            <div id="related-products-grid" class="related-products-grid"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -121,15 +129,16 @@
                         </select>
                     </div>
                     
-                    <div class="filter-group">
+                    <div class="filter-group filter-group-price">
                         <label for="price-range">Price Range:</label>
                         <div class="price-range-container">
                             <input type="range" id="price-range" min="0" max="100000" value="100000" class="price-slider">
                             <span class="price-display">₹0 - ₹<span id="max-price">100000</span></span>
                         </div>
+                        <button id="clear-filters" class="btn btn-outline btn-clear">
+                            <i class="fas fa-times"></i> Clear Filters
+                        </button>
                     </div>
-                    
-                    <button id="clear-filters" class="btn btn-outline">Clear Filters</button>
                 </div>
             </div>
         </section>
@@ -229,5 +238,6 @@
     <script src="js/connection-error-handler.js"></script>
     <script src="js/main.js"></script>
     <script src="js/products.js"></script>
+    <script src="js/products-search.js"></script>
 </body>
 </html>
