@@ -129,16 +129,17 @@
                         </select>
                     </div>
                     
-                    <div class="filter-group filter-group-price">
-                        <label for="price-range">Price Range:</label>
-                        <div class="price-range-container">
+                    <div class="filter-group">
+                        <label for="price-range">Price:</label>
+                        <div class="price-range-wrapper">
                             <input type="range" id="price-range" min="0" max="100000" value="100000" class="price-slider">
-                            <span class="price-display">₹0 - ₹<span id="max-price">100000</span></span>
+                            <span class="price-display">₹<span id="max-price">100000</span></span>
                         </div>
-                        <button id="clear-filters" class="btn btn-outline btn-clear">
-                            <i class="fas fa-times"></i> Clear Filters
-                        </button>
                     </div>
+                    
+                    <button id="clear-filters" class="btn btn-outline btn-clear">
+                        <i class="fas fa-times"></i> Clear
+                    </button>
                 </div>
             </div>
         </section>

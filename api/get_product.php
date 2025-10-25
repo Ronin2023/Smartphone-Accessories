@@ -48,22 +48,25 @@ try {
     }
     
     $response = [
-        'id' => $product['id'],
-        'name' => $product['name'],
-        'brand_name' => $product['brand_name'] ?? 'Unknown',
-        'category_name' => $product['category_name'] ?? 'Unknown',
-        'category_slug' => $product['category_slug'] ?? '',
-        'model' => $product['model'],
-        'description' => $product['description'],
-        'specifications' => $product['specifications'],
-        'price' => number_format($product['price'], 2),
-        'discount_price' => $product['discount_price'] ? number_format($product['discount_price'], 2) : null,
-        'main_image' => $product['main_image'] ?: 'uploads/placeholder.svg',
-        'gallery_images' => $gallery_images,
-        'rating' => $product['rating'] ?? 0,
-        'review_count' => $product['review_count'] ?? 0,
-        'availability_status' => $product['availability_status'],
-        'is_featured' => (bool)$product['is_featured']
+        'success' => true,
+        'product' => [
+            'id' => $product['id'],
+            'name' => $product['name'],
+            'brand_name' => $product['brand_name'] ?? 'Unknown',
+            'category_name' => $product['category_name'] ?? 'Unknown',
+            'category_slug' => $product['category_slug'] ?? '',
+            'model' => $product['model'],
+            'description' => $product['description'],
+            'specifications' => $product['specifications'],
+            'price' => number_format($product['price'], 2),
+            'discount_price' => $product['discount_price'] ? number_format($product['discount_price'], 2) : null,
+            'main_image' => $product['main_image'] ?: 'uploads/placeholder.svg',
+            'gallery_images' => $gallery_images,
+            'rating' => $product['rating'] ?? 0,
+            'review_count' => $product['review_count'] ?? 0,
+            'availability_status' => $product['availability_status'],
+            'is_featured' => (bool)$product['is_featured']
+        ]
     ];
     
     echo json_encode($response);
@@ -71,6 +74,7 @@ try {
 } catch (Exception $e) {
     http_response_code(500);
     echo json_encode([
+        'success' => false,
         'error' => 'Failed to fetch product',
         'message' => DEBUG_MODE ? $e->getMessage() : 'Internal server error'
     ]);

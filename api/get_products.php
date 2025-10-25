@@ -35,8 +35,12 @@ try {
     }
     
     if ($search) {
-        $whereConditions[] = "(p.name LIKE :search OR p.model LIKE :search OR p.description LIKE :search OR b.name LIKE :search)";
-        $params[':search'] = '%' . $search . '%';
+        $whereConditions[] = "(p.name LIKE :search1 OR p.model LIKE :search2 OR p.description LIKE :search3 OR b.name LIKE :search4)";
+        $searchParam = '%' . $search . '%';
+        $params[':search1'] = $searchParam;
+        $params[':search2'] = $searchParam;
+        $params[':search3'] = $searchParam;
+        $params[':search4'] = $searchParam;
     }
     
     if ($maxPrice) {

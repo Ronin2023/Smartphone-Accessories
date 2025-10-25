@@ -759,6 +759,7 @@ function hideRelatedProducts() {
 }
 
 async function selectProduct(productId) {
+    console.log('🎯 Product selected:', productId);
     currentSelectedProduct = productId;
     hideSuggestions();
     
@@ -768,14 +769,27 @@ async function selectProduct(productId) {
 }
 
 async function loadProductDetails(productId) {
+    console.log('📦 Loading product details for ID:', productId);
     try {
-        const response = await fetch(`api/get_product.php?id=${productId}`);
+        const url = `api/get_product.php?id=${productId}`;
+        console.log('📡 Fetching from:', url);
+        
+        const response = await fetch(url);
+        console.log('📡 Response status:', response.status);
+        
         const data = await response.json();
+        console.log('📦 Product data:', data);
         
         if (data.success && data.product) {
+            console.log('✅ Product found:', data.product.name);
+            
             // Filter products grid to show only this product
             currentFilters.search = data.product.name;
             currentPage = 1;
+            
+            console.log('🔍 Setting search filter to:', data.product.name);
+            console.log('📦 Reloading products with new filter...');
+            
             loadProducts();
             
             // Update search input
@@ -783,9 +797,11 @@ async function loadProductDetails(productId) {
             if (searchInput) {
                 searchInput.value = data.product.name;
             }
+        } else {
+            console.error('❌ Product not found or invalid response:', data);
         }
     } catch (error) {
-        console.error('Error loading product details:', error);
+        console.error('❌ Error loading product details:', error);
     }
 }
 
