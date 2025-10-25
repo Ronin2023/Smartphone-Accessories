@@ -216,7 +216,7 @@
             </div>
             
             <div class="footer-bottom">
-                <p>&copy; 2024 TechCompare. All rights reserved.</p>
+                <p>&copy; 2025 TechCompare. All rights reserved.</p>
             </div>
         </div>
     </footer>
