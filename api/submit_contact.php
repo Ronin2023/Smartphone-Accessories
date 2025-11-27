@@ -79,6 +79,27 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit();
 }
 
+// Validate CSRF token for POST requests
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+$csrfToken = $_POST['csrf_token'] ?? '';
+if (!validateCSRFToken($csrfToken)) {
+    if ($isAjaxRequest) {
+        http_response_code(403);
+        echo json_encode([
+            'success' => false,
+            'error' => 'Invalid security token',
+            'message' => 'Your session has expired. Please refresh the page and try again.',
+            'code' => 'CSRF_VALIDATION_FAILED'
+        ]);
+    } else {
+        showResultPage(false, 'Invalid security token. Please refresh the page and try again.');
+    }
+    exit();
+}
+
 try {
     // Validate and sanitize input data
     $name = trim($_POST['name'] ?? '');

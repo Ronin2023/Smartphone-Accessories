@@ -18,9 +18,13 @@ $success_message = '';
 
 // Handle login form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $username = trim($_POST['username'] ?? '');
-    $password = $_POST['password'] ?? '';
-    $remember_me = isset($_POST['remember_me']);
+    // Validate CSRF token
+    if (!validateCSRFToken($_POST['csrf_token'] ?? '')) {
+        $error_message = 'Invalid security token. Please refresh the page and try again.';
+    } else {
+        $username = trim($_POST['username'] ?? '');
+        $password = $_POST['password'] ?? '';
+        $remember_me = isset($_POST['remember_me']);
     
     // Basic validation
     if (empty($username) || empty($password)) {
@@ -33,6 +37,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
             
             if ($user && verifyPassword($password, $user['password_hash'])) {
+                // Regenerate session ID to prevent session fixation
+                session_regenerate_id(true);
+                
                 // Login successful - Set standardized session variables
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['username'] = $user['username'];
@@ -82,6 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $error_message = 'An error occurred. Please try again.';
         }
     }
+    } // Close CSRF validation else block
 }
 
 // Check for remember me cookie
@@ -215,6 +223,8 @@ if (!isLoggedIn() && isset($_COOKIE['admin_remember_token'])) {
             <div class="form-group">
                 <label for="username" class="form-label">Username</label>
                 <div class="form-input-container">
+                    <!-- CSRF Protection -->
+                    <?php echo csrfField(); ?>
                     <input 
                         type="text" 
                         id="username" 

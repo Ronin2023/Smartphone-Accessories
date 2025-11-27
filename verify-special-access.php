@@ -65,7 +65,11 @@ $success = '';
 
 // Handle passkey submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $passkey = strtoupper(trim($_POST['passkey'] ?? ''));
+    // Validate CSRF token
+    if (!validateCSRFToken($_POST['csrf_token'] ?? '')) {
+        $error = 'Invalid security token. Please refresh the page and try again.';
+    } else {
+        $passkey = strtoupper(trim($_POST['passkey'] ?? ''));
     
     if (empty($passkey)) {
         $error = 'Please enter your passkey';
@@ -92,6 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $error = 'System error. Please try again.';
         }
     }
+    } // Close CSRF validation else block
 }
 ?>
 <!DOCTYPE html>

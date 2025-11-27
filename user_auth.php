@@ -13,6 +13,13 @@ $pdo = getDB();
 $response = ['success' => false, 'message' => ''];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Validate CSRF token
+    if (!validateCSRFToken($_POST['csrf_token'] ?? '')) {
+        $response['message'] = 'Invalid security token. Please refresh the page and try again.';
+        echo json_encode($response);
+        exit();
+    }
+    
     $action = $_POST['action'] ?? '';
     
     try {
@@ -56,6 +63,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     case 'pending':
                         throw new Exception('Your account is pending approval. Please wait for admin verification or contact support. Email: admin@techcompare.com');
                     case 'active':
+                        // Regenerate session ID to prevent session fixation
+                        session_regenerate_id(true);
+                        
                         // Continue with login
                         break;
                     default:

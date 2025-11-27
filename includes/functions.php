@@ -23,6 +23,52 @@ function generateToken($length = 32) {
 }
 
 /**
+ * Generate CSRF token
+ * Creates a unique token for form submission protection
+ */
+function generateCSRFToken() {
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+    
+    if (!isset($_SESSION['csrf_token'])) {
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+    }
+    
+    return $_SESSION['csrf_token'];
+}
+
+/**
+ * Validate CSRF token
+ * Prevents Cross-Site Request Forgery attacks
+ * 
+ * @param string $token The token to validate
+ * @return bool True if valid, false otherwise
+ */
+function validateCSRFToken($token) {
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+    
+    if (!isset($_SESSION['csrf_token'])) {
+        return false;
+    }
+    
+    return hash_equals($_SESSION['csrf_token'], $token);
+}
+
+/**
+ * Get CSRF token field HTML
+ * Convenience function to output hidden CSRF field
+ * 
+ * @return string HTML hidden input field
+ */
+function csrfField() {
+    $token = generateCSRFToken();
+    return '<input type="hidden" name="csrf_token" value="' . htmlspecialchars($token, ENT_QUOTES, 'UTF-8') . '">';
+}
+
+/**
  * Hash password
  */
 function hashPassword($password) {

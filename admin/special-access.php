@@ -24,7 +24,12 @@ $conn = getDB();
 
 // Handle actions
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $action = $_POST['action'] ?? '';
+    // Validate CSRF token
+    if (!validateCSRFToken($_POST['csrf_token'] ?? '')) {
+        $message = 'Invalid security token. Please refresh the page and try again.';
+        $messageType = 'error';
+    } else {
+        $action = $_POST['action'] ?? '';
     
     switch ($action) {
         case 'create_token':
@@ -114,6 +119,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $messageType = 'error';
             }
             break;
+    }
     }
 }
 
@@ -736,6 +742,9 @@ $activeSessions = array_sum(array_map(fn($t) => $t['active_sessions'] ?? 0, $tok
                         <h2><i class="fas fa-plus-circle"></i> Create New Token</h2>
                         
                         <form method="POST" id="tokenForm" style="max-width: 600px;">
+                            <!-- CSRF Protection -->
+                            <?php echo csrfField(); ?>
+                            
                             <input type="hidden" name="action" value="create_token">
                             
                             <div class="form-group">
@@ -809,6 +818,7 @@ $activeSessions = array_sum(array_map(fn($t) => $t['active_sessions'] ?? 0, $tok
                             <h2 style="margin: 0;"><i class="fas fa-list"></i> Access Tokens (<?php echo count($tokens); ?>)</h2>
                             <?php if (!empty($tokens)): ?>
                                 <form method="POST" style="display: inline;" onsubmit="return confirm('Delete all tokens with name \'Unknown\'?\n\nThis action cannot be undone.')">
+                                    <?php echo csrfField(); ?>
                                     <input type="hidden" name="action" value="cleanup_unknown">
                                     <button type="submit" class="btn" style="background: #ef4444; color: white; padding: 8px 16px; font-size: 14px;">
                                         <i class="fas fa-trash-alt"></i> Cleanup Unknown Tokens

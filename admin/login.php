@@ -20,17 +20,24 @@ if ($loginAttempts >= MAX_LOGIN_ATTEMPTS && (time() - $lastAttempt) < LOGIN_LOCK
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && empty($error)) {
-    $username = sanitize($_POST['username']);
-    $password = $_POST['password'];
-    
-    if (!empty($username) && !empty($password)) {
-        try {
-            $db = getDB();
-            $stmt = $db->prepare("SELECT * FROM users WHERE username = ? AND is_active = 1 AND role IN ('admin', 'editor')");
-            $stmt->execute([$username]);
-            $user = $stmt->fetch();
+    // Validate CSRF token
+    if (!validateCSRFToken($_POST['csrf_token'] ?? '')) {
+        $error = 'Invalid security token. Please refresh the page and try again.';
+    } else {
+        $username = sanitize($_POST['username']);
+        $password = $_POST['password'];
+        
+        if (!empty($username) && !empty($password)) {
+            try {
+                $db = getDB();
+                $stmt = $db->prepare("SELECT * FROM users WHERE username = ? AND is_active = 1 AND role IN ('admin', 'editor')");
+                $stmt->execute([$username]);
+                $user = $stmt->fetch();
             
             if ($user && verifyPassword($password, $user['password_hash'])) {
+                // Regenerate session ID to prevent session fixation
+                session_regenerate_id(true);
+                
                 // Successful login
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['username'] = $user['username'];
@@ -56,6 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && empty($error)) {
         }
     } else {
         $error = 'Please fill in all fields';
+    }
     }
 }
 ?>
@@ -105,6 +113,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && empty($error)) {
             <?php endif; ?>
             
             <form id="login-form" class="login-form" method="POST">
+                <!-- CSRF Protection -->
+                <?php echo csrfField(); ?>
+                
                 <div class="form-group">
                     <label for="username">Username</label>
                     <div class="input-group">

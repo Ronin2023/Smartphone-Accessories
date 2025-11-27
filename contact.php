@@ -1,6 +1,12 @@
 <?php
 // Contact Page - Simple version without maintenance mode complexity
 // No middleware needed for contact page
+
+// Start session for CSRF token
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+require_once 'includes/functions.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -519,6 +525,9 @@
             </div>
             
             <form id="contactForm" action="api/submit_contact.php" method="POST">
+                <!-- CSRF Protection -->
+                <?php echo csrfField(); ?>
+                
                 <div class="form-row">
                     <div class="form-group">
                         <label for="name">Full Name *</label>

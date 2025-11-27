@@ -520,6 +520,9 @@ if (isLoggedIn() && isUser()) {
 
             <!-- Login Form -->
             <form class="login-form active" id="loginForm" method="POST" action="user_auth.php">
+                <!-- CSRF Protection -->
+                <?php if (session_status() === PHP_SESSION_NONE) session_start(); require_once 'includes/functions.php'; echo csrfField(); ?>
+                
                 <input type="hidden" name="action" value="login">
                 
                 <div class="form-group">
@@ -555,6 +558,9 @@ if (isLoggedIn() && isUser()) {
 
             <!-- Register Form -->
             <form class="login-form" id="registerForm" method="POST" action="user_auth.php">
+                <!-- CSRF Protection -->
+                <?php echo csrfField(); ?>
+                
                 <input type="hidden" name="action" value="register">
                 
                 <div class="form-group">
